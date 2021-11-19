@@ -1,0 +1,53 @@
+% latex macro to create task boxes
+\usepackage{tcolorbox, comment, geometry}
+\tcbuselibrary{breakable}
+
+\definecolor{taskCol}{HTML}{404040}
+\definecolor{taskCol1}{HTML}{808080}
+
+\tcbset{colback=white,colframe=taskCol,arc=0mm}
+
+%trick to fool markdown into compiling
+\newcommand{\bblockT}[2][Task]{\begin{tcolorbox}[title = #1 #2, parbox = false]}
+\newcommand{\eblockT}{\end{tcolorbox}}
+\newcommand{\bblockS}[2][Solution]{\begin{tcolorbox}[title = #1 #2, colframe=taskCol1, breakable, parbox = false]}
+\newcommand{\eblockS}{\end{tcolorbox}}
+
+%add tabbed solutions environment
+\newcommand{\bmp}{\begin{minipage}[c]{0.5\textwidth}}
+\newcommand{\emp}{\end{minipage}}
+\newcommand{\bblockST}[1]{\begin{tcolorbox}[title = #1, colframe=taskCol1, breakable, parbox = false]}
+\newcommand{\eblockST}{\end{tcolorbox}}
+
+%set solution button link
+\usepackage{tikz}
+
+\newcommand{\buttonT}[1]{
+    \begin{tikzpicture}
+    \node[
+        inner sep=5pt,
+        draw=taskCol,
+        fill=taskCol,
+        rounded corners=2pt,
+        text=white
+    ] (c1) {#1};
+    \end{tikzpicture}
+}
+
+\newcommand{\buttonS}[1]{
+    \begin{tikzpicture}
+    \node[
+        inner sep=5pt,
+        draw=taskCol1,
+        fill=taskCol1,
+        rounded corners=2pt,
+        text=white
+    ] (c1) {#1};
+    \end{tikzpicture}
+}
+
+\newcommand{\colpageref}[1]{\hypersetup{linkcolor=white}\pageref{#1}}
+
+
+
+

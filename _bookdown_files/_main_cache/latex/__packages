@@ -1,0 +1,14 @@
+base
+knitr
+hmer
+deSolve
+ggplot2
+reshape2
+purrr
+tidyverse
+tibble
+tidyr
+readr
+dplyr
+stringr
+forcats

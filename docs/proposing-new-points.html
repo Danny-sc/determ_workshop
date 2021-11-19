@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>6 Proposing new points | Workshop 1: calibrating a deterministic model</title>
+  <meta name="description" content="An interactive introduction to the HoMER package" />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="6 Proposing new points | Workshop 1: calibrating a deterministic model" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="An interactive introduction to the HoMER package" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="6 Proposing new points | Workshop 1: calibrating a deterministic model" />
+  
+  <meta name="twitter:description" content="An interactive introduction to the HoMER package" />
+  
+
+<meta name="author" content="Danny Scarponi, Andy Iskauskas" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="emulator-diagnostics.html"/>
+<link rel="next" href="customise-the-first-wave.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script language="javascript"> 
+    function toggle(id) {
+        var ele = document.getElementById("toggleText" + id);
+        var text = document.getElementById("displayText" + id);
+        var buttonText = text.innerHTML.replace("Show ", "");
+        buttonText = buttonText.replace("Hide ", "");
+        if(ele.style.display == "block") {
+            ele.style.display = "none";
+            text.innerHTML = "Show " + buttonText;
+        } else {
+            ele.style.display = "block";
+            text.innerHTML = "Hide " + buttonText;
+        }
+    } 
+</script>
+
+<script language="javascript">
+    function openCode(evt, codeName, id) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent" + id);
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks" + id);
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(codeName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+</script>
+
+<script language="javascript">
+    function hide(id){
+        document.getElementById(id).style.display = "none";
+    }
+</script>
+</script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction to the model</a></li>
+<li class="chapter" data-level="2" data-path="defining-wave0-data.html"><a href="defining-wave0-data.html"><i class="fa fa-check"></i><b>2</b> Defining ‘wave0’ data</a></li>
+<li class="chapter" data-level="3" data-path="constr.html"><a href="constr.html"><i class="fa fa-check"></i><b>3</b> Emulators</a><ul>
+<li class="chapter" data-level="3.1" data-path="constr.html"><a href="constr.html#a-brief-recap-on-emulators"><i class="fa fa-check"></i><b>3.1</b> A brief recap on emulators</a></li>
+<li class="chapter" data-level="3.2" data-path="constr.html"><a href="constr.html#training-emulators"><i class="fa fa-check"></i><b>3.2</b> Training emulators</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="implausibility.html"><a href="implausibility.html"><i class="fa fa-check"></i><b>4</b> Implausibility</a></li>
+<li class="chapter" data-level="5" data-path="emulator-diagnostics.html"><a href="emulator-diagnostics.html"><i class="fa fa-check"></i><b>5</b> Emulator diagnostics</a></li>
+<li class="chapter" data-level="6" data-path="proposing-new-points.html"><a href="proposing-new-points.html"><i class="fa fa-check"></i><b>6</b> Proposing new points</a></li>
+<li class="chapter" data-level="7" data-path="customise-the-first-wave.html"><a href="customise-the-first-wave.html"><i class="fa fa-check"></i><b>7</b> Customise the first wave</a></li>
+<li class="chapter" data-level="8" data-path="second-wave.html"><a href="second-wave.html"><i class="fa fa-check"></i><b>8</b> Second wave</a></li>
+<li class="chapter" data-level="9" data-path="multi-wave-visualisations.html"><a href="multi-wave-visualisations.html"><i class="fa fa-check"></i><b>9</b> Multi-wave visualisations</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Workshop 1: calibrating a deterministic model</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="proposing-new-points" class="section level1">
+<h1><span class="header-section-number">6</span> Proposing new points</h1>
+<p>The function <code>generate_new_runs</code> is designed to generate new sets of parameters; its default behaviour is as follows.</p>
+<p>STEP 1. If prior parameter sets are provided, step 1 is skipped, otherwise a set is generated using a <a href="https://en.wikipedia.org/wiki/Latin_hypercube_sampling">Latin Hypercube Design</a>, rejecting implausible parameter sets. Figure <a href="#fig:lhsamp"><strong>??</strong></a> shows an example of LH sampling (not for our model), with implausible parameter sets in red and non-implausible ones in blue:</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:lshamp"></span>
+<img src="LHSamp.png" alt="LH sampling" width="75%" />
+<p class="caption">
+Figure 6.1: LH sampling
+</p>
+</div>
+<p>STEP 2. Pairs of parameter sets are selected at random and more sets are sampled from lines connecting them, with particular importance given to those that are close to the non-implausible boundary. Figure <a href="proposing-new-points.html#fig:linesamp">6.2</a> shows line sampling on top of the previously shown LH sampling: non-implausible parameter sets provided by LH sampling are in grey, parameter sets proposed by line sampling are in red if implausbile and in blue if non-implausible.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:linesamp"></span>
+<img src="LineSamp.png" alt="Line sampling" width="75%" />
+<p class="caption">
+Figure 6.2: Line sampling
+</p>
+</div>
+<p>STEP 3. Using these as seeding points, more parameter sets are generated using <a href="https://en.wikipedia.org/wiki/Importance_sampling">importance sampling</a> to attempt to fully cover the non-implausible region. Figure <a href="proposing-new-points.html#fig:impsamp">6.3</a> has non-implausible parameter sets provided by LH and line sampling in grey and non-implausibile parameter sets found by importance sampling in blue.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:impsamp"></span>
+<img src="ImpSamp.png" alt="Importance sampling" width="75%" />
+<p class="caption">
+Figure 6.3: Importance sampling
+</p>
+</div>
+<p>The combination of the three steps above brings to the following final design of non-implausible parameter sets:</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-37"></span>
+<img src="FinalSamp.png" alt="Overall design of new non-implausible parameter sets"  />
+<p class="caption">
+Figure 6.4: Overall design of new non-implausible parameter sets
+</p>
+</div>
+<p>Let us generate <span class="math inline">\(180\)</span> new sets of parameters, using the emulators for the time up to <span class="math inline">\(t=200\)</span>. Note that the generation of new points might require a few minutes.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="proposing-new-points.html#cb38-1"></a>new_points_restricted &lt;-<span class="st"> </span><span class="kw">generate_new_runs</span>(restricted_ems, <span class="dv">180</span>, targets, <span class="dt">verbose=</span><span class="ot">TRUE</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;Performing Latin Hypercube sampling...&quot;
+## [1] &quot;Proposing at implausibility I=3.5&quot;
+## [1] &quot;47 points generated from LHS at I=3.5&quot;
+## [1] &quot;Performing line sampling...&quot;
+## [1] &quot;Line sampling generated 9 more points.&quot;
+## [1] &quot;Performing importance sampling...&quot;
+## [1] &quot;Importance sampling generated 207 more points.&quot;
+## [1] &quot;Selecting final points using maximin criterion...&quot;
+## [1] &quot;128 points generated from LHS at I=3&quot;
+## [1] &quot;Performing line sampling...&quot;
+## [1] &quot;Line sampling generated 13 more points.&quot;
+## [1] &quot;Performing importance sampling...&quot;
+## [1] &quot;Importance sampling generated 47 more points.&quot;
+## [1] &quot;Selecting final points using maximin criterion...&quot;
+## [1] &quot;Resampling: Performing line sampling...&quot;
+## [1] &quot;Line sampling generated 18 more points.&quot;
+## [1] &quot;Resampling: Performing importance sampling...&quot;
+## [1] &quot;Importance sampling generated 78 more points.&quot;
+## [1] &quot;Selecting final points using maximin criterion...&quot;</code></pre>
+<p>We now plot <code>new_points_restricted</code> through <code>plot_wrap</code>. Note that we pass <code>ranges</code> too to <code>plot_wrap</code> to ensure that
+the plot shows the entire range for each parameter: this allows us to see how the new set of parameters compares with respect to the original input space.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="proposing-new-points.html#cb40-1"></a><span class="kw">plot_wrap</span>(new_points_restricted, ranges)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-39-1.png" style="display: block; margin: auto;" /></p>
+<p>By looking at the plot we can learn a lot about the non-implausible space. For example, it seems clear that low values of <span class="math inline">\(\gamma\)</span> cannot produce a match (cf. fourth column). We can also deduce relationships between parameters: <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\sigma\)</span> are an example of negatively-correlated parameters. If <span class="math inline">\(\beta_1\)</span> is large then <span class="math inline">\(\sigma\)</span> needs to be small, and vice versa.</p>
+<div class="panel panel-default">
+<div class="panel-heading">
+Task
+</div>
+<div class="panel-body">
+What do you think would happen if we tried generating new parameter sets using all emulators, instead of those relating to times up to <span class="math inline">\(t=200\)</span> only? Try changing the code and seeing what happens.
+</div>
+</div>
+<button id="displayTextunnamed-chunk-41" onclick="javascript:toggle(&#39;unnamed-chunk-41&#39;);">
+Show: Solution
+</button>
+<div id="toggleTextunnamed-chunk-41" style="display: none">
+<div class="panel panel-default">
+<div class="panel-heading panel-heading1">
+Solution
+</div>
+<div class="panel-body">
+<p>We expect that using all emulators (instead of just a subset of them) will make the non-implausible space smaller than before, since more conditions will have to be met. Let us check if our intuition corresponds to what the plots show:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="proposing-new-points.html#cb41-1"></a>new_points &lt;-<span class="st"> </span><span class="kw">generate_new_runs</span>(ems_wave1, <span class="dv">180</span>, targets, <span class="dt">verbose =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;Performing Latin Hypercube sampling...&quot;
+## [1] &quot;Proposing at implausibility I=4&quot;
+## [1] &quot;52 points generated from LHS at I=4&quot;
+## [1] &quot;Performing line sampling...&quot;
+## [1] &quot;Line sampling generated 24 more points.&quot;
+## [1] &quot;Performing importance sampling...&quot;
+## [1] &quot;Importance sampling generated 216 more points.&quot;
+## [1] &quot;Selecting final points using maximin criterion...&quot;
+## [1] &quot;64 points generated from LHS at I=3&quot;
+## [1] &quot;Performing line sampling...&quot;
+## [1] &quot;Line sampling generated 17 more points.&quot;
+## [1] &quot;Performing importance sampling...&quot;
+## [1] &quot;Importance sampling generated 233 more points.&quot;
+## [1] &quot;Selecting final points using maximin criterion...&quot;
+## [1] &quot;Resampling: Performing line sampling...&quot;
+## [1] &quot;Line sampling generated 24 more points.&quot;
+## [1] &quot;Resampling: Performing importance sampling...&quot;
+## [1] &quot;Importance sampling generated 161 more points.&quot;
+## [1] &quot;Selecting final points using maximin criterion...&quot;</code></pre>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="proposing-new-points.html#cb43-1"></a><span class="kw">plot_wrap</span>(new_points, ranges)</span></code></pre></div>
+<img src="_main_files/figure-html/fignewpts-1.png" style="display: block; margin: auto;" />
+The answer is yes: points now look slightly less spread than before, i.e. a higher part of the input space has been cut-out.
+</div>
+</div>
+</div>
+<p>In order to quantify how much of the input space is removed by a given set of emulators, we can use the function <code>space_removed</code>, which takes a list of emulators and a list of targets we want to match to. The output is a plot that shows the percentage of space that is removed by the emulators as a function of the implausibility cut-off. Note that here we also set the argument <code>ppd</code>, which determines the number of points per input dimension to sample at. In this workshop we have <span class="math inline">\(9\)</span> parameters, so a <code>ppd</code> of <span class="math inline">\(3\)</span> means that <code>space_removed</code> will test the emulators on <span class="math inline">\(3^9\)</span> sets of parameters.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="proposing-new-points.html#cb44-1"></a><span class="kw">space_removed</span>(ems_wave1, targets, <span class="dt">ppd=</span><span class="dv">3</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="dv">3</span>, <span class="dt">lty =</span> <span class="dv">2</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb44-2"><a href="proposing-new-points.html#cb44-2"></a><span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="dv">3</span>, <span class="dt">label=</span><span class="st">&quot;x = 3&quot;</span>,<span class="dt">y=</span><span class="fl">0.33</span>), <span class="dt">colour=</span><span class="st">&quot;black&quot;</span>, </span>
+<span id="cb44-3"><a href="proposing-new-points.html#cb44-3"></a>  <span class="dt">angle=</span><span class="dv">90</span>, <span class="dt">vjust =</span> <span class="fl">1.2</span>, <span class="dt">text=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">11</span>))</span></code></pre></div>
+<pre><code>## Warning: Ignoring unknown parameters: text</code></pre>
+<p><img src="_main_files/figure-html/unnamed-chunk-42-1.png" style="display: block; margin: auto;" /></p>
+<p>By default the plot shows the percentage of space that is deemed implausible both when the observational errors are exactly the ones in <code>targets</code> and when the observational errors are <span class="math inline">\(80\%\)</span> (resp. <span class="math inline">\(90\%\)</span>, <span class="math inline">\(110\%\)</span> and <span class="math inline">\(120\%\)</span>) of the values in <code>targets</code>. Here we see that with an implausibility cut-off of <span class="math inline">\(3\)</span>, the percentage of space removed is around <span class="math inline">\(99\%\)</span>. If we use a cut-off of <span class="math inline">\(5\%\)</span> instead, then we would discard around <span class="math inline">\(93\%\)</span> (resp. <span class="math inline">\(90\%\)</span>) of the space with the observational errors provided by <code>targets</code> (resp. with observational errors equal to <span class="math inline">\(120\%\)</span> of the values in <code>targets</code>). As expected, larger observational errors correspond to lower percentages of space removed.</p>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="emulator-diagnostics.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="customise-the-first-wave.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": null,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf"],
+"search": {
+"engine": "lunr",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

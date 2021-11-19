@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>9 Multi-wave visualisations | Workshop 1: calibrating a deterministic model</title>
+  <meta name="description" content="An interactive introduction to the HoMER package" />
+  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="9 Multi-wave visualisations | Workshop 1: calibrating a deterministic model" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="An interactive introduction to the HoMER package" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="9 Multi-wave visualisations | Workshop 1: calibrating a deterministic model" />
+  
+  <meta name="twitter:description" content="An interactive introduction to the HoMER package" />
+  
+
+<meta name="author" content="Danny Scarponi, Andy Iskauskas" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="second-wave.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script language="javascript"> 
+    function toggle(id) {
+        var ele = document.getElementById("toggleText" + id);
+        var text = document.getElementById("displayText" + id);
+        var buttonText = text.innerHTML.replace("Show ", "");
+        buttonText = buttonText.replace("Hide ", "");
+        if(ele.style.display == "block") {
+            ele.style.display = "none";
+            text.innerHTML = "Show " + buttonText;
+        } else {
+            ele.style.display = "block";
+            text.innerHTML = "Hide " + buttonText;
+        }
+    } 
+</script>
+
+<script language="javascript">
+    function openCode(evt, codeName, id) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent" + id);
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks" + id);
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(codeName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+</script>
+
+<script language="javascript">
+    function hide(id){
+        document.getElementById(id).style.display = "none";
+    }
+</script>
+</script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction to the model</a></li>
+<li class="chapter" data-level="2" data-path="defining-wave0-data.html"><a href="defining-wave0-data.html"><i class="fa fa-check"></i><b>2</b> Defining ‘wave0’ data</a></li>
+<li class="chapter" data-level="3" data-path="constr.html"><a href="constr.html"><i class="fa fa-check"></i><b>3</b> Emulators</a><ul>
+<li class="chapter" data-level="3.1" data-path="constr.html"><a href="constr.html#a-brief-recap-on-emulators"><i class="fa fa-check"></i><b>3.1</b> A brief recap on emulators</a></li>
+<li class="chapter" data-level="3.2" data-path="constr.html"><a href="constr.html#training-emulators"><i class="fa fa-check"></i><b>3.2</b> Training emulators</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="implausibility.html"><a href="implausibility.html"><i class="fa fa-check"></i><b>4</b> Implausibility</a></li>
+<li class="chapter" data-level="5" data-path="emulator-diagnostics.html"><a href="emulator-diagnostics.html"><i class="fa fa-check"></i><b>5</b> Emulator diagnostics</a></li>
+<li class="chapter" data-level="6" data-path="proposing-new-points.html"><a href="proposing-new-points.html"><i class="fa fa-check"></i><b>6</b> Proposing new points</a></li>
+<li class="chapter" data-level="7" data-path="customise-the-first-wave.html"><a href="customise-the-first-wave.html"><i class="fa fa-check"></i><b>7</b> Customise the first wave</a></li>
+<li class="chapter" data-level="8" data-path="second-wave.html"><a href="second-wave.html"><i class="fa fa-check"></i><b>8</b> Second wave</a></li>
+<li class="chapter" data-level="9" data-path="multi-wave-visualisations.html"><a href="multi-wave-visualisations.html"><i class="fa fa-check"></i><b>9</b> Multi-wave visualisations</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Workshop 1: calibrating a deterministic model</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="multi-wave-visualisations" class="section level1">
+<h1><span class="header-section-number">9</span> Multi-wave visualisations</h1>
+<p>In this last section we present two visualisations that can be used to compare the non-implausible space identified at different waves of the process.</p>
+<p>The first visualisation, obtained through the function <code>wave_points</code>, shows the distribution of the non-implausible space for the waves of interest. For example, let us plot the distribution of parameter sets at the beginning, at the end of wave one and at the end of wave two:</p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="multi-wave-visualisations.html#cb70-1"></a><span class="kw">wave_points</span>(<span class="kw">list</span>(initial_points, new_points, new_new_points), <span class="dt">input_names =</span> <span class="kw">names</span>(ranges))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-54-1.png" style="display: block; margin: auto;" /></p>
+<p>Here <code>initial_points</code> are in yellow, <code>new_points</code> are in green and <code>new_new_points</code> are in purple. The plots in the main diagonal show the distribution of each parameter singularly: we can easily see that the distributions tend to become more and more narrow wave after wave. In the off-diagonal boxes we have plots for all possible pairs of parameters. Again, the non-implausible region identified at the end of each wave clearly becomes smaller and smaller.</p>
+<p>The second visualisation allows us to assess how much better parameter sets at later waves perform compared to the original <code>initial_points</code>. Let us first create the dataframe <code>wave2</code>:</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="multi-wave-visualisations.html#cb71-1"></a>new_new_initial_results &lt;-<span class="st"> </span><span class="kw">setNames</span>(<span class="kw">data.frame</span>(<span class="kw">t</span>(<span class="kw">apply</span>(new_new_points, <span class="dv">1</span>, </span>
+<span id="cb71-2"><a href="multi-wave-visualisations.html#cb71-2"></a>                                    get_results, <span class="kw">c</span>(<span class="dv">25</span>, <span class="dv">40</span>, <span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">300</span>, <span class="dv">350</span>), </span>
+<span id="cb71-3"><a href="multi-wave-visualisations.html#cb71-3"></a>                                    <span class="kw">c</span>(<span class="st">&#39;I&#39;</span>, <span class="st">&#39;R&#39;</span>)))), <span class="kw">names</span>(targets))</span>
+<span id="cb71-4"><a href="multi-wave-visualisations.html#cb71-4"></a>wave2 &lt;-<span class="st"> </span><span class="kw">cbind</span>(new_new_points, new_new_initial_results)</span></code></pre></div>
+<p>We now produce the plots using the function <code>simulator_plot</code>:</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="multi-wave-visualisations.html#cb72-1"></a>all_points &lt;-<span class="st"> </span><span class="kw">list</span>(wave0, wave1, wave2)</span>
+<span id="cb72-2"><a href="multi-wave-visualisations.html#cb72-2"></a><span class="kw">simulator_plot</span>(all_points, targets)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-56-1.png" style="display: block; margin: auto;" /></p>
+<p>We can see that, compared to the space-filling random parameter sets used to train the first emulators, the new parameter sets are in much closer agreement with our targets. While the <code>initial_points</code> did not match any of the targets, we can see that at the end of wave two, we have several targets matched (I25, I40, R25, R40, R100, R200). Subsequent waves, trained on the new parameter sets, will be more confident in the new non-implausible region: this will allow them to refine the region and increase the number of targets met.</p>
+<div class="panel panel-default">
+<div class="panel-heading">
+Task
+</div>
+<div class="panel-body">
+In the plot above, some targets are easier to read than others: this is due to the targets having quite different values and ranges. To help with this, <code>simulator_plot</code> has the argument <code>normalize</code>, which can be set to <code>TRUE</code> to rescale the target bounds in the plot. Similarly, the argument <code>logscale</code> can be used to plot log-scaled target bounds. Explore these options and get visualisations that are easier to interpret.
+</div>
+</div>
+<button id="displayTextunnamed-chunk-58" onclick="javascript:toggle(&#39;unnamed-chunk-58&#39;);">
+Show: Solution
+</button>
+<div id="toggleTextunnamed-chunk-58" style="display: none">
+<div class="panel panel-default">
+<div class="panel-heading panel-heading1">
+Solution
+</div>
+<div class="panel-body">
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="multi-wave-visualisations.html#cb73-1"></a><span class="kw">simulator_plot</span>(all_points, targets, <span class="dt">normalize =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-90-1.png" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="multi-wave-visualisations.html#cb74-1"></a><span class="kw">simulator_plot</span>(all_points, targets, <span class="dt">logscale =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<img src="_main_files/figure-html/unnamed-chunk-90-2.png" style="display: block; margin: auto;" />
+These normalised/logscaled plots allow us to investigate better targets such as I200: it is now clear that this is not matched yet, even at the end of wave two.
+</div>
+</div>
+</div>
+<!--
+# TJ material
+
+
+
+```
+rmd_files:
+    html: ['index.Rmd', 'ch1.Rmd']
+    latex: ['index.Rmd', 'ch1.Rmd', 'ch_appendix.Rmd']
+output_dir: "docs"
+```
+
+
+-->
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="second-wave.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": null,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf"],
+"search": {
+"engine": "lunr",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
