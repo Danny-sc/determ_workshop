@@ -2,14 +2,14 @@
     function toggle(id) {
         var ele = document.getElementById("toggleText" + id);
         var text = document.getElementById("displayText" + id);
-        var buttonText = text.innerHTML.replace("Show ", "");
-        buttonText = buttonText.replace("Hide ", "");
+        var buttonText = text.innerHTML.replace("Show: ", "");
+        buttonText = buttonText.replace("Hide: ", "");
         if(ele.style.display == "block") {
             ele.style.display = "none";
-            text.innerHTML = "Show " + buttonText;
+            text.innerHTML = "Show: " + buttonText;
         } else {
             ele.style.display = "block";
-            text.innerHTML = "Hide " + buttonText;
+            text.innerHTML = "Hide: " + buttonText;
         }
     } 
 </script>
@@ -34,7 +34,6 @@
     function hide(id){
         document.getElementById(id).style.display = "none";
     }
-</script>
 </script>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">

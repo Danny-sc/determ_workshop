@@ -25,7 +25,7 @@ description: "An interactive introduction to the HoMER package"
 
 
 ```{r setup, include=F}
-knitr::opts_chunk$set(echo = TRUE, cache =T)
+knitr::opts_chunk$set(echo = TRUE, cache =F)
 chosen_params <- list(b = 1/(76*365), mu = 1/(76*365), beta1 = 0.214, beta2 = 0.107, beta3 = 0.428, sigma = 1/7, alpha = 1/50, gamma = 1/14, omega = 1/365)
 library(hmer)
 library(deSolve)
@@ -144,11 +144,10 @@ solution <- ode_results(example_params)
 plot(solution)
 ```
 
-```{task}
-Familiarise yourself with the model. Investigate how the plots change as you change the values of the parameters.
+```{r, rtip1, eval = FALSE, echo = FALSE}
+Copy the code below, modify the value of (some) parameters and run it.
 
-<span class="abbr" title=""><abbr title="Copy the code below, modify the value of (some) parameters and run it.
-``{r, fig.height=8, fig.width=8, eval=F}
+``{r, eval = FALSE}
 example_params <- c(
   b = 1/(60*365),
   mu = 1/(76*365),
@@ -161,10 +160,16 @@ example_params <- c(
 solution <- ode_results(example_params)
 plot(solution)
 ``
-">
-R tip</abbr></span>
+
 ```
 
+```{task}
+Familiarise yourself with the model. Investigate how the plots change as you change the values of the parameters.
+
+``{info, title = "R tip", collapsible = TRUE, ref.label = "rtip1"}
+``
+
+```
 
 
 ```{solution}
@@ -986,22 +991,3 @@ simulator_plot(all_points, targets, logscale = TRUE)
 ``
 These normalised/logscaled plots allow us to investigate better targets such as I200: it is now clear that this is not matched yet, even at the end of wave two. 
 ```
-
-
-
-<!--
-# TJ material
-```{r, child = "_setup.Rmd", include = F, purl = F, cache = T}
-```
-
-```
-rmd_files:
-    html: ['index.Rmd', 'ch1.Rmd']
-    latex: ['index.Rmd', 'ch1.Rmd', 'ch_appendix.Rmd']
-output_dir: "docs"
-```
-
-```{r, include = F}
-library(tidyverse)
-```
--->
