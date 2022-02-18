@@ -4,12 +4,13 @@ fig:figlhs
 fig:regresresid
 fig:unnamed-chunk-15
 fig:unnamed-chunk-16
-fig:lshamp
+fig:lhsamp
 fig:linesamp
 fig:impsamp
-fig:unnamed-chunk-37
+fig:unnamed-chunk-36
+objectives
 intro
-defining-wave0-data
+wave0---parameter-ranges-targets-and-design-points
 constr
 a-brief-recap-on-emulators
 training-emulators
@@ -18,4 +19,4 @@ emulator-diagnostics
 proposing-new-points
 customise-the-first-wave
 second-wave
-multi-wave-visualisations
+visualisations-of-non-implausible-space-by-wave

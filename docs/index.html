@@ -5,20 +5,20 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Workshop 1: calibrating a deterministic model</title>
-  <meta name="description" content="An interactive introduction to the HoMER package" />
-  <meta name="generator" content="bookdown 0.23 and GitBook 2.6.7" />
+  <meta name="description" content="An interactive introduction to the HMER package" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Workshop 1: calibrating a deterministic model" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="An interactive introduction to the HoMER package" />
+  <meta property="og:description" content="An interactive introduction to the HMER package" />
   
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Workshop 1: calibrating a deterministic model" />
   
-  <meta name="twitter:description" content="An interactive introduction to the HoMER package" />
+  <meta name="twitter:description" content="An interactive introduction to the HMER package" />
   
 
 <meta name="author" content="Danny Scarponi, Andy Iskauskas" />
@@ -31,8 +31,10 @@
   
   
 
-<link rel="next" href="defining-wave0-data.html"/>
+<link rel="next" href="intro.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -48,22 +50,20 @@
 
 
 
-
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script language="javascript"> 
     function toggle(id) {
         var ele = document.getElementById("toggleText" + id);
         var text = document.getElementById("displayText" + id);
-        var buttonText = text.innerHTML.replace("Show ", "");
-        buttonText = buttonText.replace("Hide ", "");
+        var buttonText = text.innerHTML.replace("Show: ", "");
+        buttonText = buttonText.replace("Hide: ", "");
         if(ele.style.display == "block") {
             ele.style.display = "none";
-            text.innerHTML = "Show " + buttonText;
+            text.innerHTML = "Show: " + buttonText;
         } else {
             ele.style.display = "block";
-            text.innerHTML = "Hide " + buttonText;
+            text.innerHTML = "Hide: " + buttonText;
         }
     } 
 </script>
@@ -89,24 +89,24 @@
         document.getElementById(id).style.display = "none";
     }
 </script>
-</script>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 
+
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -126,7 +126,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {  background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -158,6 +158,28 @@ code span.vs { color: #4e9a06; } /* VerbatimString */
 code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -172,18 +194,20 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction to the model</a></li>
-<li class="chapter" data-level="2" data-path="defining-wave0-data.html"><a href="defining-wave0-data.html"><i class="fa fa-check"></i><b>2</b> Defining ‘wave0’ data</a></li>
-<li class="chapter" data-level="3" data-path="constr.html"><a href="constr.html"><i class="fa fa-check"></i><b>3</b> Emulators</a><ul>
-<li class="chapter" data-level="3.1" data-path="constr.html"><a href="constr.html#a-brief-recap-on-emulators"><i class="fa fa-check"></i><b>3.1</b> A brief recap on emulators</a></li>
-<li class="chapter" data-level="3.2" data-path="constr.html"><a href="constr.html#training-emulators"><i class="fa fa-check"></i><b>3.2</b> Training emulators</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Objectives</a></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction to the model</a></li>
+<li class="chapter" data-level="3" data-path="wave0---parameter-ranges-targets-and-design-points.html"><a href="wave0---parameter-ranges-targets-and-design-points.html"><i class="fa fa-check"></i><b>3</b> ‘wave0’ - parameter ranges, targets and design points</a></li>
+<li class="chapter" data-level="4" data-path="constr.html"><a href="constr.html"><i class="fa fa-check"></i><b>4</b> Emulators</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="constr.html"><a href="constr.html#a-brief-recap-on-emulators"><i class="fa fa-check"></i><b>4.1</b> A brief recap on emulators</a></li>
+<li class="chapter" data-level="4.2" data-path="constr.html"><a href="constr.html#training-emulators"><i class="fa fa-check"></i><b>4.2</b> Training emulators</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="implausibility.html"><a href="implausibility.html"><i class="fa fa-check"></i><b>4</b> Implausibility</a></li>
-<li class="chapter" data-level="5" data-path="emulator-diagnostics.html"><a href="emulator-diagnostics.html"><i class="fa fa-check"></i><b>5</b> Emulator diagnostics</a></li>
-<li class="chapter" data-level="6" data-path="proposing-new-points.html"><a href="proposing-new-points.html"><i class="fa fa-check"></i><b>6</b> Proposing new points</a></li>
-<li class="chapter" data-level="7" data-path="customise-the-first-wave.html"><a href="customise-the-first-wave.html"><i class="fa fa-check"></i><b>7</b> Customise the first wave</a></li>
-<li class="chapter" data-level="8" data-path="second-wave.html"><a href="second-wave.html"><i class="fa fa-check"></i><b>8</b> Second wave</a></li>
-<li class="chapter" data-level="9" data-path="multi-wave-visualisations.html"><a href="multi-wave-visualisations.html"><i class="fa fa-check"></i><b>9</b> Multi-wave visualisations</a></li>
+<li class="chapter" data-level="5" data-path="implausibility.html"><a href="implausibility.html"><i class="fa fa-check"></i><b>5</b> Implausibility</a></li>
+<li class="chapter" data-level="6" data-path="emulator-diagnostics.html"><a href="emulator-diagnostics.html"><i class="fa fa-check"></i><b>6</b> Emulator diagnostics</a></li>
+<li class="chapter" data-level="7" data-path="proposing-new-points.html"><a href="proposing-new-points.html"><i class="fa fa-check"></i><b>7</b> Proposing new points</a></li>
+<li class="chapter" data-level="8" data-path="customise-the-first-wave.html"><a href="customise-the-first-wave.html"><i class="fa fa-check"></i><b>8</b> Customise the first wave</a></li>
+<li class="chapter" data-level="9" data-path="second-wave.html"><a href="second-wave.html"><i class="fa fa-check"></i><b>9</b> Second wave</a></li>
+<li class="chapter" data-level="10" data-path="visualisations-of-non-implausible-space-by-wave.html"><a href="visualisations-of-non-implausible-space-by-wave.html"><i class="fa fa-check"></i><b>10</b> Visualisations of non-implausible space by wave</a></li>
 </ul>
 
       </nav>
@@ -205,161 +229,20 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <h1 class="title">Workshop 1: calibrating a deterministic model</h1>
 <p class="author"><em>Danny Scarponi, Andy Iskauskas</em></p>
 </div>
-<div id="intro" class="section level1">
-<h1><span class="header-section-number">1</span> Introduction to the model</h1>
+<div id="objectives" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Objectives</h1>
 <p>This tutorial offers an interactive introduction to the main functionality of the
-<a href="https://github.com/Tandethsquire/hmer">HoMER</a> package, using a synthetic example of an epidemiological model. In this workshop, you will be invited to carry out a series of tasks (see “Task” boxes) which will enhance your understanding of the package and its tools. Thanks to these activities, you will learn to calibrate deterministic models using history matching and model emulation, and to use your judgement to customise the process. Although self-contained, this tutorial should be considered as a natural continuation of Tutorial 1 (hyperlink), which gives a more general overview of the history matching with emulation process for deterministic models, and shows how to perform it using <a href="https://github.com/Tandethsquire/hmer">HoMER</a>. Following Workshop 1, you may also want to read Tutorial 2 and Workshop 2, where we demonstrate how to calibrate stochastic models.</p>
-<p>The model that we chose for demonstration purposes is a deterministic <span class="abbr" title="A model consisting of four compartments 
-
-- $S$: Susceptible individuals,
-- $E$: Exposed individuals (i.e. people that are infected but not infectious yet), 
-- $I$: Infectious individuals,  
-- $R$: Recovered individuals, 
-
-and four possible transitions
-
-- $S \rightarrow E$, when a susceptible individual becomes infected, 
-- $E \rightarrow I$, when an infected individual becomes infectious,
-- $I \rightarrow R$, when an infectious individual recovers,
-- $R \rightarrow S$, when a recovered individual becomes susceptible again.
-
-SEIRS models are used to study those infectious diseases that do not confer permanent immunity."><abbr title="A model consisting of four compartments 
-
-- S: Susceptible individuals,
-- E: Exposed individuals (i.e. people that are infected but not infectious yet), 
-- I: Infectious individuals,  
-- R: Recovered individuals, 
-
-and four possible transitions
-
-- S to E, when a susceptible individual becomes infected, 
-- E to I, when an infected individual becomes infectious,
-- I to R, when an infectious individual recovers,
-- R to S, when a recovered individual becomes susceptible again.
-
-SEIRS models are suitable to study those infectious diseases that have an incubation period and do not confer permanent immunity.">
-SEIRS</abbr></span>
-model, described by the following differential equations:
-<span class="math display">\[\begin{align}
-\frac{dS}{dt} &amp;= b N - \frac{\beta(t)IS}{N} + \omega R -\mu S  \\ 
-\frac{dE}{dt} &amp;= \frac{\beta(t)IS}{N} - \sigma E - \mu E \\ 
-\frac{dI}{dt} &amp;= \sigma E - \gamma I - (\mu + \alpha) I \\ 
-\frac{dR}{dt} &amp;= \gamma I - \omega R - \mu R
-\end{align}\]</span>
-where <span class="math inline">\(N\)</span> is the total population, varying over time, and the parameters are as follows:</p>
-<ul>
-<li><p><span class="math inline">\(b\)</span> is the birth rate,</p></li>
-<li><p><span class="math inline">\(\mu\)</span> is the rate of death from other causes,</p></li>
-<li><p><span class="math inline">\(\beta(t)\)</span> is the infection rate between each infectious and susceptible individual,</p></li>
-<li><p><span class="math inline">\(\sigma\)</span> is the rate of becoming infectious after infection,</p></li>
-<li><p><span class="math inline">\(\alpha\)</span> is the rate of death from the disease,</p></li>
-<li><p><span class="math inline">\(\gamma\)</span> is the recovery rate and</p></li>
-<li><p><span class="math inline">\(\omega\)</span> is the rate at which immunity is lost following recovery.</p></li>
-</ul>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-2"></span>
-<img src="SEIRSdiagram.PNG" alt="SEIRS Diagram"  />
-<p class="caption">
-Figure 1.1: SEIRS Diagram
-</p>
+<a href="https://github.com/Tandethsquire/hmer">HMER</a> package, using a simple example of an epidemiological model. <a href="https://github.com/Tandethsquire/hmer">HMER</a> allows you to efficiently implement the Bayes Linear emulation and history matching process, a calibration method that has been successfully employed in several sciences (epidemiology, cosmology, climate science, systems biology, geology, energy systems etc.).</p>
+<p>In this workshop, you will be invited to carry out a series of tasks (see “Task” boxes) which will enhance your understanding of the package and its tools. Thanks to these activities, you will learn to calibrate deterministic models using history matching and model emulation, and to use your judgement to customise the process. This tutorial should be considered as a natural continuation of Tutorial 1 (hyperlink), which gives a more general overview of the history matching with emulation process for deterministic models, and shows how to perform it using <a href="https://github.com/Tandethsquire/hmer">HMER</a>. Following Workshop 1, you may also want to read Tutorial 2 and Workshop 2, where we demonstrate how to calibrate stochastic models.</p>
+<p>For further discussion and justification of the various stages of the history matching with emulation process, please see <span class="citation"><a href="#ref-bower2010galaxy" role="doc-biblioref">Bower, Goldstein, and Vernon</a> (<a href="#ref-bower2010galaxy" role="doc-biblioref">2010</a>)</span> and <span class="citation"><a href="#ref-vernon2018bayesian" role="doc-biblioref">Vernon et al.</a> (<a href="#ref-vernon2018bayesian" role="doc-biblioref">2018</a>)</span>.</p>
 </div>
-<p>The rate of infection <span class="math inline">\(\beta(t)\)</span> is set to be a simple linear function interpolating between points, where the points in question are <span class="math inline">\(\beta(0)=\beta_1\)</span>, <span class="math inline">\(\beta(100) = \beta(180) = \beta_2\)</span>, <span class="math inline">\(\beta(270) = \beta_3\)</span> and where <span class="math inline">\(\beta_2 &lt; \beta_1 &lt; \beta_3\)</span>. This choice was made to represent an infection rate that initially drops due to external (social) measures and then raises when a more infectious variant appears. Here <span class="math inline">\(t\)</span> is taken to measure days. Below we show a graph of the infection rate over time when <span class="math inline">\(\beta_1=0.3, \beta_2=0.1\)</span> and <span class="math inline">\(\beta_3=0.4\)</span>:</p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-3"></span>
-<img src="infection_rate.png" alt="Infection rate graph" width="60%" />
-<p class="caption">
-Figure 1.2: Infection rate graph
-</p>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-bower2010galaxy" class="csl-entry">
+Bower, Richard G, Michael Goldstein, and Ian Vernon. 2010. <span>“Galaxy Formation: A Bayesian Uncertainty Analysis.”</span> <em>Bayesian Analysis</em> 5 (4): 619–69.
 </div>
-<p>In order to obtain the solution of the differential equations for a given set of parameters, we will use a helper function, <code>ode_results</code>. The function assumes an initial population of 900 susceptible individuals, 100 exposed individuals, and no infectious or recovered individuals. Below we use <code>ode_results</code> with an example set of parameters and plot the model output over time.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1"></a>example_params &lt;-<span class="st"> </span><span class="kw">c</span>(</span>
-<span id="cb1-2"><a href="index.html#cb1-2"></a>  <span class="dt">b =</span> <span class="dv">1</span><span class="op">/</span>(<span class="dv">60</span><span class="op">*</span><span class="dv">365</span>),</span>
-<span id="cb1-3"><a href="index.html#cb1-3"></a>  <span class="dt">mu =</span> <span class="dv">1</span><span class="op">/</span>(<span class="dv">76</span><span class="op">*</span><span class="dv">365</span>),</span>
-<span id="cb1-4"><a href="index.html#cb1-4"></a>  <span class="dt">beta1 =</span> <span class="fl">0.2</span>, <span class="dt">beta2 =</span> <span class="fl">0.1</span>, <span class="dt">beta3 =</span> <span class="fl">0.3</span>,</span>
-<span id="cb1-5"><a href="index.html#cb1-5"></a>  <span class="dt">sigma =</span> <span class="fl">0.13</span>,</span>
-<span id="cb1-6"><a href="index.html#cb1-6"></a>  <span class="dt">alpha =</span> <span class="fl">0.01</span>,</span>
-<span id="cb1-7"><a href="index.html#cb1-7"></a>  <span class="dt">gamma =</span> <span class="fl">0.08</span>,</span>
-<span id="cb1-8"><a href="index.html#cb1-8"></a>  <span class="dt">omega =</span> <span class="fl">0.003</span></span>
-<span id="cb1-9"><a href="index.html#cb1-9"></a>)</span>
-<span id="cb1-10"><a href="index.html#cb1-10"></a>solution &lt;-<span class="st"> </span><span class="kw">ode_results</span>(example_params)</span>
-<span id="cb1-11"><a href="index.html#cb1-11"></a><span class="kw">plot</span>(solution)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /></p>
-<div class="panel panel-default">
-<div class="panel-heading">
-Task
-</div>
-<div class="panel-body">
-<p>Familiarise yourself with the model. Investigate how the plots change as you change the values of the parameters.</p>
-<span class="abbr" title=""><abbr title="Copy the code below, modify the value of (some) parameters and run it.
-
-```r
-example_params <- c(
-  b = 1/(60*365),
-  mu = 1/(76*365),
-  beta1 = 0.2, beta2 = 0.1, beta3 = 0.3,
-  sigma = 0.13,
-  alpha = 0.01,
-  gamma = 0.08,
-  omega = 0.003
-)
-solution <- ode_results(example_params)
-plot(solution)
-```
-">
-R tip</abbr></span>
-</div>
-</div>
-<button id="displayTextunnamed-chunk-6" onclick="javascript:toggle(&#39;unnamed-chunk-6&#39;);">
-Show: Solution
-</button>
-<div id="toggleTextunnamed-chunk-6" style="display: none">
-<div class="panel panel-default">
-<div class="panel-heading panel-heading1">
-Solution
-</div>
-<div class="panel-body">
-<p>Let us see what happens when a higher force of infection is considered:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="index.html#cb2-1"></a>higher_foi_params &lt;-<span class="st"> </span><span class="kw">c</span>(</span>
-<span id="cb2-2"><a href="index.html#cb2-2"></a>  <span class="dt">b =</span> <span class="dv">1</span><span class="op">/</span>(<span class="dv">60</span><span class="op">*</span><span class="dv">365</span>),</span>
-<span id="cb2-3"><a href="index.html#cb2-3"></a>  <span class="dt">mu =</span> <span class="dv">1</span><span class="op">/</span>(<span class="dv">76</span><span class="op">*</span><span class="dv">365</span>),</span>
-<span id="cb2-4"><a href="index.html#cb2-4"></a>  <span class="dt">beta1 =</span> <span class="fl">0.3</span>, <span class="dt">beta2 =</span> <span class="fl">0.1</span>, <span class="dt">beta3 =</span> <span class="fl">0.5</span>,</span>
-<span id="cb2-5"><a href="index.html#cb2-5"></a>  <span class="dt">sigma =</span> <span class="fl">0.13</span>,</span>
-<span id="cb2-6"><a href="index.html#cb2-6"></a>  <span class="dt">alpha =</span> <span class="fl">0.01</span>,</span>
-<span id="cb2-7"><a href="index.html#cb2-7"></a>  <span class="dt">gamma =</span> <span class="fl">0.08</span>,</span>
-<span id="cb2-8"><a href="index.html#cb2-8"></a>  <span class="dt">omega =</span> <span class="fl">0.003</span></span>
-<span id="cb2-9"><a href="index.html#cb2-9"></a>)</span>
-<span id="cb2-10"><a href="index.html#cb2-10"></a>higher_foi_solution &lt;-<span class="st"> </span><span class="kw">ode_results</span>(higher_foi_params)</span>
-<span id="cb2-11"><a href="index.html#cb2-11"></a><span class="kw">plot</span>(solution, higher_foi_solution)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-63-1.png" style="display: block; margin: auto;" /></p>
-<p>Here the black line shows the model output when it is run using the original parameters and the red dotted line when it is run using a higher force of infection. As expected, the number of susceptible individuals decreases, while the size of outbreaks increases.</p>
-<p>Let us now also increase the rate of becoming infectious following infection <span class="math inline">\(\sigma\)</span>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="index.html#cb3-1"></a>higher_sigma_params &lt;-<span class="st"> </span><span class="kw">c</span>(</span>
-<span id="cb3-2"><a href="index.html#cb3-2"></a>  <span class="dt">b =</span> <span class="dv">1</span><span class="op">/</span>(<span class="dv">60</span><span class="op">*</span><span class="dv">365</span>),</span>
-<span id="cb3-3"><a href="index.html#cb3-3"></a>  <span class="dt">mu =</span> <span class="dv">1</span><span class="op">/</span>(<span class="dv">76</span><span class="op">*</span><span class="dv">365</span>),</span>
-<span id="cb3-4"><a href="index.html#cb3-4"></a>  <span class="dt">beta1 =</span> <span class="fl">0.3</span>, <span class="dt">beta2 =</span> <span class="fl">0.1</span>, <span class="dt">beta3 =</span> <span class="fl">0.5</span>,</span>
-<span id="cb3-5"><a href="index.html#cb3-5"></a>  <span class="dt">sigma =</span> <span class="fl">0.21</span>,</span>
-<span id="cb3-6"><a href="index.html#cb3-6"></a>  <span class="dt">alpha =</span> <span class="fl">0.01</span>,</span>
-<span id="cb3-7"><a href="index.html#cb3-7"></a>  <span class="dt">gamma =</span> <span class="fl">0.08</span>,</span>
-<span id="cb3-8"><a href="index.html#cb3-8"></a>  <span class="dt">omega =</span> <span class="fl">0.003</span></span>
-<span id="cb3-9"><a href="index.html#cb3-9"></a>)</span>
-<span id="cb3-10"><a href="index.html#cb3-10"></a>higher_sigma_solution &lt;-<span class="st"> </span><span class="kw">ode_results</span>(higher_sigma_params)</span>
-<span id="cb3-11"><a href="index.html#cb3-11"></a><span class="kw">plot</span>(higher_foi_solution,higher_sigma_solution)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-64-1.png" style="display: block; margin: auto;" /></p>
-<p>Here the black line is the model output when the model is run with the previous parameter set, and the red dotted line is the model output when we also increase sigma. We observe a decrease in the number of exposed individuals. Again, this is in agreement with our expectation: a higher rate of becoming infectious means that people leave the exposed compartmental to enter the infectious compartment faster than before.</p>
-<p>Finally, what happens when a lower value of the recovery rate <span class="math inline">\(\gamma\)</span> is used?</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="index.html#cb4-1"></a>smaller_recovery_params &lt;-<span class="st"> </span><span class="kw">c</span>(</span>
-<span id="cb4-2"><a href="index.html#cb4-2"></a>  <span class="dt">b =</span> <span class="dv">1</span><span class="op">/</span>(<span class="dv">60</span><span class="op">*</span><span class="dv">365</span>),</span>
-<span id="cb4-3"><a href="index.html#cb4-3"></a>  <span class="dt">mu =</span> <span class="dv">1</span><span class="op">/</span>(<span class="dv">76</span><span class="op">*</span><span class="dv">365</span>),</span>
-<span id="cb4-4"><a href="index.html#cb4-4"></a>  <span class="dt">beta1 =</span> <span class="fl">0.3</span>, <span class="dt">beta2 =</span> <span class="fl">0.1</span>, <span class="dt">beta3 =</span> <span class="fl">0.5</span>,</span>
-<span id="cb4-5"><a href="index.html#cb4-5"></a>  <span class="dt">sigma =</span> <span class="fl">0.21</span>,</span>
-<span id="cb4-6"><a href="index.html#cb4-6"></a>  <span class="dt">alpha =</span> <span class="fl">0.01</span>,</span>
-<span id="cb4-7"><a href="index.html#cb4-7"></a>  <span class="dt">gamma =</span> <span class="fl">0.05</span>,</span>
-<span id="cb4-8"><a href="index.html#cb4-8"></a>  <span class="dt">omega =</span> <span class="fl">0.003</span></span>
-<span id="cb4-9"><a href="index.html#cb4-9"></a>)</span>
-<span id="cb4-10"><a href="index.html#cb4-10"></a>smaller_recovery_solution &lt;-<span class="st"> </span><span class="kw">ode_results</span>(smaller_recovery_params)</span>
-<span id="cb4-11"><a href="index.html#cb4-11"></a><span class="kw">plot</span>(higher_sigma_solution, smaller_recovery_solution)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-65-1.png" style="display: block; margin: auto;" /></p>
-Here the black line is the model output when the model is run with the previous parameter set, and the red dotted line is the model output when we also decrease the recovery rate. Again, as one expects, this causes the number of susceptible individuals to decrease and the number of infectious individuals to increase, at least during the first peak.
-</div>
-</div>
+<div id="ref-vernon2018bayesian" class="csl-entry">
+Vernon, Ian, Junli Liu, Michael Goldstein, James Rowe, Jen Topping, and Keith Lindsey. 2018. <span>“Bayesian Uncertainty Analysis for Complex Systems Biology Models: Emulation, Global Parameter Searches and Evaluation of Gene Functions.”</span> <em>BMC Systems Biology</em> 12 (1): 1–29.
 </div>
 </div>
             </section>
@@ -368,11 +251,10 @@ Here the black line is the model output when the model is run with the previous 
         </div>
       </div>
 
-<a href="defining-wave0-data.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="intro.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -403,7 +285,7 @@ gitbook.start({
 },
 "download": ["_main.pdf"],
 "search": {
-"engine": "lunr",
+"engine": "fuse",
 "options": null
 },
 "toc": {

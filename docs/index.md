@@ -14,10 +14,11 @@ output:
         includes:
             in_header: _toggle.html
         keep_md: TRUE
+bibliography: references.bib  
 linkcolor: blue
 documentclass: book
 link-citations: yes
-description: "An interactive introduction to the HoMER package"
+description: "An interactive introduction to the HMER package"
 ---
 
 
@@ -26,10 +27,16 @@ description: "An interactive introduction to the HoMER package"
 
 
 
-# Introduction to the model {#intro}
-
+# Objectives
 This tutorial offers an interactive introduction to the main functionality of the 
-[HoMER](https://github.com/Tandethsquire/hmer) package, using a synthetic example of an epidemiological model. In this workshop, you will be invited to carry out a series of tasks (see "Task" boxes) which will enhance your understanding of the package and its tools. Thanks to these activities, you will learn to calibrate deterministic models using history matching and model emulation,  and to use your judgement to customise the process. Although self-contained, this tutorial should be considered as a natural continuation of Tutorial 1 (hyperlink), which gives a more general overview of the history matching with emulation process for deterministic models, and shows how to perform it using [HoMER](https://github.com/Tandethsquire/hmer). Following Workshop 1, you may also want to read Tutorial 2 and Workshop 2, where we demonstrate how to calibrate stochastic models. 
+[HMER](https://github.com/Tandethsquire/hmer) package, using a simple example of an epidemiological model. [HMER](https://github.com/Tandethsquire/hmer) allows you to efficiently implement the Bayes Linear emulation and history matching process, a calibration method that  has been successfully employed in several sciences (epidemiology, cosmology, climate science, systems biology, geology, energy systems etc.). 
+
+In this workshop, you will be invited to carry out a series of tasks (see "Task" boxes) which will enhance your understanding of the package and its tools. Thanks to these activities, you will learn to calibrate deterministic models using history matching and model emulation,  and to use your judgement to customise the process. This tutorial should be considered as a natural continuation of Tutorial 1 (hyperlink), which gives a more general overview of the history matching with emulation process for deterministic models, and shows how to perform it using [HMER](https://github.com/Tandethsquire/hmer). Following Workshop 1, you may also want to read Tutorial 2 and Workshop 2, where we demonstrate how to calibrate stochastic models. 
+
+For further discussion and justification of the various stages of the history matching with emulation process, please see @bower2010galaxy and @vernon2018bayesian.
+
+# Introduction to the model {#intro}
+In this section we introduce the model that we will work with throughout our tutorial. 
 
 The model that we chose for demonstration purposes is a deterministic  <span class="abbr" title="A model consisting of four compartments 
 
@@ -110,15 +117,21 @@ example_params <- c(
   omega = 0.003
 )
 solution <- ode_results(example_params)
+par(mar = c(2, 2, 2, 2))
 plot(solution)
 ```
 
 <img src="_main_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
 
-<div class="panel panel-default"><div class="panel-heading"> Task </div><div class="panel-body"> 
-Familiarise yourself with the model. Investigate how the plots change as you change the values of the parameters.
 
-<span class="abbr" title=""><abbr title="Copy the code below, modify the value of (some) parameters and run it.
+
+<div class="panel panel-default"><div class="panel-heading"> Task </div><div class="panel-body"> 
+If you would like, familiarise yourself with the model. Investigate how the plots change as you change the values of the parameters.
+
+<infobutton id="displayTextunnamed-chunk-61" onclick="javascript:toggle('unnamed-chunk-61');">Show: R tip</infobutton>
+
+<div id="toggleTextunnamed-chunk-61" style="display: none"><div class="panel panel-default"><div class="panel-body">
+Copy the code below, modify the value of (some) parameters and run it.
 
 ```r
 example_params <- c(
@@ -131,11 +144,11 @@ example_params <- c(
   omega = 0.003
 )
 solution <- ode_results(example_params)
+par(mar = c(2, 2, 2, 2))
 plot(solution)
 ```
-">
-R tip</abbr></span> </div></div>
-
+</div></div></div>
+ </div></div>
 
 
 <button id="displayTextunnamed-chunk-6" onclick="javascript:toggle('unnamed-chunk-6');">Show: Solution</button>
@@ -202,7 +215,8 @@ plot(higher_sigma_solution, smaller_recovery_solution)
 
 Here the black line is the model output when the model is run with the previous parameter set, and the red dotted line is the model output when we also decrease the recovery rate. Again, as one expects, this causes the number of susceptible individuals to decrease and the number of infectious individuals to increase, at least during the first peak.</div></div></div>
 
-# Defining 'wave0' data
+# 'wave0' - parameter ranges, targets and design points
+In this section we set up the emulation task, defining the input parameter ranges, the targets and all the data necessary to train the first wave of emulators.
 
 Before we tackle the emulation, we need to define some objects. First of all, let us set the parameter ranges:
 
@@ -221,7 +235,7 @@ ranges = list(
 )
 ```
 
-We then turn to the targets we will match: the number of infectious individuals $I$ and the number of recovered individuals $R$ at times $t=25, 40, 100, 200, 200, 350$. For each of these outputs, we define a pair (val, sigma), where ‘val’ represents the mean value of the output and ‘sigma’ represents its standard deviation:
+We then turn to the targets we will match: the number of infectious individuals $I$ and the number of recovered individuals $R$ at times $t=25, 40, 100, 200, 200, 350$. For each of these outputs, we define a pair (val, sigma), where ‘val’ represents the measured value of the output and ‘sigma’ represents its standard deviation:
 
 
 ```r
@@ -241,7 +255,7 @@ targets <- list(
 )
 ```
   
-The 'sigmas' in our `targets` list represent the uncertainty we have about the observations. Note that in general we can also choose to include model uncertainty in the 'sigmas', to reflect how accurate we think our model is. 
+The 'sigmas' in our `targets` list represent the uncertainty we have about the observations. Note that in general we can also choose to include model uncertainty in the 'sigmas', to reflect how accurate we think our model is. For further discussion regarding model uncertainty, please see @bower2010galaxy, @vernon2018bayesian or @andrianakis2015bayesian.
   
 <infobutton id="displayTextunnamed-chunk-9" onclick="javascript:toggle('unnamed-chunk-9');">Show: More on how targets were set</infobutton>
 
@@ -302,10 +316,10 @@ Finally, we bind the parameter sets `initial_points` to the model runs `initial_
 wave0 <- cbind(initial_points, initial_results)
 ```
 
-Note that when using your own model, you can create the 'wave0' dataframe however you wish. The info box below will help you build `wave0` when working on your own model. 
-
+Note that your model can be written in any programming languages and  that when using your own model, you can create the 'wave0' dataframe however you wish. 
 
 # Emulators {#constr}
+This section will start with a short recap on the structure of an emulator. We will then train the first wave of emulators and explore them through various visualisations.
 
 Let us start by splitting `wave0` in two parts: the training set, on which we will train the emulators, and a validation set, which will be used to do diagnostics of the emulators. 
 
@@ -318,16 +332,16 @@ validation <- wave0[-t_sample,]
 
 
 ## A brief recap on emulators
-Before building emulators, let us quickly remind ourselves what an emulator is and how it is structured. Note that a more detailed discussion about the structure of an emulator can be found in Tutorial 2 (Section 3, and Appendix A and B). 
+Before building emulators, let us quickly remind ourselves what an emulator is and how it is structured. Note that a more detailed discussion about the structure of an emulator can be found in Tutorial 2 (Section 3, and Appendix A and B), in @bower2010galaxy and in @vernon2018bayesian. 
 
 An [emulator](https://en.wikipedia.org/wiki/Emulator) is a way of representing our 
 <span class="abbr" title=""><abbr title="In Bayesian statistics, probability expresses a degree of belief in an event. Such belief can be based either on prior knowledge or on personal beliefs about the event. 
 ">beliefs</abbr></span>
-about the behaviour of a function whose output is unknown. In this workshop what is unknown is the behaviour of our SEIRS model and we will emulate each of the model outputs separately. Given a training dataset, i.e. a set of model runs, we can train an emulator and use it to get expectation and variance for a model output at any parameter set, without the need to run the model at the chosen set. We think of the expectation as the prediction provided by the emulator at the chosen parameter set, and we think of the variance as the uncertainty associated to that prediction. 
+about the behaviour of a function whose output is unknown. In this workshop what is unknown  is the behaviour of our SEIRS model at unevaluated input locations. Given a training dataset, i.e. a set of model runs, we can train an emulator and use it to get the expectation and variance for a model output at any parameter set, without the need to run the model at the chosen set. We think of the expectation as the prediction provided by the emulator at the chosen parameter set, and we think of the variance as the uncertainty associated to that prediction. 
 
 The general structure of a univariate emulator is as follows:
 $$f(x) = g(x)^T \xi + u(x),$$
-where $g(x)^T \xi$ is a regression term and $u(x)$ is a Gaussian process with mean zero. The role of the regression term is to mimic the global behaviour of the model output, while $u(x)$ represents localised deviations of the output from this global behaviour near to $x$.  
+where $g(x)^T \xi$ is a regression term and $u(x)$ is a [weakly stationary process](https://en.wikipedia.org/wiki/Stationary_process#Weak_or_wide-sense_stationarity) with mean zero. The role of the regression term is to mimic the global behaviour of the model output, while $u(x)$ represents localised deviations of the output from this global behaviour near to $x$.  
 
 The regression term is specified by:
 
@@ -343,20 +357,22 @@ The regression term is specified by:
 <p class="caption">(\#fig:regresresid)Regression term and residuals in one dimensional example</p>
 </div>
 
-In general, and especially when dealing with complex models, we cannot expect the regression hypersurface to perfectly explain the behaviour of the output. For this reason it is necessary to account for the local deviations of the output from the regression hypersurface. These local deviations, also referred to as residuals, are shown in blue in Fig \@ref(fig:regresresid). When the parameter space is one-dimensional, they indicate how far the regression term is from the model output at each point. Since residuals are unknown, we treat them as random variables: for each parameter $x$, we then have a random variable $u(x)$ representing the residual at $x$. In the [HoMER](https://github.com/Tandethsquire/hmer) package we assume this collection of random variables $u(x)$ to be a [Gaussian process](https://en.wikipedia.org/wiki/Gaussian_process), with mean zero. Informally this means the following:
+In general, and especially when dealing with complex models, we cannot expect the regression hypersurface to perfectly explain the behaviour of the output. For this reason it is necessary to account for the local deviations of the output from the regression hypersurface. These local deviations, also referred to as residuals, are shown in blue in Fig \@ref(fig:regresresid). When the parameter space is one-dimensional, they indicate how far the regression term is from the model output at each point. Since residuals are unknown, we treat them as random variables: for each parameter $x$, we then have a random variable $u(x)$ representing the residual at $x$. In the [HMER](https://github.com/Tandethsquire/hmer) package we assume this collection of random variables $u(x)$ to be a [weakly stationary process](https://en.wikipedia.org/wiki/Stationary_process#Weak_or_wide-sense_stationarity) (similar to a [Gaussian process](https://en.wikipedia.org/wiki/Gaussian_process)), with mean zero. Informally this means the following:
 
-- for each parameter set $x$, we consider the residual $u(x)$ as a normally distributed random variable with mean zero. Note that the mean is assumed to be zero, since, even if we expect to see local deviations, we do not expect the output to be systematically above (or below) the regression hypersurface;
+- for each parameter set $x$, we consider the residual $u(x)$ as a random variable with mean zero. Note that the mean is assumed to be zero, since, even if we expect to see local deviations, we do not expect the output to be systematically above (or below) the regression hypersurface;
 
-- given any pair of parameter sets $(x,x')$, the pair $(u(x),u(x'))$ is a multivariate normal variable, with mean $(0,0)$.
+- given any pair of parameter sets $(x,x')$, the pair $(u(x),u(x'))$ is a vector of two random variables with mean $(0,0)$ and such that the covariance of $u(x)$ and $u(x')$ only depends on the difference $x-x'$.
 
-To fully describe the Gaussian process $u(x)$ we need to define the covariance structure, i.e. we need to say how correlated the residuals at $x$ and $x'$ are, for any pair $(x,x')$. A common covariance structure used in Gaussian processes is given by 
+In the case of a Gaussian process, we further assume that $u(X)$ is normally distributed and that $(u(x),u(x'))$ is a multivariate normal variable.
+
+To fully describe a weakly stationary process $u(x)$ we need to define the covariance structure, i.e. we need to say how correlated the residuals at $x$ and $x'$ are, for any pair $(x,x')$.  When using Gaussian processes, as we do in this workshop, a commonly adopted covariance structure is given by 
 
 $$\text{Cov}(u(x), u(x'))= \sigma^2  c(x,x^{\prime}) $$
 where  $c$ is the square-exponential correlation function
 
 $$c(x,x^{\prime}) :=  \exp\left(\frac{-\sum\limits_{i}(x_{i}-x_{i}^{\prime})^2}{\theta^2}\right)$$
 
-where $x_i$ is the ith-component of the parameter set $x.$ This covariance structure is the default option in the [HoMER](https://github.com/Tandethsquire/hmer) package, even though other structures are available.
+where $x_i$ is the ith-component of the parameter set $x.$ This covariance structure is the default option in the [HMER](https://github.com/Tandethsquire/hmer) package, even though other structures are available.
 
 Let us look at the various terms in this covariance structure:
 
@@ -367,22 +383,28 @@ Let us look at the various terms in this covariance structure:
 <p class="caption">(\#fig:unnamed-chunk-15)Regression term and residuals in one dimensional example, with higher $\sigma$</p>
 </div>
 
-- $\theta$ is the **correlation length** of the Gaussian process. For a given pair $(x,x')$, the larger $\theta$ is, the larger is the covariance between $u(x)$ and $u(x')$. This means that the size of $\theta$ determines how close two parameter sets must be in order for the corresponding residuals to be non-negligibly correlated.  Informally, we can think of $\theta$ in the following way: if the distance of two parameters sets is no more than $\theta$, then their residuals will be well correlated. In particular, a larger $\theta$ results in a smoother (less wiggly) emulator. In the one dimensional example in Fig. \@ref(fig:regresresid), a $\theta$ of $1$ was used. A value of $\theta$ equal to $0.4$ would result in less smooth residuals:
+- $\theta$ is the **correlation length** of the process. For a given pair $(x,x')$, the larger $\theta$ is, the larger is the covariance between $u(x)$ and $u(x')$. This means that the size of $\theta$ determines how close two parameter sets must be in order for the corresponding residuals to be non-negligibly correlated.  Informally, we can think of $\theta$ in the following way: if the distance of two parameters sets is no more than $\theta$, then their residuals will be well correlated. In particular, a larger $\theta$ results in a smoother (less wiggly) emulator. In the one dimensional example in Fig. \@ref(fig:regresresid), a $\theta$ of $1$ was used. A value of $\theta$ equal to $0.4$ would result in less smooth residuals:
 
 <div class="figure" style="text-align: center">
 <img src="regres_resid_plot_lowtheta.png" alt="Regression term and residuals in one dimensional example, with lower $\theta$" width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-16)Regression term and residuals in one dimensional example, with lower $\theta$</p>
 </div>
 
-Choosing values for $\sigma$ and $\theta$ corresponds to making a judgment about how far we expect the output to be from the regression hypersurface ($\sigma$) and about its smoothness ($\theta$). While the [HoMER](https://github.com/Tandethsquire/hmer) package, and in particular the function `emulator_from_data`, selects values of $\sigma$ and $\theta$ for us based on the provided training data, we will see in this workshop how we can intervene to customise the choice of these hyperparameters and the benefits that this operation brings.
+Choosing values for $\sigma$ and $\theta$ corresponds to making a judgment about how far we expect the output to be from the regression hypersurface ($\sigma$) and about its smoothness ($\theta$). While the [HMER](https://github.com/Tandethsquire/hmer) package, and in particular the function `emulator_from_data`, selects values of $\sigma$ and $\theta$ for us based on the provided training data, we will see in this workshop how we can intervene to customise the choice of these hyperparameters and the benefits that this operation brings.
 
 ## Training emulators
 
-We are now ready to train the emulators using the `emulator_from_data` function, which just needs the training set, the names of the targets we want to emulate and the ranges of the parameters:
+We are now ready to train the emulators using the `emulator_from_data` function, which needs at least the following data: the training set, the names of the targets we want to emulate and the ranges of the parameters. By default, `emulator_from_data` assumes a square-exponential correlation function and finds suitable values for the variance $\sigma$ and the correlation length $\theta$ of the process $u(x)$. In this workshop, in order to shorten the time needed to train emulators, we pass one more argument to `emulator_from_data`, setting the correlation lengths to be $0.55$ for all emulators. Normally, the argument `c_lengths` will not be needed, since the correlation lengths are determined by the `emulator_from_data` function itself.
+
+<infobutton id="displayTextunnamed-chunk-17" onclick="javascript:toggle('unnamed-chunk-17');">Show: How was the value 0.55 chosen?</infobutton>
+
+<div id="toggleTextunnamed-chunk-17" style="display: none"><div class="panel panel-default"><div class="panel-body">
+The value $0.55$ was chosen using the Durham heuristics, which states that the correlation length should lie in the interval $[1/(n+1), 2/(n+1)]$ where $n$ is the degree of the fitted surface. In our case $n$ is 2 and therefore the correlation length should be in $[1/3,2/3]$. We chose $0.55$, a value little above the midpoint of this interval, to represent our belief that the model is smooth (and therefore correlations between neighboring points should be appreciable).</div></div></div>
 
 
 ```r
-ems_wave1 <- emulator_from_data(training, names(targets), ranges)
+ems_wave1 <- emulator_from_data(training, names(targets), ranges, 
+                                c_lengths= rep(0.55,length(targets)))
 ```
 
 In `ems_wave1` we have information about all emulators. Let us take a look at the emulator of the number of recovered individuals at time $t=200$:
@@ -395,18 +417,18 @@ ems_wave1$R200
 ```
 ## Parameters and ranges:  b: c(0, 1e-04): mu: c(0, 1e-04): beta1: c(0.2, 0.3): beta2: c(0.1, 0.2): beta3: c(0.3, 0.5): sigma: c(0.07, 0.21): alpha: c(0.01, 0.025): gamma: c(0.05, 0.08): omega: c(0.002, 0.004) 
 ## Specifications: 
-## 	 Basis functions:  (Intercept); b; mu; beta1; beta2; sigma; alpha; gamma; omega; I(beta1^2); I(beta2^2); I(sigma^2); I(alpha^2); I(gamma^2); I(omega^2); mu:sigma; beta1:beta2; beta1:alpha; beta1:gamma; beta1:omega; beta2:sigma; beta2:gamma; sigma:alpha; sigma:gamma; sigma:omega; alpha:gamma; alpha:omega; gamma:omega 
+## 	 Basis functions:  (Intercept); b; mu; beta1; beta2; sigma; alpha; gamma; omega 
 ## 	 Active variables b; mu; beta1; beta2; sigma; alpha; gamma; omega 
-## 	 Regression Surface Expectation:  496.2728; 1.9876; -4.6397; 8.2317; 25.0217; -15.1378; -57.9129; -4.992; -57.2594; -2.5115; -12.4326; -4.9669; 1.0659; -8.4424; 6.5641; 2.4632; 1.5658; 5.5449; 11.0464; 9.2804; 1.8736; 9.3984; -7.801; -5.4154; -6.0825; 4.3294; -1.9138; 5.5718 
-## 	 Regression surface Variance (eigenvalues):  0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0; 0 
+## 	 Regression Surface Expectation:  497.0889; 4.5664; -3.5143; 10.5443; 26.5885; -15.5909; -54.3963; -9.1179; -55.8317 
+## 	 Regression surface Variance (eigenvalues):  0; 0; 0; 0; 0; 0; 0; 0; 0 
 ## Correlation Structure: 
 ## Bayes-adjusted emulator - prior specifications listed. 
-## 	 Variance (Representative):  2.040089 
+## 	 Variance (Representative):  77.3119 
 ## 	 Expectation:  0 
 ## 	 Correlation type: exp_sq 
-## 	 Hyperparameters:  theta: 0.5009 
-## 	 Nugget term: 0 
-## Mixed covariance:  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+## 	 Hyperparameters:  theta: 0.55 
+## 	 Nugget term: 0.05 
+## Mixed covariance:  0 0 0 0 0 0 0 0 0
 ```
 
 The print statement provides an overview of the emulator specifications, which refer to the global part, and correlation structure, which refers to the local part:
@@ -425,44 +447,24 @@ The emulator expectation plots show the structure of the regression surface, whi
 emulator_plot(ems_wave1$R200, params = c('beta1', 'gamma'))
 ```
 
-<img src="_main_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
+<img src="_main_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" />
 
 Here for each pair $(\bar \beta_1,\bar \gamma)$ the plot shows the expected value produced by the emulator `ems_wave1$R200` at the parameter set having $\beta_1=\bar \beta_1$, $\gamma=\bar \gamma$ and all other parameters equal to their mid-range value (the ranges of parameters are those that were passed to `emulator_from_data` to train `ems_wave1`). Note that we chose to display $\beta_1$ and $\gamma$, but any other pair can be selected. For consistency, we will use $\beta_1$ and $\gamma$ throughout this workshop.
 
 <div class="panel panel-default"><div class="panel-heading"> Task </div><div class="panel-body"> 
-The argument `fixed_vals` allows us to change where to slice the parameters that are not shown in the plots. Try changing this argument: what happens if we set all hidden parameters equal to the values in `chosen_parameters`? What do you expect the emulator expectation to be in this case? 
-  
-<span class="abbr" title=""><abbr title="To make the unshown parameters equal to the values in `chosen_params`, set `fixed_vals` to `chosen_params[!names(chosen_params) %in% c('beta1', 'gamma')]`">
-R tip</abbr></span>  </div></div>
-
-<button id="displayTextunnamed-chunk-21" onclick="javascript:toggle('unnamed-chunk-21');">Show: Solution</button>
-
-<div id="toggleTextunnamed-chunk-21" style="display: none"><div class="panel panel-default"><div class="panel-heading panel-heading1"> Solution </div><div class="panel-body">
-When slicing at the values of `chosen_parameters` we would expect the emulator expectation to be somewhere close to the target ($444.23$) when $\beta_1$ and $\gamma$ are equal to their values in `chosen_params`, i.e. $0.214$ and $1/14$. Let us plot the emulator expectation with the `emulator_plot` function and add the point $(\beta_1=0.214,\gamma=1/14)$ with `geom_point`:
-  
-
-```r
-emulator_plot(ems_wave1$R200, params = c('beta1', 'gamma'), 
-              fixed_vals = chosen_params[!names(chosen_params) %in% c('beta1', 'gamma')])+ 
-  geom_point(aes(x=0.214, y=1/14), size=3)
-```
-
-<img src="_main_files/figure-html/unnamed-chunk-67-1.png" style="display: block; margin: auto;" />
-
-The plot is in agreement with our reasoning: when $\beta_1$ and $\gamma$ are equal to $0.214$ and $1/14$, the emulator expectation is around in the interval $[443,446]$ (see black point in the box). It is worth noting that when using a real, more complex model, we would not necessarily expect the emulated output at wave zero to be as close to the model output as it is for the synthetic model we chose for this workshop.</div></div></div>
-
-
-
-<div class="panel panel-default"><div class="panel-heading"> Task </div><div class="panel-body"> 
 Is $\beta_3$ active for all emulators? Why? 
-  
-<span class="abbr" title=""><abbr title="To show what variables are active for an emulator 'em' you can access the parameter `active_vars` of the emulator, typing `em$active_vars`.">
-R tip</abbr></span>  </div></div>
+
+<infobutton id="displayTextunnamed-chunk-67" onclick="javascript:toggle('unnamed-chunk-67');">Show: R tip</infobutton>
+
+<div id="toggleTextunnamed-chunk-67" style="display: none"><div class="panel panel-default"><div class="panel-body">
+To show what variables are active for an emulator 'em' you can access the parameter `active_vars` of the emulator, typing `em$active_vars`.
+</div></div></div>
+ </div></div>
 
 
-<button id="displayTextunnamed-chunk-23" onclick="javascript:toggle('unnamed-chunk-23');">Show: Solution</button>
+<button id="displayTextunnamed-chunk-22" onclick="javascript:toggle('unnamed-chunk-22');">Show: Solution</button>
 
-<div id="toggleTextunnamed-chunk-23" style="display: none"><div class="panel panel-default"><div class="panel-heading panel-heading1"> Solution </div><div class="panel-body">
+<div id="toggleTextunnamed-chunk-22" style="display: none"><div class="panel panel-default"><div class="panel-heading panel-heading1"> Solution </div><div class="panel-body">
 Let us take a look at the emulators. To show what variables are active for an emulator 'em' we can simply type `em$active_vars`. For example:
   
 
@@ -495,7 +497,7 @@ beta3_role
 
 ```
 ##   I25   I40  I100  I200  I300  I350   R25   R40  R100  R200  R300  R350 
-## FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE  TRUE FALSE FALSE  TRUE  TRUE
+## FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE  TRUE  TRUE
 ```
 
 Here we see that $\beta_3$ tends to be more active at later times. This is in fact what we would expect: the later infection/recovery rates  don't have an impact on early time outputs.</div></div></div>
@@ -507,9 +509,9 @@ Looking at what variables are active for different emulators is often an instruc
 plot_actives(ems_wave1)
 ```
 
-<img src="_main_files/figure-html/unnamed-chunk-24-1.png" style="display: block; margin: auto;" />
+<img src="_main_files/figure-html/unnamed-chunk-23-1.png" style="display: block; margin: auto;" />
 
-From this table, we can immediately see that $\mu$ is inactive for most outputs, while $\beta_1$, $\beta_2$, $\sigma$, $\alpha$, $\gamma$ are active for most outputs. We also notice again that $\beta_3$ tends to be active for outputs at later times and inactive for outputs at earlier times. 
+From this table, we can immediately see that mu is inactive for most outputs, while beta1, beta2, sigma, alpha, gamma are active for most outputs. We also notice again that beta3 tends to be active for outputs at later times and inactive for outputs at earlier times. 
 
 As mentioned above, `emulator_plot` can also plot the variance of a given emulator: 
 
@@ -518,7 +520,7 @@ As mentioned above, `emulator_plot` can also plot the variance of a given emulat
 emulator_plot(ems_wave1$R200, plot_type = 'var', params = c('beta1', 'gamma'))
 ```
 
-<img src="_main_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
+<img src="_main_files/figure-html/unnamed-chunk-24-1.png" style="display: block; margin: auto;" />
 
 This plot shows the presence of a training point (purple-blue area on the right) close to the chosen slice of the input space. As discussed above, by default `emulator_plot` fixes all non-shown parameters to their mid-range, but different slices can be explored, through the argument `fixed_vals`. The purple-blue area indicates that the variance is low when we are close to the training point, which is in accordance with our expectation. 
 
@@ -530,7 +532,7 @@ summary(ems_wave1$R200$model)$adj.r.squared
 ```
 
 ```
-## [1] 0.9988402
+## [1] 0.9658606
 ```
 
 We see that we have a very high value of the adjusted $R^2$. This means that the regression term explains most of the behaviour of the output $R200$. In particular, the residuals contribute little to the emulator predictions. This is not surprising, considering that we are working with a relatively simple SEIRS model. When dealing with more complex models, the regression term may be able to explain the model output less well. In such cases the residuals play a more important role.
@@ -566,7 +568,7 @@ emulator_plot(ems_wave1$R200, plot_type = 'imp',
               targets = targets, params = c('beta1', 'gamma'), cb=TRUE)
 ```
 
-<img src="_main_files/figure-html/unnamed-chunk-27-1.png" style="display: block; margin: auto;" />
+<img src="_main_files/figure-html/unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
 
 This is a 2D slice through the input space: for a chosen pair $(\bar\beta_1,\bar\gamma)$, the plot shows the implausibility of the parameter set having $\beta_1=\bar \beta_1$, $\gamma=\bar \gamma$ and all other parameters set to their mid-range value. Parameter sets with implausibility more than $3$ are highly unlikely to give a good fit and will be discarded when forming the parameters sets for the next wave.
 
@@ -578,7 +580,7 @@ emulator_plot(ems_wave1, plot_type = 'imp',
               targets = targets, params = c('beta1', 'gamma'), cb=TRUE)
 ```
 
-<img src="_main_files/figure-html/unnamed-chunk-28-1.png" style="display: block; margin: auto;" />
+<img src="_main_files/figure-html/unnamed-chunk-27-1.png" style="display: block; margin: auto;" />
 
 This plot is useful to get an overall idea of which emulators have higher/lower implausibility, but how do we measure overall implausibility? We want a single measure for the implausibility at a given parameter set, but for each emulator we obtain an individual value for $I$. The simplest way to combine them is to consider maximum implausibility at each parameter set:
 $$I_M(x) = \max_{i=1,\dots,N}I_{i}(x),$$ where $I_i(x)$ is the implausibility at $x$ coming from the $i$th emulator.
@@ -587,9 +589,9 @@ Note that Pukelsheim's rule applies for each emulator separately, but when we co
 <div class="panel panel-default"><div class="panel-heading"> Task </div><div class="panel-body"> 
 Explore the functionalities of `emulator_plot` and produce a variety of implausibility plots. Here are a few suggestions: set `plot_type` to 'imp' to get implausibility plots or to 'nimp' to display the maximum implausibility plot; use the argument `nth` to obtain the second- or third- maximum implausibility plot; select a subset of all targets to pass to `emulator_plot`; change the value of the argument `fixed_vals` to decide where to slice the parameters that are not shown in the plots. </div></div>
 
-<button id="displayTextunnamed-chunk-30" onclick="javascript:toggle('unnamed-chunk-30');">Show: Solution</button>
+<button id="displayTextunnamed-chunk-29" onclick="javascript:toggle('unnamed-chunk-29');">Show: Solution</button>
 
-<div id="toggleTextunnamed-chunk-30" style="display: none"><div class="panel panel-default"><div class="panel-heading panel-heading1"> Solution </div><div class="panel-body">
+<div id="toggleTextunnamed-chunk-29" style="display: none"><div class="panel panel-default"><div class="panel-heading panel-heading1"> Solution </div><div class="panel-body">
 Let us start by visualising the maximum implausibility passing all emulators to `emulator_plot` and setting `plot_type='nimp'`:
 
 ```r
@@ -613,7 +615,8 @@ We can focus on early times outputs (up to $t=200$), and produce implausibility 
 
 ```r
 restricted_ems <- ems_wave1[c(1,2,3,4,7,8,9,10)]
-emulator_plot(restricted_ems, plot_type = 'imp', targets = targets, params = c('beta1', 'gamma'), cb=T)
+emulator_plot(restricted_ems, plot_type = 'imp', targets = targets, 
+              params = c('beta1', 'gamma'), cb=T)
 ```
 
 <img src="_main_files/figure-html/unnamed-chunk-73-1.png" style="display: block; margin: auto;" />
@@ -623,8 +626,8 @@ Finally let us set the unshown parameters to be as in `chosen_params`:
 ```r
 emulator_plot(restricted_ems, plot_type = 'nimp', targets = targets[c(1,2,3,4,7,8,9,10)], 
               params = c('beta1', 'gamma'), 
-              fixed_vals = chosen_params[!names(chosen_params) %in% c('beta1', 'gamma')], cb=T)+
- geom_point(aes(x=0.214, y=1/14), size=3)
+              fixed_vals = chosen_params[!names(chosen_params) %in% c('beta1', 'gamma')], 
+              cb=T)+geom_point(aes(x=0.214, y=1/14), size=3)
 ```
 
 <img src="_main_files/figure-html/unnamed-chunk-74-1.png" style="display: block; margin: auto;" />
@@ -633,6 +636,8 @@ The plot shows what we expected: when $\beta_1$ and $\gamma$ are equal to their 
 </div></div></div>
 
 # Emulator diagnostics
+
+In this section we explore various diagnostic tests to evaluate the performance of the emulators and we learn how to address emulators that fail one or more of these diagnostics.  
 
 For a given set of emulators, we want to assess how accurately they reflect the model outputs over the input space. For a given validation set, we can ask the following questions:
 
@@ -646,10 +651,10 @@ The function `validation_diagnostics` provides us with three diagnostics, addres
 
 
 ```r
-vd <- validation_diagnostics(ems_wave1$R200, validation = validation, targets = targets)
+vd <- validation_diagnostics(ems_wave1$R200, validation = validation, targets = targets, plt=TRUE)
 ```
 
-<img src="_main_files/figure-html/unnamed-chunk-32-1.png" style="display: block; margin: auto;" />
+<img src="_main_files/figure-html/unnamed-chunk-31-1.png" style="display: block; margin: auto;" />
 
 The first plot shows the emulator outputs plotted against the model outputs. In particular, the emulator expectation is plotted against the model output for each validation point, providing the dots in the graph. The emulator uncertainty at each validation point is shown in the form of a vertical interval that goes from $3\sigma$ below to $3\sigma$ above the emulator expectation, where $\sigma$ is the emulator variance at the considered point. The uncertainty interval can be expressed by the formula: $E[f(x)]\pm 3 \sqrt{Var(f(x)}$. An 'ideal' emulator would exactly reproduce the model results: this behaviour is represented by the green line $f(x)=E[f(x)]$ (this is a diagonal line, visible here only in the bottom left and top right corners). Any parameter set whose emulated prediction lies more than $3\sigma$ away from the model output is highlighted in red. Note that we do not need to have no red points for the test to be passed: since we are plotting $3\sigma$ bounds, statistically speaking it is ok to have up to $5\%$ of validation points in red (see [Pukelsheim's $3\sigma$ rule](https://en.wikipedia.org/wiki/68%E2%80%9395%E2%80%9399.7_rule)). Apart from the number of points failing the diagnostic, it is also worth looking at whether the points that fail the diagnostic do so systematically. For example: are they all overestimates/underestimates of the model output?
 
@@ -671,45 +676,49 @@ Finally, the third column gives the standardised errors of the emulator outputs 
 
 - Is the histogram skewing significantly in one direction or the other? If this is the case, the emulator tends to either overestimate or underestimate the model output.
 
-The diagnostic plot on the left shows very few points in red: this is a good result! The plot in the middle has only one red point, which is promising too. Finally, in the third diagnostic if we consider all standardised errors below $-2$ and above $2$, we clearly get more than $5\%$ of all errors: this is not ideal, since we would like the standardised errors to have $95\%$ of the probability mass within $\pm 2$.
+The first two diagnostics above are clearly passed. In the third diagnostic if we consider all standardised errors below $-2$ and above $2$, we get slightly more than $5\%$ of all errors: this is not particularly bad, but in order to be safe we will try to modify our emulator to make it more conservative.
 
 A way of improving the performance of an emulator is by changing the variance $\sigma^2$ in the Gaussian process $u$:
 $$\sigma^2 \left[(1-\delta) c(x,x^{\prime}) + \delta I_{\{x=x^\prime\}}\right].$$
-The lower the value of $\sigma$, the more 'certain' the emulator will be. This means that when an emulator is a little too overconfident (as in our case above), we can try increasing $\sigma$. Below we train a new emulator setting $\sigma$ to be twice as much as its default value, through the method `mult_sigma`:
+The lower the value of $\sigma$, the more 'certain' the emulator will be. This means that when an emulator is a little too overconfident (as in our case above), we can try increasing $\sigma$. Below we train a new emulator setting $\sigma$ to be 1.1 times as much as its default value, through the method `mult_sigma`:
 
 
 
 ```r
-sigmadoubled_emulator <- ems_wave1$R200$mult_sigma(2)
+sigmadoubled_emulator <- ems_wave1$R200$mult_sigma(1.1)
 vd <- validation_diagnostics(sigmadoubled_emulator, 
-                             validation = validation, targets = targets)
+                             validation = validation, targets = targets, plt=TRUE)
 ```
 
-<img src="_main_files/figure-html/unnamed-chunk-34-1.png" style="display: block; margin: auto;" />
+<img src="_main_files/figure-html/unnamed-chunk-33-1.png" style="display: block; margin: auto;" />
 
 A higher value of $\sigma$ has therefore allowed us to build a more conservative emulator that performs better than before.
 
 
 <div class="panel panel-default"><div class="panel-heading"> Task </div><div class="panel-body"> 
 Explore different values of $\sigma$. What happens for very small/large values of $\sigma$?
-  
-<span class="abbr" title=""><abbr title="If `em` is an emulator, you can change its sigma by a factor x through the following line of code: `ems$mult_sigma(x)`
-">
-R tip</abbr></span> </div></div>
 
-<button id="displayTextunnamed-chunk-36" onclick="javascript:toggle('unnamed-chunk-36');">Show: Solution</button>
+<infobutton id="displayTextunnamed-chunk-75" onclick="javascript:toggle('unnamed-chunk-75');">Show: R tip</infobutton>
 
-<div id="toggleTextunnamed-chunk-36" style="display: none"><div class="panel panel-default"><div class="panel-heading panel-heading1"> Solution </div><div class="panel-body">
+<div id="toggleTextunnamed-chunk-75" style="display: none"><div class="panel panel-default"><div class="panel-body">
+If `em` is an emulator, you can change its sigma by a factor x through the following line of code: `ems$mult_sigma(x)`.
+</div></div></div>
+ </div></div>
+
+<button id="displayTextunnamed-chunk-35" onclick="javascript:toggle('unnamed-chunk-35');">Show: Solution</button>
+
+<div id="toggleTextunnamed-chunk-35" style="display: none"><div class="panel panel-default"><div class="panel-heading panel-heading1"> Solution </div><div class="panel-body">
 
 Let us set $\sigma$ to be ten times smaller than its default value:
   
 
 ```r
 tinysigma_emulator <- ems_wave1$R200$mult_sigma(0.1)
-vd <- validation_diagnostics(tinysigma_emulator, validation = validation, targets = targets)
+vd <- validation_diagnostics(tinysigma_emulator, validation = validation, targets = targets, 
+                             plt=TRUE)
 ```
 
-<img src="_main_files/figure-html/unnamed-chunk-76-1.png" style="display: block; margin: auto;" />
+<img src="_main_files/figure-html/unnamed-chunk-77-1.png" style="display: block; margin: auto;" />
 
 In this case we built a very overconfident emulator. This is shown by the very small uncertainty intervals in the first column: as a consequence many points are in red. Similarly, if we look at the third column we notice that the standardised errors are extremely large, well beyond the value of $2$. 
 
@@ -718,10 +727,11 @@ Let us now set $\sigma$ to be ten times larger than its default value:
 
 ```r
 hugesigma_emulator <- ems_wave1$R200$mult_sigma(10)
-vd <- validation_diagnostics(hugesigma_emulator, validation = validation, targets = targets)
+vd <- validation_diagnostics(hugesigma_emulator, validation = validation, targets = targets,
+                             plt=TRUE)
 ```
 
-<img src="_main_files/figure-html/unnamed-chunk-78-1.png" style="display: block; margin: auto;" />
+<img src="_main_files/figure-html/unnamed-chunk-79-1.png" style="display: block; margin: auto;" />
 
 With this choice of $\sigma$, we see that our emulator is extremely cautious. If we look at the plot in the middle, we see that now a lot of points in the validation set have an implausibility less or equal to $3$. This implies that this emulator will reduce the input space slowly. As explained above, having consistent very small standardised errors is not positive: it implies that, even though we trained a regression hypersurface in order to catch the global behaviour of the output, the sigma is so large that the emulator is being dominated by the correlation structure. This means at best that we will have to do many more waves of history matching than are necessary, and at worst that our emulators won’t be able to reduce the non-implausible parameter space.
 
@@ -730,13 +740,15 @@ The above exploration highlights the importance of finding a value of $\sigma$ t
 
 # Proposing new points
 
+In this section we generate the set of points that will be used to train the second wave of emulators. Through visualisations offered by HMER, we then explore these points and assess how much of the initial input space has been removed by the first wave of emulators.
+
 The function `generate_new_runs` is designed to generate new sets of parameters; its default behaviour is as follows.
 
 STEP 1. If  prior parameter sets are provided, step 1 is skipped, otherwise a set is generated using a [Latin Hypercube Design](https://en.wikipedia.org/wiki/Latin_hypercube_sampling), rejecting implausible parameter sets. Figure \@ref(fig:lhsamp) shows an example of LH sampling (not for our model), with implausible parameter sets in red and non-implausible ones in blue:
 
 <div class="figure" style="text-align: center">
 <img src="LHSamp.png" alt="LH sampling" width="75%" />
-<p class="caption">(\#fig:lshamp)LH sampling</p>
+<p class="caption">(\#fig:lhsamp)LH sampling</p>
 </div>
 
 STEP 2. Pairs of parameter sets are selected at random and more sets are sampled from lines connecting them, with particular importance given to those that are close to the non-implausible boundary. Figure \@ref(fig:linesamp) shows line sampling on top of the previously shown LH sampling: non-implausible parameter sets provided by LH sampling are in grey, parameter sets proposed by line sampling are in red if implausbile and in blue if non-implausible.
@@ -757,7 +769,7 @@ The combination of the three steps above brings to the following final design of
 
 <div class="figure" style="text-align: center">
 <img src="FinalSamp.png" alt="Overall design of new non-implausible parameter sets"  />
-<p class="caption">(\#fig:unnamed-chunk-37)Overall design of new non-implausible parameter sets</p>
+<p class="caption">(\#fig:unnamed-chunk-36)Overall design of new non-implausible parameter sets</p>
 </div>
 
 Let us generate $180$ new sets of parameters, using the emulators for the time up to $t=200$. Note that the generation of new points might require a few minutes.
@@ -769,23 +781,16 @@ new_points_restricted <- generate_new_runs(restricted_ems, 180, targets, verbose
 
 ```
 ## [1] "Performing Latin Hypercube sampling..."
-## [1] "Proposing at implausibility I=3.5"
-## [1] "47 points generated from LHS at I=3.5"
+## [1] "73 points generated from LHS at I=3"
 ## [1] "Performing line sampling..."
-## [1] "Line sampling generated 9 more points."
+## [1] "Line sampling generated 30 more points."
 ## [1] "Performing importance sampling..."
-## [1] "Importance sampling generated 207 more points."
-## [1] "Selecting final points using maximin criterion..."
-## [1] "128 points generated from LHS at I=3"
-## [1] "Performing line sampling..."
-## [1] "Line sampling generated 13 more points."
-## [1] "Performing importance sampling..."
-## [1] "Importance sampling generated 47 more points."
+## [1] "Importance sampling generated 83 more points."
 ## [1] "Selecting final points using maximin criterion..."
 ## [1] "Resampling: Performing line sampling..."
-## [1] "Line sampling generated 18 more points."
+## [1] "Line sampling generated 26 more points."
 ## [1] "Resampling: Performing importance sampling..."
-## [1] "Importance sampling generated 78 more points."
+## [1] "Importance sampling generated 97 more points."
 ## [1] "Selecting final points using maximin criterion..."
 ```
 
@@ -797,16 +802,26 @@ the plot shows the entire range for each parameter: this allows us to see how th
 plot_wrap(new_points_restricted, ranges)
 ```
 
-<img src="_main_files/figure-html/unnamed-chunk-39-1.png" style="display: block; margin: auto;" />
+<img src="_main_files/figure-html/unnamed-chunk-38-1.png" style="display: block; margin: auto;" />
      
-By looking at the plot we can learn a lot about the non-implausible space. For example, it seems clear that low values of $\gamma$ cannot produce a match (cf. fourth column). We can also deduce relationships between parameters: $\beta_1$ and $\sigma$ are an example of negatively-correlated parameters. If $\beta_1$ is large then $\sigma$ needs to be small, and vice versa.
+By looking at the plot we can learn a lot about the non-implausible space. For example, it seems clear that low values of $\gamma$ cannot produce a match (cf. penultimate column). We can also deduce relationships between parameters: $\beta_1$ and $\sigma$ are an example of negatively-correlated parameters. If $\beta_1$ is large then $\sigma$ needs to be small, and vice versa.
+
+Now that we have generated a new set of points, we can compare the model output at points in `wave0` 
+
+<img src="wave0SEIReval.png" width="75%" style="display: block; margin: auto;" />
+
+with the model output at points in `new_points_restricted`
+
+<img src="wave1SEIReval.png" width="75%" style="display: block; margin: auto;" />
+
+We can clearly see that the range of possible results obtained when evaluating the model at `wave0` points is larger than the range obtained when evaluating the model at points in `new_points_restricted`. This is because we have performed a wave of the history matching process, discarding part of the initial input space that is not compatible with the targets.  
 
 <div class="panel panel-default"><div class="panel-heading"> Task </div><div class="panel-body"> 
 What do you think would happen if we tried generating new parameter sets using all emulators, instead of those relating to times up to $t=200$ only? Try changing the code and seeing what happens. </div></div>
 
-<button id="displayTextunnamed-chunk-41" onclick="javascript:toggle('unnamed-chunk-41');">Show: Solution</button>
+<button id="displayTextunnamed-chunk-42" onclick="javascript:toggle('unnamed-chunk-42');">Show: Solution</button>
 
-<div id="toggleTextunnamed-chunk-41" style="display: none"><div class="panel panel-default"><div class="panel-heading panel-heading1"> Solution </div><div class="panel-body">
+<div id="toggleTextunnamed-chunk-42" style="display: none"><div class="panel panel-default"><div class="panel-heading panel-heading1"> Solution </div><div class="panel-body">
 We expect that using all emulators (instead of just a subset of them) will make the non-implausible space smaller than before, since more conditions will have to be met.  Let us check if our intuition corresponds to what the plots show:
   
 
@@ -816,23 +831,16 @@ new_points <- generate_new_runs(ems_wave1, 180, targets, verbose = TRUE)
 
 ```
 ## [1] "Performing Latin Hypercube sampling..."
-## [1] "Proposing at implausibility I=4"
-## [1] "52 points generated from LHS at I=4"
+## [1] "45 points generated from LHS at I=3"
 ## [1] "Performing line sampling..."
-## [1] "Line sampling generated 24 more points."
+## [1] "Line sampling generated 29 more points."
 ## [1] "Performing importance sampling..."
-## [1] "Importance sampling generated 216 more points."
-## [1] "Selecting final points using maximin criterion..."
-## [1] "64 points generated from LHS at I=3"
-## [1] "Performing line sampling..."
-## [1] "Line sampling generated 17 more points."
-## [1] "Performing importance sampling..."
-## [1] "Importance sampling generated 233 more points."
+## [1] "Importance sampling generated 122 more points."
 ## [1] "Selecting final points using maximin criterion..."
 ## [1] "Resampling: Performing line sampling..."
-## [1] "Line sampling generated 24 more points."
+## [1] "Line sampling generated 38 more points."
 ## [1] "Resampling: Performing importance sampling..."
-## [1] "Importance sampling generated 161 more points."
+## [1] "Importance sampling generated 59 more points."
 ## [1] "Selecting final points using maximin criterion..."
 ```
 
@@ -856,43 +864,45 @@ space_removed(ems_wave1, targets, ppd=3) + geom_vline(xintercept = 3, lty = 2) +
 ## Warning: Ignoring unknown parameters: text
 ```
 
-<img src="_main_files/figure-html/unnamed-chunk-42-1.png" style="display: block; margin: auto;" />
+<img src="_main_files/figure-html/unnamed-chunk-43-1.png" style="display: block; margin: auto;" />
 
-By default the plot shows the percentage of space that is deemed implausible both when the observational errors are exactly the ones in `targets` and when the observational errors are $80\%$ (resp. $90\%$, $110\%$ and $120\%$)  of the values in `targets`. Here we see that with an implausibility cut-off of $3$, the percentage of space removed is around $99\%$. If we use a cut-off of $5\%$ instead, then we would discard around $93\%$ (resp. $90\%$) of the space with the observational errors provided by `targets` (resp. with observational errors equal to $120\%$ of the values in `targets`). As expected, larger observational errors correspond to lower percentages of space removed.
+By default the plot shows the percentage of space that is deemed implausible both when the observational errors are exactly the ones in `targets` and when the observational errors are $80\%$ (resp. $90\%$, $110\%$ and $120\%$)  of the values in `targets`. Here we see that with an implausibility cut-off of $3$, the percentage of space removed is around $98\%$. If we use a cut-off of $5\%$ instead, then we would discard around $86\%$ (resp. $81\%$) of the space with the observational errors provided by `targets` (resp. with observational errors equal to $120\%$ of the values in `targets`). As expected, larger observational errors correspond to lower percentages of space removed.
 
 # Customise the first wave
+
+This section consists of just one task: it is time to put all you have learnt so far to good use!
 
 <div class="panel panel-default"><div class="panel-heading"> Task </div><div class="panel-body"> 
 Now that we have learnt how to customise the various steps of the process, try to improve the performance of the first wave of emulation and history matching. First, have a look at the emulator diagnostics and see if you can improve the performance of the emulators. Then generate new points using your improved emulators, and compare them to those shown in the task at the end of last section.  </div></div>
 
-<button id="displayTextunnamed-chunk-44" onclick="javascript:toggle('unnamed-chunk-44');">Show: Solution</button>
+<button id="displayTextunnamed-chunk-45" onclick="javascript:toggle('unnamed-chunk-45');">Show: Solution</button>
 
-<div id="toggleTextunnamed-chunk-44" style="display: none"><div class="panel panel-default"><div class="panel-heading panel-heading1"> Solution </div><div class="panel-body">
+<div id="toggleTextunnamed-chunk-45" style="display: none"><div class="panel panel-default"><div class="panel-heading panel-heading1"> Solution </div><div class="panel-body">
 First of all let us take a look at the diagnostics of all the emulators trained in wave 1:
   
 
 ```r
-vd <- validation_diagnostics(ems_wave1, validation = validation, targets = targets)
+vd <- validation_diagnostics(ems_wave1, validation = validation, targets = targets, plt=TRUE)
 ```
 
-<img src="_main_files/figure-html/unnamed-chunk-79-1.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-79-2.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-79-3.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-79-4.png" style="display: block; margin: auto;" />
+<img src="_main_files/figure-html/unnamed-chunk-80-1.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-80-2.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-80-3.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-80-4.png" style="display: block; margin: auto;" />
 
-All emulators seem to have more than $5\%$ of the probability mass for the standardised errors outside $[-2,2]$. We would then benefit from having slightly more conservative emulators, which we can obtain by increasing $\sigma$. After some trial and error, we chose the following values of sigma for our emulators:
+Almost all emulators seem to have more than $5\%$ of the probability mass for the standardised errors outside $[-2,2]$. We would then benefit from having slightly more conservative emulators, which we can obtain by increasing $\sigma$. After some trial and error, we chose the following values of sigma for our emulators:
 
 ```r
-inflations <- c(4,2,4,2,2,2,2,4,4,2,2,4)
+inflations <- c(1.5,1.5,2,1.5,2,1.5,2,1.5,1,1.3,2,2)
 for (i in 1:length(ems_wave1)) {
   ems_wave1[[i]] <- ems_wave1[[i]]$mult_sigma(inflations[[i]])
 }
 ```
 
 ```r
-vd <- validation_diagnostics(ems_wave1, validation = validation, targets = targets)
+vd <- validation_diagnostics(ems_wave1, validation = validation, targets = targets, plt=TRUE)
 ```
 
-<img src="_main_files/figure-html/unnamed-chunk-81-1.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-81-2.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-81-3.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-81-4.png" style="display: block; margin: auto;" />
+<img src="_main_files/figure-html/unnamed-chunk-82-1.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-82-2.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-82-3.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-82-4.png" style="display: block; margin: auto;" />
 
-The diagnostics look good now. We are then ready to generate new points with our improved emulators:
+The diagnostics look good now. Note that a high increase in sigma, which is sometimes needed to pass diagnostics, may end up producing an emulator that cuts (almost) no space out. This can be checked by looking at the middle diagnostic: if (almost) no validation point has implausiblity above three, then it is advisable not to include the emulator when generating new points. This will avoid adding unnecessary calculations and will not affect the amount of space cut out at that wave. In our specific case, all emulators are contributing to shrinking the space down, so we will include all of them when generating new points:
 
 ```r
 new_points <- generate_new_runs(ems_wave1, 180, targets, verbose = TRUE)
@@ -900,16 +910,16 @@ new_points <- generate_new_runs(ems_wave1, 180, targets, verbose = TRUE)
 
 ```
 ## [1] "Performing Latin Hypercube sampling..."
-## [1] "75 points generated from LHS at I=3"
+## [1] "123 points generated from LHS at I=3"
 ## [1] "Performing line sampling..."
-## [1] "Line sampling generated 19 more points."
+## [1] "Line sampling generated 26 more points."
 ## [1] "Performing importance sampling..."
-## [1] "Importance sampling generated 194 more points."
+## [1] "Importance sampling generated 50 more points."
 ## [1] "Selecting final points using maximin criterion..."
 ## [1] "Resampling: Performing line sampling..."
-## [1] "Line sampling generated 16 more points."
+## [1] "Line sampling generated 31 more points."
 ## [1] "Resampling: Performing importance sampling..."
-## [1] "Importance sampling generated 87 more points."
+## [1] "Importance sampling generated 96 more points."
 ## [1] "Selecting final points using maximin criterion..."
 ```
 
@@ -917,11 +927,12 @@ new_points <- generate_new_runs(ems_wave1, 180, targets, verbose = TRUE)
 plot_wrap(new_points, ranges)
 ```
 
-<img src="_main_files/figure-html/unnamed-chunk-82-1.png" style="display: block; margin: auto;" />
+<img src="_main_files/figure-html/unnamed-chunk-83-1.png" style="display: block; margin: auto;" />
 
 If we compare the parameter sets we just generated with those generated using non-customised emulators, we note that the space has now been reduced less than before. This happened because our customisation helped us to build more conservative emulators, decreasing the risk of rejecting good parts of the input space. Building emulators carefully ensures that we end up with a set of points that are truly representative of the set of all points that fit the data (rather than a subset of it).</div></div></div>
 
 # Second wave
+In this section we move to the second wave of emulation. We will start by defining all the data necessary to train the second wave of emulators. We will then go through the same steps as in the previous section to train the emulators, test them and generate new points. We conclude the section with a short discussion on when and how to customise the value of the correlation lengths.
 
 To perform a second wave of history matching and emulation we follow the same procedure as in the previous sections, with two caveats. We start by forming a dataframe `wave1` using parameters sets in `new_points`, as we did with `wave0`, i.e. we evaluate the function `get_results` on `new_points` and then bind the obtained outputs to `new_points`. Half of `wave1` should be used as the training set for the new emulators, and the other half as the validation set to evaluate the new emulators' performance. Note that when dealing with computationally expensive models, using the same number of points for the training and validation sets may not feasible. If $p$ is the number of parameters, a good rule of thumb is to build a training set with at least $10p$ points, and a validation set with at least $p$ points. 
 
@@ -959,14 +970,15 @@ In the task below, you can have a go at wave 2 of the emulation and history matc
 <div class="panel panel-default"><div class="panel-heading"> Task </div><div class="panel-body"> 
 Using `new_points` and `new_ranges`, train new emulators. Customise them and generate new parameter sets. </div></div>
 
-<button id="displayTextunnamed-chunk-47" onclick="javascript:toggle('unnamed-chunk-47');">Show: Solution</button>
+<button id="displayTextunnamed-chunk-48" onclick="javascript:toggle('unnamed-chunk-48');">Show: Solution</button>
 
-<div id="toggleTextunnamed-chunk-47" style="display: none"><div class="panel panel-default"><div class="panel-heading panel-heading1"> Solution </div><div class="panel-body">
+<div id="toggleTextunnamed-chunk-48" style="display: none"><div class="panel panel-default"><div class="panel-heading panel-heading1"> Solution </div><div class="panel-body">
 We start by evaluating the function `get_results` on `new_points`. In other words, we run the model using the parameter sets we generated at the end of wave 1:
 
 ```r
 new_initial_results <- setNames(data.frame(t(apply(new_points, 1, get_results, 
-                                               c(25, 40, 100, 200, 300, 350), c('I', 'R')))), names(targets))
+                                               c(25, 40, 100, 200, 300, 350), c('I', 'R')))), 
+                                names(targets))
 ```
 
 and then binding `new_points` to the model runs `new_initial_results` to create the data.frame `wave1`, containing the input parameter sets and model outputs:
@@ -987,28 +999,30 @@ new_validation <- wave1[-new_t_sample,]
 and train wave two emulators on the space defined by `new_ranges`: 
 
 ```r
-ems_wave2 <- emulator_from_data(new_training, names(targets), new_ranges)
+ems_wave2 <- emulator_from_data(new_training, names(targets), new_ranges, 
+                                c_lengths= rep(0.55,length(targets)))
 ```
 Let us check their diagnostics:
   
 
 ```r
-vd <- validation_diagnostics(ems_wave2, validation = new_validation, targets = targets)
-```
-
-<img src="_main_files/figure-html/unnamed-chunk-87-1.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-87-2.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-87-3.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-87-4.png" style="display: block; margin: auto;" />
- 
-All emulators fail at least one of the three dagnostics and most of them fail the first and third diagnostics quite badly. Let us modify the sigmas in order to build more conservative emulators that pass the three diagnostics. After some trial and error, we chose the following values of sigma for our emulators:
-
-```r
-inflations <- c(4,6,4,4,4,2,4,4,4,4,4,4)
-for (i in 1:length(ems_wave2)) {
-ems_wave2[[i]] <- ems_wave2[[i]]$mult_sigma(inflations[[i]])
-}
-vd <- validation_diagnostics(ems_wave2, validation =  new_validation, targets = targets)
+vd <- validation_diagnostics(ems_wave2, validation = new_validation, targets = targets, 
+                             plt=TRUE)
 ```
 
 <img src="_main_files/figure-html/unnamed-chunk-88-1.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-88-2.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-88-3.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-88-4.png" style="display: block; margin: auto;" />
+ 
+Most emulators fail at least one of the three dagnostics. Let us modify the sigmas in order to build more conservative emulators that pass the three diagnostics. After some trial and error, we chose the following values of sigma for our emulators:
+
+```r
+inflations <- c(2,1,2,2,2,2,2,2,2,1,2,2)
+for (i in 1:length(ems_wave2)) {
+ems_wave2[[i]] <- ems_wave2[[i]]$mult_sigma(inflations[[i]])
+}
+vd <- validation_diagnostics(ems_wave2, validation =  new_validation, targets = targets, plt=TRUE)
+```
+
+<img src="_main_files/figure-html/unnamed-chunk-89-1.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-89-2.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-89-3.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-89-4.png" style="display: block; margin: auto;" />
 
 The diagnostics look ok now. Let us try to generate new parameter sets using all emulators build so far:
   
@@ -1019,23 +1033,16 @@ new_new_points <- generate_new_runs(c(ems_wave2, ems_wave1), 180, targets, verbo
 
 ```
 ## [1] "Performing Latin Hypercube sampling..."
-## [1] "Proposing at implausibility I=4"
-## [1] "52 points generated from LHS at I=4"
+## [1] "47 points generated from LHS at I=3"
 ## [1] "Performing line sampling..."
-## [1] "Line sampling generated 21 more points."
+## [1] "Line sampling generated 24 more points."
 ## [1] "Performing importance sampling..."
-## [1] "Importance sampling generated 223 more points."
-## [1] "Selecting final points using maximin criterion..."
-## [1] "68 points generated from LHS at I=3"
-## [1] "Performing line sampling..."
-## [1] "Line sampling generated 28 more points."
-## [1] "Performing importance sampling..."
-## [1] "Importance sampling generated 90 more points."
+## [1] "Importance sampling generated 122 more points."
 ## [1] "Selecting final points using maximin criterion..."
 ## [1] "Resampling: Performing line sampling..."
-## [1] "Line sampling generated 23 more points."
+## [1] "Line sampling generated 22 more points."
 ## [1] "Resampling: Performing importance sampling..."
-## [1] "Importance sampling generated 75 more points."
+## [1] "Importance sampling generated 112 more points."
 ## [1] "Selecting final points using maximin criterion..."
 ```
 
@@ -1043,7 +1050,7 @@ new_new_points <- generate_new_runs(c(ems_wave2, ems_wave1), 180, targets, verbo
 plot_wrap(new_new_points, ranges)
 ```
 
-<img src="_main_files/figure-html/unnamed-chunk-89-1.png" style="display: block; margin: auto;" />
+<img src="_main_files/figure-html/unnamed-chunk-90-1.png" style="display: block; margin: auto;" />
 
 This worked well: the new non-implausible region is clearly smaller than the one we had at the end of wave one. In the next section we will show how to make visualisations to direcly compare the non-implausible space at the end of different waves of the process.
 </div></div></div>
@@ -1062,21 +1069,22 @@ unlist(R_squared_new)
 
 ```
 ##       I25       I40      I100      I200      I300      I350       R25       R40 
-## 0.9998347 0.9993282 0.9988811 0.9940101 0.9950220 0.9310200 0.9999403 0.9997465 
+## 0.9945087 0.9939567 0.9799046 0.9399469 0.9456154 0.7993445 0.9954155 0.9938812 
 ##      R100      R200      R300      R350 
-## 0.9992135 0.9996098 0.9844951 0.9942361
+## 0.9744998 0.9771114 0.9611846 0.9409741
 ```
 
 All $R^2$ values are very high, meaning that the regression term is contributing far more than the residuals. As all of the emulators we have seen so far have had high $R^2$ values, we have not discussed the customisation of $\theta$. We now want to briefly comment on what happens when instead the $R^2$ are lower and the residuals play a more substantial role. In such cases, the extent to which residuals at different parameter sets are correlated is a key ingredient in the training of emulators, since it determines how informative the model outputs at training parameter sets are. For example, if residuals are highly correlated even at parameter sets that are far away from each other, then knowing the model output at a given parameter set gives us information about a wide region around it. This results in rather confident emulators, which cut a lot of space out. If instead residuals are correlated only for parameter sets that are close to each other, then knowing the model output at a given parameter set gives us information about a small region around it. This creates more uncertain emulators, which can rule out a lot of input parameter space. It is then clear that when we don't have very high $R^2$ values, we can use $\theta$ to increase or decrease the amount  of space cut out by emulators. 
 
-In practice, the default value of $\theta$ is chosen very carefully by the HoMER package, and most users calibrating deterministic models will not have to vary the value of $\theta$ for most of their emulators. If, however, you find that the non-implausible space is shrinking very slowly, particularly in later waves (see section 9 for details of how to check this), then the value of $\theta$ may be too conservative. If this occurs, then you can increase the $\theta$ of the emulators to increase the rate at which space is reduced. You should only do this if you are confident that your outputs are smooth enough to justify the choice of $\theta$ however, or you risk the emulators incorrectly excluding space when model fits could be found. We discuss the choice of $\theta$ further in workshop on calibrating stochastic models.
+In practice, if you do not pass a value for it, $\theta$ is chosen very carefully by the HMER package, and most users calibrating deterministic models will not have to vary the value of $\theta$ for most of their emulators. If, however, you find that the non-implausible space is shrinking very slowly, particularly in later waves (see section 9 for details of how to check this), then the value of $\theta$ may be too conservative. If this occurs, then you can increase the $\theta$ of the emulators to increase the rate at which space is reduced. You should only do this if you are confident that your outputs are smooth enough to justify the choice of $\theta$ however, or you risk the emulators incorrectly excluding space when model fits could be found. We discuss the choice of $\theta$ further in our workshop on calibrating stochastic models.
 
 To see all this in practice, we train new wave one emulators, assuming a linear regression term by setting `quadratic=FALSE`: 
 
 
 ```r
  ems_wave1_linear <- emulator_from_data(training, names(targets), 
-                                        ranges, quadratic=FALSE)
+                                        ranges, quadratic=FALSE, 
+                                        c_lengths= rep(0.55,length(targets)))
  R_squared_linear <- list()
  for (i in 1:length(ems_wave1_linear)) {
    R_squared_linear[[i]] <- summary(ems_wave1_linear[[i]]$model)$adj.r.squared
@@ -1092,7 +1100,7 @@ To see all this in practice, we train new wave one emulators, assuming a linear 
 ## 0.9310675 0.9645519 0.8112647 0.8390023
 ```
  
-By forcing the regression hypersurface to be linear, we obtain emulators where the global term is not sufficient to explain the model output on its own. As a rough guide, $R^2$ values of below $0.9$ indicate that the residuals are playing an important role. Let us see what happens if we plot the variance and the implausibility for the linear $I200$ emulator before and after increasing its $\theta$ by a factor of $3$:
+By forcing the regression hypersurface to be linear, we obtain emulators where the global term is not always sufficient to explain the model output on its own. As a rough guide, $R^2$ values of below $0.9$ indicate that the residuals are playing an important role. Let us see what happens if we plot the variance and the implausibility for the linear $I200$ emulator before and after increasing its $\theta$ by a factor of $3$:
    
 
 ```r
@@ -1100,7 +1108,7 @@ By forcing the regression hypersurface to be linear, we obtain emulators where t
                params = c('beta1', 'gamma'))
 ```
 
-<img src="_main_files/figure-html/unnamed-chunk-50-1.png" style="display: block; margin: auto;" />
+<img src="_main_files/figure-html/unnamed-chunk-51-1.png" style="display: block; margin: auto;" />
 
 
 ```r
@@ -1108,7 +1116,7 @@ emulator_plot(ems_wave1_linear$I200, plot_type = 'imp', targets = targets,
               params = c('beta1', 'gamma'), cb=TRUE)
 ```
 
-<img src="_main_files/figure-html/unnamed-chunk-51-1.png" style="display: block; margin: auto;" />
+<img src="_main_files/figure-html/unnamed-chunk-52-1.png" style="display: block; margin: auto;" />
  
 
 ```r
@@ -1118,7 +1126,7 @@ emulator_plot(ems_wave1_linear$I200, plot_type = 'var',
               params = c('beta1', 'gamma'))
 ```
 
-<img src="_main_files/figure-html/unnamed-chunk-52-1.png" style="display: block; margin: auto;" />
+<img src="_main_files/figure-html/unnamed-chunk-53-1.png" style="display: block; margin: auto;" />
 
 
 ```r
@@ -1126,12 +1134,12 @@ emulator_plot(ems_wave1_linear$I200, plot_type = 'imp', targets = targets,
               params = c('beta1', 'gamma'), cb=TRUE)
 ```
 
-<img src="_main_files/figure-html/unnamed-chunk-53-1.png" style="display: block; margin: auto;" />
+<img src="_main_files/figure-html/unnamed-chunk-54-1.png" style="display: block; margin: auto;" />
 
 First of all, the blue-purple area in the variance plot becomes larger after $\theta$ increased: this shows that a higher $\theta$ results in the model output at training points influencing a wider region around itself. Second, we see that a higher $\theta$ 
 causes the implausibility measure to have higher values: as a consequence, more space will be ruled out as implausible.
 
-# Multi-wave visualisations
+# Visualisations of non-implausible space by wave
 
 In this last section we present two visualisations that can be used to compare the non-implausible space identified at different waves of the process.
 
@@ -1142,7 +1150,7 @@ The first visualisation, obtained through the function `wave_points`, shows the 
 wave_points(list(initial_points, new_points, new_new_points), input_names = names(ranges))
 ```
 
-<img src="_main_files/figure-html/unnamed-chunk-54-1.png" style="display: block; margin: auto;" />
+<img src="_main_files/figure-html/unnamed-chunk-55-1.png" style="display: block; margin: auto;" />
 
 Here `initial_points` are in yellow, `new_points` are in green and `new_new_points` are in purple. The plots in the main diagonal show the distribution of each parameter singularly: we can easily see that the distributions tend to become more and more narrow wave after wave. In the off-diagonal boxes we have plots for all possible pairs of parameters. Again, the non-implausible region identified at the end of each wave clearly becomes smaller and smaller.
 
@@ -1165,46 +1173,29 @@ all_points <- list(wave0, wave1, wave2)
 simulator_plot(all_points, targets)
 ```
 
-<img src="_main_files/figure-html/unnamed-chunk-56-1.png" style="display: block; margin: auto;" />
+<img src="_main_files/figure-html/unnamed-chunk-57-1.png" style="display: block; margin: auto;" />
 
-We can see that, compared to the space-filling random parameter sets used to train the first emulators, the new parameter sets are in much closer agreement with our targets. While the `initial_points` did not match any of the targets, we can see that at the end of wave two, we have several targets matched (I25, I40, R25, R40, R100, R200). Subsequent waves, trained on the new parameter sets, will be more confident in the new non-implausible region: this will allow them to refine the region and increase the number of targets met.
+We can see that, compared to the space-filling random parameter sets used to train the first emulators, the new parameter sets are in much closer agreement with our targets. While the `initial_points` did not match any of the targets, we can see that at the end of wave two, we have several targets matched (I25, R25, R40, R100, R200). Subsequent waves, trained on the new parameter sets, will be more confident in the new non-implausible region: this will allow them to refine the region and increase the number of targets met.
 
 <div class="panel panel-default"><div class="panel-heading"> Task </div><div class="panel-body"> 
 In the plot above, some targets are easier to read than others: this is due to the targets having quite different values and ranges. To help with this, `simulator_plot` has the argument `normalize`, which can be set to `TRUE` to rescale the target bounds in the plot. Similarly, the argument `logscale` can be used to plot log-scaled target bounds. Explore these options and get visualisations that are easier to interpret. </div></div>
 
-<button id="displayTextunnamed-chunk-58" onclick="javascript:toggle('unnamed-chunk-58');">Show: Solution</button>
+<button id="displayTextunnamed-chunk-59" onclick="javascript:toggle('unnamed-chunk-59');">Show: Solution</button>
 
-<div id="toggleTextunnamed-chunk-58" style="display: none"><div class="panel panel-default"><div class="panel-heading panel-heading1"> Solution </div><div class="panel-body">
+<div id="toggleTextunnamed-chunk-59" style="display: none"><div class="panel panel-default"><div class="panel-heading panel-heading1"> Solution </div><div class="panel-body">
 
 ```r
 simulator_plot(all_points, targets, normalize = TRUE)
 ```
 
-<img src="_main_files/figure-html/unnamed-chunk-90-1.png" style="display: block; margin: auto;" />
+<img src="_main_files/figure-html/unnamed-chunk-91-1.png" style="display: block; margin: auto;" />
 
 ```r
 simulator_plot(all_points, targets, logscale = TRUE)
 ```
 
-<img src="_main_files/figure-html/unnamed-chunk-90-2.png" style="display: block; margin: auto;" />
+<img src="_main_files/figure-html/unnamed-chunk-91-2.png" style="display: block; margin: auto;" />
 These normalised/logscaled plots allow us to investigate better targets such as I200: it is now clear that this is not matched yet, even at the end of wave two. </div></div></div>
-
-
-
-<!--
-# TJ material
-
-
-
-```
-rmd_files:
-    html: ['index.Rmd', 'ch1.Rmd']
-    latex: ['index.Rmd', 'ch1.Rmd', 'ch_appendix.Rmd']
-output_dir: "docs"
-```
-
-
--->
 
 <!--chapter:end:index.Rmd-->
 
