@@ -1,0 +1,86 @@
+/* set main colours */
+:root {
+    --taskCol: #404040;
+    --taskCol1: #808080;
+    --taskCol2: #b2b2b2;
+    --infoCol: #1C668F;
+    --fsize: medium;
+}
+
+button {
+    background-color: var(--taskCol1);
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+infobutton {
+    background-color: var(--infoCol);
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.panel-default > .panel-heading {
+    background-image: none;
+    background-color: var(--taskCol);
+    color: white;
+    border-color: var(--taskCol);
+}
+
+.panel-default > .panel-heading1 {
+    background-image: none;
+    background-color: var(--taskCol1);
+    color: white;
+    border-color: var(--taskCol1);
+}
+
+.panel-default > .panel-heading2 {
+    background-image: none;
+    background-color: var(--infoCol);
+    color: white;
+    border-color: var(--infoCol);
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+    background-color: var(--taskCol2);
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: var(--taskCol1);
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: var(--taskCol1);
+}
+
+blockquote{
+  margin: 20px 0;
+  padding-left: 1.5rem;
+  font-size: 1em;
+  border-left: 5px solid var(--taskCol) !important; /* Just change the color value and that's it*/
+}
+
+pre {
+  font-size: 1em;
+}
+div.resize > * {
+  font-size: var(--fsize);
+}
