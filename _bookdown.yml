@@ -1,4 +1,0 @@
-rmd_files:
-    html: ['index.Rmd']
-    latex: ['index.Rmd', 'ch_appendix.Rmd']
-output_dir: "docs"

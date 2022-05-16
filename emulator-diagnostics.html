@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>6 Emulator diagnostics | Workshop 1: calibrating a deterministic model</title>
+  <meta name="description" content="An interactive introduction to the hmer package" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="6 Emulator diagnostics | Workshop 1: calibrating a deterministic model" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="An interactive introduction to the hmer package" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="6 Emulator diagnostics | Workshop 1: calibrating a deterministic model" />
+  
+  <meta name="twitter:description" content="An interactive introduction to the hmer package" />
+  
+
+<meta name="author" content="Danny Scarponi, Andy Iskauskas" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="implausibility.html"/>
+<link rel="next" href="proposing-new-points.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script language="javascript"> 
+    function toggle(id) {
+        var ele = document.getElementById("toggleText" + id);
+        var text = document.getElementById("displayText" + id);
+        var buttonText = text.innerHTML.replace("Show: ", "");
+        buttonText = buttonText.replace("Hide: ", "");
+        if(ele.style.display == "block") {
+            ele.style.display = "none";
+            text.innerHTML = "Show: " + buttonText;
+        } else {
+            ele.style.display = "block";
+            text.innerHTML = "Hide: " + buttonText;
+        }
+    } 
+</script>
+
+<script language="javascript">
+    function openCode(evt, codeName, id) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent" + id);
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks" + id);
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(codeName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+</script>
+
+<script language="javascript">
+    function hide(id){
+        document.getElementById(id).style.display = "none";
+    }
+</script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Objectives</a></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction to the model</a></li>
+<li class="chapter" data-level="3" data-path="wave0---parameter-ranges-targets-and-design-points.html"><a href="wave0---parameter-ranges-targets-and-design-points.html"><i class="fa fa-check"></i><b>3</b> ‘wave0’ - parameter ranges, targets and design points</a></li>
+<li class="chapter" data-level="4" data-path="constr.html"><a href="constr.html"><i class="fa fa-check"></i><b>4</b> Emulators</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="constr.html"><a href="constr.html#a-brief-recap-on-emulators"><i class="fa fa-check"></i><b>4.1</b> A brief recap on emulators</a></li>
+<li class="chapter" data-level="4.2" data-path="constr.html"><a href="constr.html#training-emulators"><i class="fa fa-check"></i><b>4.2</b> Training emulators</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="implausibility.html"><a href="implausibility.html"><i class="fa fa-check"></i><b>5</b> Implausibility</a></li>
+<li class="chapter" data-level="6" data-path="emulator-diagnostics.html"><a href="emulator-diagnostics.html"><i class="fa fa-check"></i><b>6</b> Emulator diagnostics</a></li>
+<li class="chapter" data-level="7" data-path="proposing-new-points.html"><a href="proposing-new-points.html"><i class="fa fa-check"></i><b>7</b> Proposing new points</a></li>
+<li class="chapter" data-level="8" data-path="customise-the-first-wave.html"><a href="customise-the-first-wave.html"><i class="fa fa-check"></i><b>8</b> Customise the first wave</a></li>
+<li class="chapter" data-level="9" data-path="second-wave.html"><a href="second-wave.html"><i class="fa fa-check"></i><b>9</b> Second wave</a></li>
+<li class="chapter" data-level="10" data-path="visual.html"><a href="visual.html"><i class="fa fa-check"></i><b>10</b> Visualisations of non-implausible space by wave</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Workshop 1: calibrating a deterministic model</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="emulator-diagnostics" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Emulator diagnostics</h1>
+<p>In this section we explore various diagnostic tests to evaluate the performance of the emulators and we learn how to address emulators that fail one or more of these diagnostics.</p>
+<p>For a given set of emulators, we want to assess how accurately they reflect the model outputs over the input space. For a given validation set, we can ask the following questions:</p>
+<ul>
+<li><p>Within uncertainties, does the emulator output accurately represent the equivalent model output?</p></li>
+<li><p>Does the emulator adequately classify parameter sets as implausible or non-implausible?</p></li>
+<li><p>What are the standardised errors of the emulator outputs in light of the model outputs?</p></li>
+</ul>
+<p>The function <code>validation_diagnostics</code> provides us with three diagnostics, addressing the three questions above.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="emulator-diagnostics.html#cb35-1" aria-hidden="true" tabindex="-1"></a>vd <span class="ot">&lt;-</span> <span class="fu">validation_diagnostics</span>(ems_wave1<span class="sc">$</span>R200, <span class="at">validation =</span> validation, <span class="at">targets =</span> targets, <span class="at">plt=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-31-1.png" style="display: block; margin: auto;" /></p>
+<p>The first plot shows the emulator outputs plotted against the model outputs. In particular, the emulator expectation is plotted against the model output for each validation point, providing the dots in the graph. The emulator uncertainty at each validation point is shown in the form of a vertical interval that goes from <span class="math inline">\(3\sigma\)</span> below to <span class="math inline">\(3\sigma\)</span> above the emulator expectation, where <span class="math inline">\(\sigma\)</span> is the emulator variance at the considered point. The uncertainty interval can be expressed by the formula: <span class="math inline">\(E[f(x)]\pm 3 \sqrt{Var(f(x)}\)</span>. An ‘ideal’ emulator would exactly reproduce the model results: this behaviour is represented by the green line <span class="math inline">\(f(x)=E[f(x)]\)</span> (this is a diagonal line, visible here only in the bottom left and top right corners). Any parameter set whose emulated prediction lies more than <span class="math inline">\(3\sigma\)</span> away from the model output is highlighted in red. Note that we do not need to have no red points for the test to be passed: since we are plotting <span class="math inline">\(3\sigma\)</span> bounds, statistically speaking it is ok to have up to <span class="math inline">\(5\%\)</span> of validation points in red (see <a href="https://en.wikipedia.org/wiki/68%E2%80%9395%E2%80%9399.7_rule">Pukelsheim’s <span class="math inline">\(3\sigma\)</span> rule</a>). Apart from the number of points failing the diagnostic, it is also worth looking at whether the points that fail the diagnostic do so systematically. For example: are they all overestimates/underestimates of the model output?</p>
+<p>The second column compares the emulator implausibility to the equivalent model implausibility (i.e. the implausibility calculated replacing the emulator output with the model output). There are three cases to consider:</p>
+<ul>
+<li><p>The emulator and model both classify a set as implausible or non-implausible (bottom-left and top-right quadrants). This is fine. Both are giving the same classification for the parameter set.</p></li>
+<li><p>The emulator classifies a set as non-implausible, while the model rules it out (top-left quadrant): this is also fine. The emulator should not be expected to shrink the parameter space as much as the model does, at least not on a single wave. Parameter sets classified in this way will survive this wave, but may be removed on subsequent waves as the emulators grow more accurate on a reduced parameter space.</p></li>
+<li><p>The emulator rules out a set, but the model does not (bottom-right quadrant): these are the problem sets, suggesting that the emulator is ruling out parts of the parameter space that it should not be ruling out.</p></li>
+</ul>
+<p>As for the first test, we should be alarmed only if we spot a systematic problem, with <span class="math inline">\(5\%\)</span> or more of the points in the bottom-right quadrant. Note, however, that it is always up to the user to decide how serious a misclassification is. For instance, a possible check is to identify points that are incorrectly ruled out by one emulator, and see if they would be considered non-implausible by all other emulators. If they are, then we should think about changing the misclassifying emulator.</p>
+<p>Finally, the third column gives the standardised errors of the emulator outputs in light of the model output: for each validation point, the difference between the emulator output and the model output is calculated, and then divided by the standard deviation <span class="math inline">\(\sigma\)</span> of the emulator at the point. The general rule is that we want our standardised errors to be somewhat normally distributed around <span class="math inline">\(0\)</span>, with <span class="math inline">\(95\%\)</span> of the probability mass between <span class="math inline">\(-2\)</span> and <span class="math inline">\(2\)</span>. When looking at the standard errors plot, we should ask ourselves at least the following questions:</p>
+<ul>
+<li><p>Is more than <span class="math inline">\(5\%\)</span> of the probability mass outside the interval <span class="math inline">\([-2,2]\)</span>? If the answer is yes, this means that, even factoring in all the uncertainties in the emulator and in the observed data, the emulator output is too often far from the model output.</p></li>
+<li><p>Is <span class="math inline">\(95\%\)</span> of the probability mass concentrated in a considerably smaller interval than <span class="math inline">\([-2,2]\)</span> (say, for example, <span class="math inline">\([-0.5,0.5]\)</span>)? For this to happen, the emulator uncertainty must be quite large. In such case the emulator, being extremely cautious, will cut out a small part of the parameter space and we will end up needing many more waves of history matching than are necessary, or, even worse, we just won’t be able to reduce the non-implausible parameter space.</p></li>
+<li><p>Is the histogram skewing significantly in one direction or the other? If this is the case, the emulator tends to either overestimate or underestimate the model output.</p></li>
+</ul>
+<p>The first two diagnostics above are clearly passed. In the third diagnostic if we consider all standardised errors below <span class="math inline">\(-2\)</span> and above <span class="math inline">\(2\)</span>, we get slightly more than <span class="math inline">\(5\%\)</span> of all errors: this is not particularly bad, but in order to be safe we will try to modify our emulator to make it more conservative.</p>
+<p>A way of improving the performance of an emulator is by changing the variance <span class="math inline">\(\sigma^2\)</span> in the Gaussian process <span class="math inline">\(u\)</span>:
+<span class="math display">\[\sigma^2 \left[(1-\delta) c(x,x^{\prime}) + \delta I_{\{x=x^\prime\}}\right].\]</span>
+The lower the value of <span class="math inline">\(\sigma\)</span>, the more ‘certain’ the emulator will be. This means that when an emulator is a little too overconfident (as in our case above), we can try increasing <span class="math inline">\(\sigma\)</span>. Below we train a new emulator setting <span class="math inline">\(\sigma\)</span> to be 2 times as much as its default value, through the method <code>mult_sigma</code>:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="emulator-diagnostics.html#cb36-1" aria-hidden="true" tabindex="-1"></a>sigmadoubled_emulator <span class="ot">&lt;-</span> ems_wave1<span class="sc">$</span>R200<span class="sc">$</span><span class="fu">mult_sigma</span>(<span class="dv">2</span>)</span>
+<span id="cb36-2"><a href="emulator-diagnostics.html#cb36-2" aria-hidden="true" tabindex="-1"></a>vd <span class="ot">&lt;-</span> <span class="fu">validation_diagnostics</span>(sigmadoubled_emulator, </span>
+<span id="cb36-3"><a href="emulator-diagnostics.html#cb36-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">validation =</span> validation, <span class="at">targets =</span> targets, <span class="at">plt=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-33-1.png" style="display: block; margin: auto;" /></p>
+<p>A higher value of <span class="math inline">\(\sigma\)</span> has therefore allowed us to build a more conservative emulator that performs better than before.</p>
+<div class="panel panel-default">
+<div class="panel-heading">
+Task
+</div>
+<div class="panel-body">
+<p>Explore different values of <span class="math inline">\(\sigma\)</span>. What happens for very small/large values of <span class="math inline">\(\sigma\)</span>?</p>
+<p><infobutton id="displayTextunnamed-chunk-76" onclick="javascript:toggle('unnamed-chunk-76');">Show: R tip</infobutton></p>
+<div id="toggleTextunnamed-chunk-76" style="display: none">
+<div class="panel panel-default">
+<div class="panel-body">
+<p>If <code>em</code> is an emulator, you can change its sigma by a factor x through the following line of code: <code>ems$mult_sigma(x)</code>.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<button id="displayTextunnamed-chunk-35" onclick="javascript:toggle(&#39;unnamed-chunk-35&#39;);">
+Show: Solution
+</button>
+<div id="toggleTextunnamed-chunk-35" style="display: none">
+<div class="panel panel-default">
+<div class="panel-heading panel-heading1">
+Solution
+</div>
+<div class="panel-body">
+<p>Let us set <span class="math inline">\(\sigma\)</span> to be ten times smaller than its default value:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="emulator-diagnostics.html#cb37-1" aria-hidden="true" tabindex="-1"></a>tinysigma_emulator <span class="ot">&lt;-</span> ems_wave1<span class="sc">$</span>R200<span class="sc">$</span><span class="fu">mult_sigma</span>(<span class="fl">0.1</span>)</span>
+<span id="cb37-2"><a href="emulator-diagnostics.html#cb37-2" aria-hidden="true" tabindex="-1"></a>vd <span class="ot">&lt;-</span> <span class="fu">validation_diagnostics</span>(tinysigma_emulator, <span class="at">validation =</span> validation, <span class="at">targets =</span> targets, </span>
+<span id="cb37-3"><a href="emulator-diagnostics.html#cb37-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">plt=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-78-1.png" style="display: block; margin: auto;" /></p>
+<p>In this case we built a very overconfident emulator. This is shown by the very small uncertainty intervals in the first column: as a consequence many points are in red. Similarly, if we look at the third column we notice that the standardised errors are extremely large, well beyond the value of <span class="math inline">\(2\)</span>.</p>
+<p>Let us now set <span class="math inline">\(\sigma\)</span> to be ten times larger than its default value:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="emulator-diagnostics.html#cb38-1" aria-hidden="true" tabindex="-1"></a>hugesigma_emulator <span class="ot">&lt;-</span> ems_wave1<span class="sc">$</span>R200<span class="sc">$</span><span class="fu">mult_sigma</span>(<span class="dv">10</span>)</span>
+<span id="cb38-2"><a href="emulator-diagnostics.html#cb38-2" aria-hidden="true" tabindex="-1"></a>vd <span class="ot">&lt;-</span> <span class="fu">validation_diagnostics</span>(hugesigma_emulator, <span class="at">validation =</span> validation, <span class="at">targets =</span> targets,</span>
+<span id="cb38-3"><a href="emulator-diagnostics.html#cb38-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">plt=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-80-1.png" style="display: block; margin: auto;" /></p>
+<p>With this choice of <span class="math inline">\(\sigma\)</span>, we see that our emulator is extremely cautious. If we look at the plot in the middle, we see that now a lot of points in the validation set have an implausibility less or equal to <span class="math inline">\(3\)</span>. This implies that this emulator will reduce the input space slowly. As explained above, having consistent very small standardised errors is not positive: it implies that, even though we trained a regression hypersurface in order to catch the global behaviour of the output, the sigma is so large that the emulator is being dominated by the correlation structure. This means at best that we will have to do many more waves of history matching than are necessary, and at worst that our emulators won’t be able to reduce the non-implausible parameter space.</p>
+<p>The above exploration highlights the importance of finding a value of <span class="math inline">\(\sigma\)</span> that produces an emulator which on one hand is not overconfident and on the other is able to quickly reduce the input space. Note that there is not a universal rule to navigate this tradeoff: the role of the scientist’s judgment is fundamental.</p>
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="implausibility.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="proposing-new-points.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": null,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
