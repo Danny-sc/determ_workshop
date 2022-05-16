@@ -18,7 +18,7 @@ bibliography: references.bib
 linkcolor: blue
 documentclass: book
 link-citations: yes
-description: "An interactive introduction to the HMER package"
+description: "An interactive introduction to the hmer package"
 ---
 
 ```{r, child = "_setup.Rmd", include = F, purl = F, cache = F}
@@ -27,7 +27,7 @@ description: "An interactive introduction to the HMER package"
 
 ```{r setup, include=F}
 knitr::opts_chunk$set(echo = TRUE, cache =T)
-chosen_params <- list(b = 1/(76*365), mu = 1/(76*365), beta1 = 0.214, beta2 = 0.107, beta3 = 0.428, sigma = 1/7, alpha = 1/50, gamma = 1/14, omega = 1/365)
+chosen_params <- list(b = 1/(76*365), mu = 1/(76*365), beta1 = 0.214, beta2 = 0.107, beta3 = 0.428, lambda = 1/7, alpha = 1/50, gamma = 1/14, omega = 1/365)
 library(hmer)
 library(deSolve)
 library(ggplot2)
@@ -36,13 +36,14 @@ library(purrr)
 library(tidyverse)
 set.seed(123)
 ode_results <- function(parms, end_time = 365*2) {
-  forcer = matrix(c(0, parms['beta1'], 100, parms['beta2'], 180, parms['beta2'], 270, parms['beta3']), ncol = 2, byrow = TRUE)
+  forcer = matrix(c(0, parms['beta1'], 100, parms['beta2'], 180, parms['beta2'], 270, parms['beta3']), 
+                  ncol = 2, byrow = TRUE)
   force_func = approxfun(x = forcer[,1], y = forcer[,2], method = "linear", rule = 2)
   des = function(time, state, parms) {
     with(as.list(c(state, parms)), {
       dS <- b*(S+E+I+R)-force_func(time)*I*S/(S+E+I+R) + omega*R - mu*S
-      dE <- force_func(time)*I*S/(S+E+I+R) - sigma*E - mu*E
-      dI <- sigma*E - alpha*I - gamma*I - mu*I
+      dE <- force_func(time)*I*S/(S+E+I+R) - lambda*E - mu*E
+      dI <- lambda*E - alpha*I - gamma*I - mu*I
       dR <- gamma*I - omega*R - mu*R
       return(list(c(dS, dE, dI, dR)))
     })
@@ -62,15 +63,15 @@ get_results <- function(params, times, outputs) {
 ```
 
 # Objectives
-This tutorial offers an interactive introduction to the main functionality of the 
-[HMER](https://github.com/Tandethsquire/hmer) package, using a simple example of an epidemiological model. [HMER](https://github.com/Tandethsquire/hmer) allows you to efficiently implement the Bayes Linear emulation and history matching process, a calibration method that  has been successfully employed in several sciences (epidemiology, cosmology, climate science, systems biology, geology, energy systems etc.). 
+This workshop offers an interactive introduction to the main functionality of the 
+[hmer](https://cran.r-project.org/web/packages/hmer/index.html) package, using a simple example of an epidemiological model. [hmer](https://cran.r-project.org/web/packages/hmer/index.html) allows you to efficiently implement the Bayes Linear emulation and history matching process, a calibration method that  has been successfully employed in several sciences (epidemiology, cosmology, climate science, systems biology, geology, energy systems etc.). 
 
-In this workshop, you will be invited to carry out a series of tasks (see "Task" boxes) which will enhance your understanding of the package and its tools. Thanks to these activities, you will learn to calibrate deterministic models using history matching and model emulation,  and to use your judgement to customise the process. This tutorial should be considered as a natural continuation of Tutorial 1 (hyperlink), which gives a more general overview of the history matching with emulation process for deterministic models, and shows how to perform it using [HMER](https://github.com/Tandethsquire/hmer). Following Workshop 1, you may also want to read Tutorial 2 and Workshop 2, where we demonstrate how to calibrate stochastic models. 
+In this workshop, you will be invited to carry out a series of tasks (see "Task" boxes) which will enhance your understanding of the package and its tools. Thanks to these activities, you will learn to calibrate deterministic models using history matching and model emulation, and to use your judgement to customise the process. This workshop should be considered as a natural continuation of [Tutorial 1](https://danny-sc.github.io/Tutorial_1/), which introduces the history matching with emulation framework with a one-dimensional example, and of [Tutorial 2](https://danny-sc.github.io/Tutorial_2), which gives a general overview of the history matching with emulation process for deterministic models, and shows how to perform it using [hmer](https://cran.r-project.org/web/packages/hmer/index.html). Following Workshop 1, you may also want to read Workshop 2, where we demonstrate how to calibrate stochastic models. 
 
 For further discussion and justification of the various stages of the history matching with emulation process, please see @bower2010galaxy and @vernon2018bayesian.
 
 # Introduction to the model {#intro}
-In this section we introduce the model that we will work with throughout our tutorial. 
+In this section we introduce the model that we will work with throughout our workshop. 
 
 The model that we chose for demonstration purposes is a deterministic  <span class="abbr" title="A model consisting of four compartments 
 
@@ -105,8 +106,8 @@ SEIRS</abbr></span>
 model, described by the following differential equations:
 \begin{align}
 \frac{dS}{dt} &= b N - \frac{\beta(t)IS}{N} + \omega R -\mu S  \\ 
-\frac{dE}{dt} &= \frac{\beta(t)IS}{N} - \sigma E - \mu E \\ 
-\frac{dI}{dt} &= \sigma E - \gamma I - (\mu + \alpha) I \\ 
+\frac{dE}{dt} &= \frac{\beta(t)IS}{N} - \lambda E - \mu E \\ 
+\frac{dI}{dt} &= \lambda E - \gamma I - (\mu + \alpha) I \\ 
 \frac{dR}{dt} &= \gamma I - \omega R - \mu R
 \end{align}
 where $N$ is the total population, varying over time, and the parameters are as follows:
@@ -117,7 +118,7 @@ where $N$ is the total population, varying over time, and the parameters are as 
 
 - $\beta(t)$ is the infection rate between each infectious and susceptible individual, 
 
-- $\sigma$ is the rate of becoming infectious after infection, 
+- $\lambda$ is the rate of becoming infectious after infection, 
 
 - $\alpha$ is the rate of death from the disease, 
 
@@ -126,7 +127,7 @@ where $N$ is the total population, varying over time, and the parameters are as 
 - $\omega$ is the rate at which immunity is lost following recovery. 
 
 ``` {r, echo = FALSE, fig.cap='SEIRS Diagram'}
-knitr::include_graphics('SEIRSdiagram.png')
+knitr::include_graphics('SEIRSdiagramnew.png')
 ```
 
 The rate of infection $\beta(t)$ is set to be a simple linear function interpolating between points, where the points in question are $\beta(0)=\beta_1$, $\beta(100) = \beta(180) = \beta_2$, $\beta(270) = \beta_3$ and where $\beta_2 < \beta_1 < \beta_3$. This choice was made to represent an infection rate that initially drops due to external (social) measures and then raises when a more infectious variant appears. Here $t$ is taken to measure days. Below we show a graph of the infection rate over time when $\beta_1=0.3, \beta_2=0.1$ and $\beta_3=0.4$:
@@ -135,14 +136,14 @@ The rate of infection $\beta(t)$ is set to be a simple linear function interpola
 knitr::include_graphics('infection_rate.png')
 ```
 
-In order to obtain the solution of the differential equations for a given set of parameters, we will use a helper function, `ode_results`. The function assumes an initial population of 900 susceptible individuals, 100 exposed individuals, and no infectious or recovered individuals. Below we use `ode_results` with an example set of parameters and plot the model output over time.
+In order to obtain the solution of the differential equations for a given set of parameters, we will use a helper function, `ode_results` (which is defined in the R-script). The function assumes an initial population of 900 susceptible individuals, 100 exposed individuals, and no infectious or recovered individuals. Below we use `ode_results` with an example set of parameters and plot the model output over time.
 
 ```{r, fig.height=10, fig.width=10}
 example_params <- c(
   b = 1/(60*365),
   mu = 1/(76*365),
   beta1 = 0.2, beta2 = 0.1, beta3 = 0.3,
-  sigma = 0.13,
+  lambda = 0.13,
   alpha = 0.01,
   gamma = 0.08,
   omega = 0.003
@@ -160,7 +161,7 @@ example_params <- c(
   b = 1/(60*365),
   mu = 1/(76*365),
   beta1 = 0.2, beta2 = 0.1, beta3 = 0.3,
-  sigma = 0.13,
+  lambda = 0.13,
   alpha = 0.01,
   gamma = 0.08,
   omega = 0.003
@@ -189,7 +190,7 @@ higher_foi_params <- c(
   b = 1/(60*365),
   mu = 1/(76*365),
   beta1 = 0.3, beta2 = 0.1, beta3 = 0.5,
-  sigma = 0.13,
+  lambda = 0.13,
   alpha = 0.01,
   gamma = 0.08,
   omega = 0.003
@@ -200,23 +201,23 @@ plot(solution, higher_foi_solution)
 
 Here the black line shows the model output when it is run using the original parameters and the red dotted line when it is run using a higher force of infection. As expected, the number of susceptible individuals decreases, while the size of outbreaks increases.
 
-Let us now also increase the rate of becoming infectious following infection $\sigma$:
+Let us now also increase the rate of becoming infectious following infection $\lambda$:
 
 ``{r, fig.height=8, fig.width=8}
-higher_sigma_params <- c(
+higher_lambda_params <- c(
   b = 1/(60*365),
   mu = 1/(76*365),
   beta1 = 0.3, beta2 = 0.1, beta3 = 0.5,
-  sigma = 0.21,
+  lambda = 0.21,
   alpha = 0.01,
   gamma = 0.08,
   omega = 0.003
 )
-higher_sigma_solution <- ode_results(higher_sigma_params)
-plot(higher_foi_solution,higher_sigma_solution)
+higher_lambda_solution <- ode_results(higher_lambda_params)
+plot(higher_foi_solution,higher_lambda_solution)
 ``
 
-Here the black line is the model output when the model is run with the previous parameter set, and the red dotted line is the model output when we also increase sigma. We observe a decrease in the number of exposed individuals. Again, this is in agreement with our expectation: a higher rate of becoming infectious means that people leave the exposed compartmental to enter the infectious compartment faster than before.
+Here the black line is the model output when the model is run with the previous parameter set, and the red dotted line is the model output when we also increase lambda. We observe a decrease in the number of exposed individuals. Again, this is in agreement with our expectation: a higher rate of becoming infectious means that people leave the exposed compartmental to enter the infectious compartment faster than before.
 
 
 Finally, what happens when a lower value of the recovery rate $\gamma$ is used?
@@ -226,21 +227,20 @@ smaller_recovery_params <- c(
   b = 1/(60*365),
   mu = 1/(76*365),
   beta1 = 0.3, beta2 = 0.1, beta3 = 0.5,
-  sigma = 0.21,
+  lambda = 0.21,
   alpha = 0.01,
   gamma = 0.05,
   omega = 0.003
 )
 smaller_recovery_solution <- ode_results(smaller_recovery_params)
-plot(higher_sigma_solution, smaller_recovery_solution)
+plot(higher_lambda_solution, smaller_recovery_solution)
 ``
 
 Here the black line is the model output when the model is run with the previous parameter set, and the red dotted line is the model output when we also decrease the recovery rate. Again, as one expects, this causes the number of susceptible individuals to decrease and the number of infectious individuals to increase, at least during the first peak.
 ```
 
 # 'wave0' - parameter ranges, targets and design points
-In this section we set up the emulation task, defining the input parameter ranges, the targets and all the data necessary to train the first wave of emulators.
-
+In this section we set up the emulation task, defining the input parameter ranges, the calibration targets and all the data necessary to build the first wave of emulators. For the sake of clarity, in this workshop we will adopt the word 'data' only when referring to the set of runs of the model that are used to train emulators. Real-world observations, that inform our choice of targets, will instead be referred to as 'observations'.
 Before we tackle the emulation, we need to define some objects. First of all, let us set the parameter ranges:
 
 ```{r}
@@ -250,7 +250,7 @@ ranges = list(
   beta1 = c(0.2, 0.3), # infection rate at time t=0
   beta2 = c(0.1, 0.2), # infection rates at time t=100
   beta3 = c(0.3, 0.5), # infection rates at time t=270
-  sigma = c(0.07, 0.21), # rate of becoming infectious after infection
+  lambda = c(0.07, 0.21), # rate of becoming infectious after infection
   alpha = c(0.01, 0.025), # rate of death from the disease
   gamma = c(0.05, 0.08), # recovery rate
   omega = c(0.002, 0.004) # rate at which immunity is lost following recovery
@@ -280,10 +280,10 @@ The 'sigmas' in our `targets` list represent the uncertainty we have about the o
   
 ```{info, title="More on how targets were set"}
 
-Since our model is synthetic, we couldn't rely on observed data to define our targets. Instead, we chose the parameter set 
+Since our model is synthetic, we couldn't rely on observations to define our targets. Instead, we chose the parameter set 
 ``{r}
 chosen_params <- list(b = 1/(76*365), mu = 1/(76*365), beta1 = 0.214, 
-                      beta2 = 0.107, beta3 = 0.428, sigma = 1/7, alpha = 1/50, gamma = 1/14, omega = 1/365)
+                      beta2 = 0.107, beta3 = 0.428, lambda = 1/7, alpha = 1/50, gamma = 1/14, omega = 1/365)
 ``
 
 ran the model with it and used the relevant model outputs as the ‘val’ in `targets`. The ‘sigma’ components were chosen to be $5\%$ of the corresponding ‘val’.
@@ -333,7 +333,7 @@ wave0 <- cbind(initial_points, initial_results)
 Note that your model can be written in any programming languages and  that when using your own model, you can create the 'wave0' dataframe however you wish. 
 
 # Emulators {#constr}
-This section will start with a short recap on the structure of an emulator. We will then train the first wave of emulators and explore them through various visualisations.
+This section will start with a short recap on the structure of an emulator. We will then train the first wave of emulators and explore them through various visualisations. Note that this section is a bit technical: while it is important to grasp the overall picture of how emulators work, it is not crucial that you understand each detail given in here. 
 
 Let us start by splitting `wave0` in two parts: the training set, on which we will train the emulators, and a validation set, which will be used to do diagnostics of the emulators. 
 
@@ -369,13 +369,13 @@ The regression term is specified by:
 knitr::include_graphics('regres_resid_plot.png')
 ```
 
-In general, and especially when dealing with complex models, we cannot expect the regression hypersurface to perfectly explain the behaviour of the output. For this reason it is necessary to account for the local deviations of the output from the regression hypersurface. These local deviations, also referred to as residuals, are shown in blue in Fig \@ref(fig:regresresid). When the parameter space is one-dimensional, they indicate how far the regression term is from the model output at each point. Since residuals are unknown, we treat them as random variables: for each parameter $x$, we then have a random variable $u(x)$ representing the residual at $x$. In the [HMER](https://github.com/Tandethsquire/hmer) package we assume this collection of random variables $u(x)$ to be a [weakly stationary process](https://en.wikipedia.org/wiki/Stationary_process#Weak_or_wide-sense_stationarity) (similar to a [Gaussian process](https://en.wikipedia.org/wiki/Gaussian_process)), with mean zero. Informally this means the following:
+In general, and especially when dealing with complex models, we cannot expect the regression hypersurface to perfectly explain the behaviour of the output. For this reason it is necessary to account for the local deviations of the output from the regression hypersurface. These local deviations, also referred to as residuals, are shown in blue in Fig \@ref(fig:regresresid). When the parameter space is one-dimensional, they indicate how far the regression term is from the model output at each point. Since residuals are unknown, we treat them as random variables: for each parameter $x$, we then have a random variable $u(x)$ representing the residual at $x$. In the [hmer](https://cran.r-project.org/web/packages/hmer/index.html) package we assume this collection of random variables $u(x)$ to be a [weakly stationary process](https://en.wikipedia.org/wiki/Stationary_process#Weak_or_wide-sense_stationarity) (similar to a [Gaussian process](https://en.wikipedia.org/wiki/Gaussian_process)), with mean zero. Informally this means the following:
 
 - for each parameter set $x$, we consider the residual $u(x)$ as a random variable with mean zero. Note that the mean is assumed to be zero, since, even if we expect to see local deviations, we do not expect the output to be systematically above (or below) the regression hypersurface;
 
 - given any pair of parameter sets $(x,x')$, the pair $(u(x),u(x'))$ is a vector of two random variables with mean $(0,0)$ and such that the covariance of $u(x)$ and $u(x')$ only depends on the difference $x-x'$.
 
-In the case of a Gaussian process, we further assume that $u(X)$ is normally distributed and that $(u(x),u(x'))$ is a multivariate normal variable.
+In the case of a Gaussian process, we further assume that $u(x)$ is normally distributed and that $(u(x),u(x'))$ is a multivariate normal variable.
 
 To fully describe a weakly stationary process $u(x)$ we need to define the covariance structure, i.e. we need to say how correlated the residuals at $x$ and $x'$ are, for any pair $(x,x')$.  When using Gaussian processes, as we do in this workshop, a commonly adopted covariance structure is given by 
 
@@ -384,7 +384,7 @@ where  $c$ is the square-exponential correlation function
 
 $$c(x,x^{\prime}) :=  \exp\left(\frac{-\sum\limits_{i}(x_{i}-x_{i}^{\prime})^2}{\theta^2}\right)$$
 
-where $x_i$ is the ith-component of the parameter set $x.$ This covariance structure is the default option in the [HMER](https://github.com/Tandethsquire/hmer) package, even though other structures are available.
+where $x_i$ is the ith-component of the parameter set $x.$ This covariance structure is the default option in the [hmer](https://cran.r-project.org/web/packages/hmer/index.html) package, even though other structures are available.
 
 Let us look at the various terms in this covariance structure:
 
@@ -400,7 +400,7 @@ knitr::include_graphics('regres_resid_plot_highsigma.png')
 knitr::include_graphics('regres_resid_plot_lowtheta.png')
 ```
 
-Choosing values for $\sigma$ and $\theta$ corresponds to making a judgment about how far we expect the output to be from the regression hypersurface ($\sigma$) and about its smoothness ($\theta$). While the [HMER](https://github.com/Tandethsquire/hmer) package, and in particular the function `emulator_from_data`, selects values of $\sigma$ and $\theta$ for us based on the provided training data, we will see in this workshop how we can intervene to customise the choice of these hyperparameters and the benefits that this operation brings.
+Choosing values for $\sigma$ and $\theta$ corresponds to making a judgment about how far we expect the output to be from the regression hypersurface ($\sigma$) and about its smoothness ($\theta$). While the [hmer](https://cran.r-project.org/web/packages/hmer/index.html) package, and in particular the function `emulator_from_data`, selects values of $\sigma$ and $\theta$ for us based on the provided training data, we will see in this workshop how we can intervene to customise the choice of these hyperparameters and the benefits that this operation brings.
 
 ## Training emulators
 
@@ -480,7 +480,7 @@ Looking at what variables are active for different emulators is often an instruc
 plot_actives(ems_wave1)
 ```
 
-From this table, we can immediately see that mu is inactive for most outputs, while beta1, beta2, sigma, alpha, gamma are active for most outputs. We also notice again that beta3 tends to be active for outputs at later times and inactive for outputs at earlier times. 
+From this table, we can immediately see that mu is inactive for most outputs, while beta1, beta2, lambda, alpha, gamma are active for most outputs. We also notice again that beta3 tends to be active for outputs at later times and inactive for outputs at earlier times. 
 
 As mentioned above, `emulator_plot` can also plot the variance of a given emulator: 
 
@@ -503,21 +503,21 @@ We see that we have a very high value of the adjusted $R^2$. This means that the
 
 In this section we focus on implausibility and its role in the history matching process. Once emulators are built, we want to use them to systematically explore the input space. For any chosen parameter set, the emulator provides us with an approximation of the corresponding model output. This value is what we need to assess the implausibility of the parameter set in question.
 
-For a given model output and a given target, the implausibility measures the difference between the emulator output and the target, taking into account all sources of uncertainty. For a parameter set $x$, the general form for the implausibility $I(x)$ is
+For a given model output and a given target, the implausibility measures the difference between the emulator output and the target, taking into account all sources of uncertainty. For a parameter set $x$, the general form for the implausibility $\text{Imp}(x)$ is
 
-$$I(x) = \frac{|f(x)-z|}{\sqrt{V_0 + V_c(x)+V_s+V_m}},$$
+$$\text{Imp}(x) = \frac{|f(x)-z|}{\sqrt{V_0 + V_c(x)+V_s+V_m}},$$
 
 where $f(x)$ is the emulator output, $z$ the target, and the terms in the denominator refer to various forms of uncertainty. In particular
 
 - $V_0$ is the variance associated with the observation uncertainty (i.e. uncertainty in estimates from observed data);
 - $V_c(x)$ refers to the uncertainty one introduces when using the emulator output instead of the model output itself. Note that this term depends on $x$, since the emulator is more/less certain about its predictions based on how close/far $x$ is from training parameter sets;
-- $V_s$ is the ensemble variability and represents the stochastic nature of the model (this term is not present in this tutorial, since the model is deterministic);
+- $V_s$ is the ensemble variability and represents the stochastic nature of the model (this term is not present in this workshop, since the model is deterministic);
 - $V_m$ is the model discrepancy, accounting for possible mismatches between the model and reality.
 
 Since in this case study we want to emulate our model, without reference to a real-life analogue, the model represents the reality perfectly. For this reason we have $V_m=0$. Similarly we have $V_s=0$, since our model is deterministic. The observation uncertainty $V_0$ is represented by the 'sigma' values in the `targets` list, while $V_c$ is the emulator variance, which we discussed in the previous section.
 
-A very large value of $I(x)$ means that we can be confident that the parameter set $x$ does not provide a good match to the observed data, even factoring in the additional uncertainty that comes with the use of emulators. When $I(x)$ is small, it could mean that the emulator output is very close 
-to the model output or it could mean that the uncertainty in the denominator of $I(x)$ is large. In the former case, the emulator retains the parameter set, since it is likely to give a good fit to the observation for that output. In the latter case, the emulator does not have enough information to rule the parameter set out and therefore keeps it to explore it further in the next wave.
+A very large value of $\text{Imp}(x)$ means that we can be confident that the parameter set $x$ does not provide a good match to the observed data, even factoring in the additional uncertainty that comes with the use of emulators. When $\text{Imp}(x)$ is small, it could mean that the emulator output is very close 
+to the model output or it could mean that the uncertainty in the denominator of $\text{Imp}(x)$ is large. In the former case, the emulator retains the parameter set, since it is likely to give a good fit to the observation for that output. In the latter case, the emulator does not have enough information to rule the parameter set out and therefore keeps it to explore it further in the next wave.
 
 An important aspect to consider is the choice of cut-off for the implausibility measure. A rule of thumb follows [Pukelsheim's $3\sigma$ rule](https://en.wikipedia.org/wiki/68%E2%80%9395%E2%80%9399.7_rule), a very general result which states that for any continuous unimodal distribution $95\%$ of the probability lies within $3$ sigma of the mean, regardless of asymmetry (or skewness etc). Following this rule, we set the implausibility threshold to be $3$: this means that a parameter $x$ is classified as non-implausible only if its implausibility is below $3$. 
 
@@ -538,7 +538,7 @@ emulator_plot(ems_wave1, plot_type = 'imp',
 ```
 
 This plot is useful to get an overall idea of which emulators have higher/lower implausibility, but how do we measure overall implausibility? We want a single measure for the implausibility at a given parameter set, but for each emulator we obtain an individual value for $I$. The simplest way to combine them is to consider maximum implausibility at each parameter set:
-$$I_M(x) = \max_{i=1,\dots,N}I_{i}(x),$$ where $I_i(x)$ is the implausibility at $x$ coming from the $i$th emulator.
+$$\text{Imp}_M(x) = \max_{i=1,\dots,N}\text{Imp}_{i}(x),$$ where $\text{Imp}_i(x)$ is the implausibility at $x$ coming from the $i$th emulator.
 Note that Pukelsheim's rule applies for each emulator separately, but when we combine several emulators' implausibilities together a threshold of $3$ might be overly restrictive. For this reason, for large collections of emulators, it may be useful to replace the maximum implausibility with the second- or third-maximum implausibility. This also provides robustness to the failure of one or two of the emulators. 
 
 ```{task}
@@ -631,11 +631,11 @@ The first two diagnostics above are clearly passed. In the third diagnostic if w
 
 A way of improving the performance of an emulator is by changing the variance $\sigma^2$ in the Gaussian process $u$:
 $$\sigma^2 \left[(1-\delta) c(x,x^{\prime}) + \delta I_{\{x=x^\prime\}}\right].$$
-The lower the value of $\sigma$, the more 'certain' the emulator will be. This means that when an emulator is a little too overconfident (as in our case above), we can try increasing $\sigma$. Below we train a new emulator setting $\sigma$ to be 1.1 times as much as its default value, through the method `mult_sigma`:
+The lower the value of $\sigma$, the more 'certain' the emulator will be. This means that when an emulator is a little too overconfident (as in our case above), we can try increasing $\sigma$. Below we train a new emulator setting $\sigma$ to be 2 times as much as its default value, through the method `mult_sigma`:
 
 
 ```{r fig.width = 10, fig.height = 10, eval=F}
-sigmadoubled_emulator <- ems_wave1$R200$mult_sigma(1.1)
+sigmadoubled_emulator <- ems_wave1$R200$mult_sigma(2)
 vd <- validation_diagnostics(sigmadoubled_emulator, 
                              validation = validation, targets = targets, plt=TRUE)
 ```
@@ -708,7 +708,7 @@ The above exploration highlights the importance of finding a value of $\sigma$ t
 
 # Proposing new points
 
-In this section we generate the set of points that will be used to train the second wave of emulators. Through visualisations offered by HMER, we then explore these points and assess how much of the initial input space has been removed by the first wave of emulators.
+In this section we generate the set of points that will be used to train the second wave of emulators. Through visualisations offered by hmer, we then explore these points and assess how much of the initial input space has been removed by the first wave of emulators.
 
 The function `generate_new_runs` is designed to generate new sets of parameters; its default behaviour is as follows.
 
@@ -736,11 +736,14 @@ The combination of the three steps above brings to the following final design of
 knitr::include_graphics('FinalSamp.png')
 ```
 
-Let us generate $180$ new sets of parameters, using the emulators for the time up to $t=200$. Note that the generation of new points might require a few minutes.
+Let us generate $180$ new sets of parameters, using the emulators for the time up to $t=200$. Focusing on early time outputs can be useful when performing the first waves of history matching, since the behaviour of the epidemic at later times  for later times will depend on the behaviour at earlier times. Note that the generation of new points might require a few minutes.
 
 ```{r fig.width = 9, fig.height = 9}
+restricted_ems <- ems_wave1[c(1,2,3,4,7,8,9,10)]
 new_points_restricted <- generate_new_runs(restricted_ems, 180, targets, verbose=TRUE)
 ```
+
+Note that, depending on the complexity of the calibration task, Latin Hypercube may not be able to find any parameter sets with implausibility below three. If that happens, `generate_new_runs` will perform step 1 (Latin Hypercube sampling) at a higher implausbility threshold, to find a space-filling design. Using this as a starting point, step 2 (line sampling) and step 3 (importance sampling) are then performed. From this proposal, a subset of lower-implausibility parameter sets are selected and steps 2 and 3 are repeated.  This process iterates until either the desired implausibility has been reached or the process has reached a barrier to further reductions in implausibility. 
 
 We now plot `new_points_restricted` through `plot_wrap`. Note that we pass `ranges` too to `plot_wrap` to ensure that 
 the plot shows the entire range for each parameter: this allows us to see how the new set of parameters compares with respect to the original input space.
@@ -749,9 +752,9 @@ the plot shows the entire range for each parameter: this allows us to see how th
 plot_wrap(new_points_restricted, ranges)
 ``` 
      
-By looking at the plot we can learn a lot about the non-implausible space. For example, it seems clear that low values of $\gamma$ cannot produce a match (cf. penultimate column). We can also deduce relationships between parameters: $\beta_1$ and $\sigma$ are an example of negatively-correlated parameters. If $\beta_1$ is large then $\sigma$ needs to be small, and vice versa.
+By looking at the plot we can learn a lot about the non-implausible space. For example, it seems clear that low values of $\gamma$ cannot produce a match (cf. penultimate column). We can also deduce relationships between parameters: $\beta_1$ and $\lambda$ are an example of negatively-correlated parameters. If $\beta_1$ is large then $\lambda$ needs to be small, and vice versa.
 
-Now that we have generated a new set of points, we can compare the model output at points in `wave0` 
+Now that we have generated a new set of points, we can compare the model output at points in `initial_points` 
 
 ``` {r, echo = FALSE, out.width = "75%"}
 knitr::include_graphics('wave0SEIReval.png')
@@ -763,7 +766,7 @@ with the model output at points in `new_points_restricted`
 knitr::include_graphics('wave1SEIReval.png')
 ```
 
-We can clearly see that the range of possible results obtained when evaluating the model at `wave0` points is larger than the range obtained when evaluating the model at points in `new_points_restricted`. This is because we have performed a wave of the history matching process, discarding part of the initial input space that is not compatible with the targets.  
+We can clearly see that the range of possible results obtained when evaluating the model at `wave0` points is larger than the range obtained when evaluating the model at points in `new_points_restricted`. This is because we have performed a wave of the history matching process, discarding part of the initial input space that is not compatible with the targets. In the R-script, a function `plot_runs` is defined to produce plots as above. For example, to plot runs from the initial points, you can type `plot_runs(initial_points)`. Note that this functions require the dataframe to have exactly $180$ points.
 
 ```{task}
 What do you think would happen if we tried generating new parameter sets using all emulators, instead of those relating to times up to $t=200$ only? Try changing the code and seeing what happens.
@@ -787,7 +790,7 @@ space_removed(ems_wave1, targets, ppd=3) + geom_vline(xintercept = 3, lty = 2) +
   angle=90, vjust = 1.2, text=element_text(size=11))
 ```
 
-By default the plot shows the percentage of space that is deemed implausible both when the observational errors are exactly the ones in `targets` and when the observational errors are $80\%$ (resp. $90\%$, $110\%$ and $120\%$)  of the values in `targets`. Here we see that with an implausibility cut-off of $3$, the percentage of space removed is around $98\%$. If we use a cut-off of $5\%$ instead, then we would discard around $86\%$ (resp. $81\%$) of the space with the observational errors provided by `targets` (resp. with observational errors equal to $120\%$ of the values in `targets`). As expected, larger observational errors correspond to lower percentages of space removed.
+By default the plot shows the percentage of space that is deemed implausible both when the observational errors are exactly the ones in `targets` and when the observational errors are $80\%$ (resp. $90\%$, $110\%$ and $120\%$)  of the values in `targets`. Here we see that with an implausibility cut-off of $3$, the percentage of space removed is around $98\%$, when the observational errors are $100\%$ of the values in `targets`. With the same implausibility cut-off of $3$, the percentage of space removed goes down to $97\%$, when the observational errors are $120\%$ of the values in `targets` and it goes up to $99\%$ when the observational errors are $80\%$ of the values in `targets`. If instead we use an implausibility cut-off of $5$, we would discard around $88\%$ (resp. $84\%$) of the space when the observational errors are $100\%$ of the values in `targets` (resp. when the observational errors are $120\%$ of the values in `targets`). As expected, larger observational errors and larger implausibility cut-offs correspond to lower percentages of space removed.
 
 # Customise the first wave
 
@@ -824,7 +827,7 @@ new_points <- generate_new_runs(ems_wave1, 180, targets, verbose = TRUE)
 plot_wrap(new_points, ranges)
 ``
 
-If we compare the parameter sets we just generated with those generated using non-customised emulators, we note that the space has now been reduced less than before. This happened because our customisation helped us to build more conservative emulators, decreasing the risk of rejecting good parts of the input space. Building emulators carefully ensures that we end up with a set of points that are truly representative of the set of all points that fit the data (rather than a subset of it).
+If we compare the parameter sets we just generated with those generated using non-customised emulators, we note that the space has now been reduced less than before. This happened because our customisation helped us to build more conservative emulators, decreasing the risk of rejecting good parts of the input space. Building emulators carefully ensures that we end up with a set of points that are truly representative of the set of all points that fit the observations (rather than a subset of it).
 ```
 
 # Second wave
@@ -935,7 +938,7 @@ unlist(R_squared_new)
 
 All $R^2$ values are very high, meaning that the regression term is contributing far more than the residuals. As all of the emulators we have seen so far have had high $R^2$ values, we have not discussed the customisation of $\theta$. We now want to briefly comment on what happens when instead the $R^2$ are lower and the residuals play a more substantial role. In such cases, the extent to which residuals at different parameter sets are correlated is a key ingredient in the training of emulators, since it determines how informative the model outputs at training parameter sets are. For example, if residuals are highly correlated even at parameter sets that are far away from each other, then knowing the model output at a given parameter set gives us information about a wide region around it. This results in rather confident emulators, which cut a lot of space out. If instead residuals are correlated only for parameter sets that are close to each other, then knowing the model output at a given parameter set gives us information about a small region around it. This creates more uncertain emulators, which can rule out a lot of input parameter space. It is then clear that when we don't have very high $R^2$ values, we can use $\theta$ to increase or decrease the amount  of space cut out by emulators. 
 
-In practice, if you do not pass a value for it, $\theta$ is chosen very carefully by the HMER package, and most users calibrating deterministic models will not have to vary the value of $\theta$ for most of their emulators. If, however, you find that the non-implausible space is shrinking very slowly, particularly in later waves (see section 9 for details of how to check this), then the value of $\theta$ may be too conservative. If this occurs, then you can increase the $\theta$ of the emulators to increase the rate at which space is reduced. You should only do this if you are confident that your outputs are smooth enough to justify the choice of $\theta$ however, or you risk the emulators incorrectly excluding space when model fits could be found. We discuss the choice of $\theta$ further in our workshop on calibrating stochastic models.
+In practice, if you do not pass a value for it, $\theta$ is chosen very carefully by the hmer package, and most users calibrating deterministic models will not have to vary the value of $\theta$ for most of their emulators. If, however, you find that the non-implausible space is shrinking very slowly, particularly in later waves (see section \@ref(visual) for details of how to check this), then the value of $\theta$ may be too conservative. If this occurs, then you can increase the $\theta$ of the emulators to increase the rate at which space is reduced. You should only do this if you are confident that your outputs are smooth enough to justify the choice of $\theta$ however, or you risk the emulators incorrectly excluding space when model fits could be found. We discuss the choice of $\theta$ further in our workshop on calibrating stochastic models.
 
 To see all this in practice, we train new wave one emulators, assuming a linear regression term by setting `quadratic=FALSE`: 
 
@@ -978,9 +981,9 @@ emulator_plot(ems_wave1_linear$I200, plot_type = 'imp', targets = targets,
 First of all, the blue-purple area in the variance plot becomes larger after $\theta$ increased: this shows that a higher $\theta$ results in the model output at training points influencing a wider region around itself. Second, we see that a higher $\theta$ 
 causes the implausibility measure to have higher values: as a consequence, more space will be ruled out as implausible.
 
-# Visualisations of non-implausible space by wave
+# Visualisations of non-implausible space by wave {#visual}
 
-In this last section we present two visualisations that can be used to compare the non-implausible space identified at different waves of the process.
+In this last section we present three visualisations that can be used to compare the non-implausible space identified at different waves of the process.
 
 The first visualisation, obtained through the function `wave_points`, shows the distribution of the non-implausible space for the waves of interest. For example, let us plot the distribution of parameter sets at the beginning, at the end of wave one and at the end of wave two:
 
@@ -1007,7 +1010,7 @@ all_points <- list(wave0, wave1, wave2)
 simulator_plot(all_points, targets)
 ```
 
-We can see that, compared to the space-filling random parameter sets used to train the first emulators, the new parameter sets are in much closer agreement with our targets. While the `initial_points` did not match any of the targets, we can see that at the end of wave two, we have several targets matched (I25, R25, R40, R100, R200). Subsequent waves, trained on the new parameter sets, will be more confident in the new non-implausible region: this will allow them to refine the region and increase the number of targets met.
+We can see that, compared to the space-filling random parameter sets used to train the first emulators, the new parameter sets are in much closer agreement with our targets. While there wasn't a single target matched by all parameter sets in wave zero, we have several targets matched by all parameter sets in wave (I25, R25, R40, R100, R200). Subsequent waves, trained on the new parameter sets, will be more confident in the new non-implausible region: this will allow them to refine the region and increase the number of targets met.
 
 ```{task}
 In the plot above, some targets are easier to read than others: this is due to the targets having quite different values and ranges. To help with this, `simulator_plot` has the argument `normalize`, which can be set to `TRUE` to rescale the target bounds in the plot. Similarly, the argument `logscale` can be used to plot log-scaled target bounds. Explore these options and get visualisations that are easier to interpret.
@@ -1020,3 +1023,15 @@ simulator_plot(all_points, targets, logscale = TRUE)
 ``
 These normalised/logscaled plots allow us to investigate better targets such as I200: it is now clear that this is not matched yet, even at the end of wave two. 
 ```
+
+In the third visualisation, output values for non-implausible parameter sets at each wave are shown for each combination of two outputs: 
+
+```{r fig.width = 9, fig.height = 9}
+wave_values(all_points, targets, l_wid=1)
+```
+
+The main diagonal shows the distribution of each output at the end of each wave, with the vertical red lines indicating the lower and upper bounds of the target. Above and below the main diagonal are plots for each pair of targets, with rectangles indicating the target area where full fitting points should lie (the ranges are normalised in the figures above the diagonals). These graphs can provide additional information on output distributions, such as correlations between them. the argument `l_wid` is optional and
+helps customise the width of the red lines that create the target boxes.
+
+In this workshop, we have shown how to perform the first two waves of the history matching process, using the hmer package. Of course, more waves are required, in order to complete the calibration task. Since this is an iterative process, at the end of each wave we need to decide whether to perform a new wave or to stop. One possible stopping criterion consists of comparing the emulator uncertainty and the target uncertainty. If the former is larger, another wave can be performed, since new, more confident emulators can potentially help further reduce the non-implausible space. If the uncertainty of emulators is smaller than the uncertainty in the targets, improving the performance of emulators would not make a substantial difference, and additional waves would not be beneficial. We may also choose to stop the iterations when we get emulators that provide us with full fitting points at a sufficiently high rate. In such a case, rather than spending time training new emulators, we can simply use the current emulators and generate points until we find enough full fitting ones. Finally, we might end up with all the input space deemed implausible at the end of a wave. In this situation, we would deduce that there are no parameter sets that give an acceptable match with the data: in particular, this would raise doubts about the adequacy of the chosen model, or input and/or output ranges.
+
