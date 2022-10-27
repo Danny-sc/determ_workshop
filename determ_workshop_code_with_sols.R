@@ -50,10 +50,10 @@ get_results <- function(params, times, outputs) {
 # S, E, I, R for them.
 plot_runs <- function(points){
   sol <- list()
-  for (i in 1:180) sol[[i]]<-ode_results(points[i,])
+  for (i in 1:nrow(points)) sol[[i]]<-ode_results(points[i,])
   par(mar = c(3, 3, 3, 3))
-  plot(sol[[1]],sol[[2]],sol[[3]],sol[[4]],sol[[5]],sol[[6]],sol[[7]],sol[[8]],sol[[9]],sol[[10]],sol[[11]],sol[[12]],sol[[13]],sol[[14]],sol[[15]],sol[[16]],sol[[17]],sol[[18]],sol[[19]],sol[[20]],sol[[21]],sol[[22]],sol[[23]],sol[[24]],sol[[25]],sol[[26]],sol[[27]],sol[[28]],sol[[29]],sol[[30]],sol[[31]],sol[[32]],sol[[33]],sol[[34]],sol[[35]],sol[[36]],sol[[37]],sol[[38]],sol[[39]],sol[[40]],sol[[41]],sol[[42]],sol[[43]],sol[[44]],sol[[45]],sol[[46]],sol[[47]],sol[[48]],sol[[49]],sol[[50]],sol[[51]],sol[[52]],sol[[53]],sol[[54]],sol[[55]],sol[[56]],sol[[57]],sol[[58]],sol[[59]],sol[[60]],sol[[61]],sol[[62]],sol[[63]],sol[[64]],sol[[65]],sol[[66]],sol[[67]],sol[[68]],sol[[69]],sol[[70]],sol[[71]],sol[[72]],sol[[73]],sol[[74]],sol[[75]],sol[[76]],sol[[77]],sol[[78]],sol[[79]],sol[[80]],sol[[81]],sol[[82]],sol[[83]],sol[[84]],sol[[85]],sol[[86]],sol[[87]],sol[[88]],sol[[89]],sol[[90]],sol[[91]],sol[[92]],sol[[93]],sol[[94]],sol[[95]] ,sol[[96]],sol[[97]],sol[[98]],sol[[99]],sol[[100]],sol[[101]],sol[[102]],sol[[103]],sol[[104]],sol[[105]],sol[[106]],sol[[107]],sol[[108]],sol[[109]],sol[[110]],sol[[111]],  sol[[112]],sol[[113]],sol[[114]],sol[[115]] ,sol[[116]],sol[[117]],sol[[118]],sol[[119]],sol[[120]],sol[[121]],sol[[122]],sol[[123]],sol[[124]],sol[[125]],sol[[126]],sol[[127]],sol[[128]],sol[[129]],sol[[130]],sol[[131]],sol[[132]],sol[[133]],sol[[134]],sol[[135]],sol[[136]],sol[[137]],sol[[138]],sol[[139]],sol[[140]],sol[[141]],sol[[142]],sol[[143]],sol[[144]],sol[[145]],sol[[146]],sol[[147]],sol[[148]],sol[[149]],sol[[150]],sol[[151]],sol[[152]],sol[[153]],sol[[154]],sol[[155]],sol[[156]],sol[[157]],sol[[158]],sol[[159]],sol[[160]],sol[[161]],sol[[162]],sol[[163]],sol[[164]],sol[[165]],sol[[166]],sol[[167]],sol[[168]],sol[[169]],sol[[170]],sol[[171]],sol[[172]],sol[[173]],sol[[174]],sol[[175]],sol[[176]],sol[[177]],sol[[178]],sol[[179]],sol[[180]])
-}
+  do.call(plot, sol)
+  }
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
