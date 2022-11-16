@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2021.3.23)  27 OCT 2022 09:50
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2021.3.23)  16 NOV 2022 17:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1298,11 +1298,11 @@ e
 t line 322.
 LaTeX Font Info:    Font shape `TS1/FiraSans-OsF/light/n' will be
 (Font)              scaled to size 10.0pt on input line 322.
-<SEIRSdiagram.png, id=189, 846.7635pt x 331.83975pt>
+<SEIRSdiagram.png, id=189, 875.06924pt x 337.26pt>
 File: SEIRSdiagram.png Graphic file (type png)
 <use SEIRSdiagram.png>
 Package pdftex.def Info: SEIRSdiagram.png  used on input line 339.
-(pdftex.def)             Requested size: 469.75258pt x 184.09222pt.
+(pdftex.def)             Requested size: 469.75305pt x 181.04727pt.
 <infection_rate.png, id=190, 591.71063pt x 513.41812pt>
 File: infection_rate.png Graphic file (type png)
 <use infection_rate.png>
@@ -1890,7 +1890,7 @@ Package rerunfilecheck Info: File `_main.out' has not changed.
 Here is how much of TeX's memory you used:
  29334 strings out of 480962
  586565 string characters out of 5905990
- 923125 words of memory out of 5000000
+ 923123 words of memory out of 5000000
  45739 multiletter control sequences out of 15000+600000
  623861 words of font info for 88 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
@@ -1920,7 +1920,7 @@ eX/texmf-dist/fonts/type1/public/lm/lmtk10.pfb><c:/Users/danny/AppData/Roaming/
 TinyTeX/texmf-dist/fonts/type1/public/lm/lmtko10.pfb><c:/Users/danny/AppData/Ro
 aming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb><c:/Users/danny/AppDa
 ta/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtti10.pfb>
-Output written on _main.pdf (94 pages, 11025691 bytes).
+Output written on _main.pdf (94 pages, 11055947 bytes).
 PDF statistics:
  1180 PDF objects out of 1200 (max. 8388607)
  914 compressed objects within 10 object streams
