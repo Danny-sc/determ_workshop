@@ -125,7 +125,9 @@ get_results <- function(params, times, outputs) {
 
 # An overview of history matching with emulation and hmer
 
-In this section we briefly recap the history matching with emulation workflow and we explain how various steps of the process can be performed using hmer functions.
+A video presentation of this section can be found [here](https://youtu.be/v67BxF3WyCk).
+
+In this section we briefly recap the history matching with emulation workflow and we explain how various steps of the process can be performed using hmer functions.  For a more detailed introduction to history matching with emulation you can check [Ian Vernon's presentation](https://youtu.be/uzbLVw_APQ8).
 
 ``` {r, echo = FALSE, fig.cap='History matching with emulation workflow'}
 knitr::include_graphics('hme_flowchart_cut.png')
@@ -153,6 +155,9 @@ The last column of the table indicates what section of this workshop deals with 
 
 
 # Introduction to the model {#intro}
+
+A video presentation of this section can be found [here](https://youtu.be/pOWVBcE8EeQ).
+
 In this section we introduce the model that we will work with throughout our workshop. 
 
 The model that we chose for demonstration purposes is a deterministic  <span class="abbr" title="A model consisting of four compartments 
@@ -323,7 +328,12 @@ Here the black line is the model output when the model is run with the previous 
 
 
 # 'wave0' - parameter ranges, targets and design points
-In this section we set up the emulation task, defining the input parameter ranges, the calibration targets and all the data necessary to build the first wave of emulators. For the sake of clarity, in this workshop we will adopt the word 'data' only when referring to the set of runs of the model that are used to train emulators. Real-world observations, that inform our choice of targets, will instead be referred to as 'observations'.
+
+ A video presentation of this section can be found [here](https://youtu.be/hV9LnGrNh6Y). 
+
+In this section we set up the emulation task, defining the input parameter ranges, the calibration targets and all the data necessary to build the first wave of emulators.
+
+For the sake of clarity, in this workshop we will adopt the word 'data' only when referring to the set of runs of the model that are used to train emulators. Real-world observations, that inform our choice of targets, will instead be referred to as 'observations'.
 Before we tackle the emulation, we need to define some objects. First of all, let us set the parameter ranges:
 
 ```{r}
@@ -420,6 +430,9 @@ Note that your model can be written in any programming languages and  that when 
 
 
 # Emulators {#constr}
+
+A video presentation of this section can be found [here](https://youtu.be/6qg5-qQ5j54).
+
 This section will start with a short recap on the structure of an emulator. We will then train the first wave of emulators and explore them through various visualisations. Note that this section is a bit technical: while it is important to grasp the overall picture of how emulators work, it is not crucial that you understand each detail given in here. 
 
 Let us start by splitting `wave0` in two parts: the training set (the first half), on which we will train the emulators, and a validation set (the second half), which will be used to do diagnostics of the emulators. 
@@ -588,7 +601,9 @@ We see that we have a very high value of the adjusted $R^2$. This means that the
 
 # Implausibility
 
-In this section we focus on implausibility and its role in the history matching process. Once emulators are built, we want to use them to systematically explore the input space. For any chosen parameter set, the emulator provides us with an approximation of the corresponding model output. This value is what we need to assess the implausibility of the parameter set in question.
+A video presentation of this section can be found [here](https://youtu.be/HL-gWNNZYks). 
+
+In this section we focus on implausibility and its role in the history matching process. Once emulators are built, we want to use them to systematically explore the input space. For any chosen parameter set, the emulator provides us with an approximation of the corresponding model output. This value is what we need to assess the implausibility of the parameter set in question. 
 
 For a given model output and a given target, the implausibility measures the difference between the emulator output and the target, taking into account all sources of uncertainty. For a parameter set $x$, the general form for the implausibility $\text{Imp}(x)$ is
 
@@ -670,7 +685,9 @@ The plot shows what we expected: when $\beta_1$ and $\gamma$ are equal to their 
 
 # Emulator diagnostics
 
-In this section we explore various diagnostic tests to evaluate the performance of the emulators and we learn how to address emulators that fail one or more of these diagnostics.  
+A video presentation of this section can be found [here](https://youtu.be/8TNNUM9k4uQ). 
+
+In this section we explore various diagnostic tests to evaluate the performance of the emulators and we learn how to address emulators that fail one or more of these diagnostics. 
 
 For a given set of emulators, we want to assess how accurately they reflect the model outputs over the input space. For a given validation set, we can ask the following questions:
 
@@ -795,7 +812,10 @@ The above exploration highlights the importance of finding a value of $\sigma$ t
 
 # Proposing new points
 
-In this section we generate the set of points that will be used to train the second wave of emulators. Through visualisations offered by hmer, we then explore these points and assess how much of the initial input space has been removed by the first wave of emulators.
+A video presentation of this section can be found [here](https://youtu.be/BrVXGRQJ-MA).
+
+In this section we generate the set of points that will be used to train the second wave of emulators. Through visualisations offered by hmer, we then explore these points and assess how much of the initial input space has been removed by the first wave of emulators.  
+
 
 The function `generate_new_runs` is designed to generate new sets of parameters; its default behaviour is as follows.
 
@@ -881,7 +901,8 @@ By default the plot shows the percentage of space that is deemed implausible bot
 
 # Customise the first wave
 
-This section consists of just one task: it is time to put all you have learnt so far to good use!
+This section consists of just one task: it is time to put all you have learnt so far to good use! 
+
 
 ```{task}
 Now that we have learnt how to customise the various steps of the process, try to improve the performance of the first wave of emulation and history matching. First, have a look at the emulator diagnostics and see if you can improve the performance of the emulators. Then generate new points using your improved emulators, and compare them to those shown in the task at the end of last section. 
@@ -919,7 +940,11 @@ If we compare the parameter sets we just generated with those generated using no
 ```
 
 # Second wave
-In this section we move to the second wave of emulation. We will start by defining all the data necessary to train the second wave of emulators. We will then go through the same steps as in the previous section to train the emulators, test them and generate new points. We conclude the section with a short discussion on when and how to customise the value of the correlation lengths.
+
+A video presentation of this section can be found [here](https://youtu.be/wOn0elPyKXg). 
+
+In this section we move to the second wave of emulation. We will start by defining all the data necessary to train the second wave of emulators. We will then go through the same steps as in the previous section to train the emulators, test them and generate new points. We conclude the section with a short discussion on when and how to customise the value of the correlation lengths. 
+
 
 To perform a second wave of history matching and emulation we follow the same procedure as in the previous sections, with two caveats. We start by forming a dataframe `wave1` using parameters sets in `new_points`, as we did with `wave0`, i.e. we evaluate the function `get_results` on `new_points` and then bind the obtained outputs to `new_points`. Half of `wave1` should be used as the training set for the new emulators, and the other half as the validation set to evaluate the new emulators' performance. Note that when dealing with computationally expensive models, using the same number of points for the training and validation sets may not feasible. If $p$ is the number of parameters, a good rule of thumb is to build a training set with at least $10p$ points, and a validation set with at least $p$ points. 
 
@@ -1074,7 +1099,10 @@ causes the implausibility measure to have higher values: as a consequence, more 
 
 # Visualisations of non-implausible space by wave {#visual}
 
-In this last section we present three visualisations that can be used to compare the non-implausible space identified at different waves of the process.
+A video presentation of this section can be found [here](https://youtu.be/y20yKW5yzCQ). 
+
+In this last section we present three visualisations that can be used to compare the non-implausible space identified at different waves of the process. 
+
 
 The first visualisation, obtained through the function `wave_points`, shows the distribution of the non-implausible space for the waves of interest. For example, let us plot the distribution of parameter sets at the beginning, at the end of wave one and at the end of wave two:
 

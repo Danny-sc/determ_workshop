@@ -11,6 +11,7 @@ library(ggplot2)
 library(reshape2)
 library(purrr)
 library(tidyverse)
+library(lhs)
 set.seed(123)
 
 
@@ -24,8 +25,8 @@ ode_results <- function(parms, end_time = 365*2) {
   des = function(time, state, parms) {
     with(as.list(c(state, parms)), {
       dS <- b*(S+E+I+R)-force_func(time)*I*S/(S+E+I+R) + omega*R - mu*S
-      dE <- force_func(time)*I*S/(S+E+I+R) - sigma*E - mu*E
-      dI <- sigma*E - alpha*I - gamma*I - mu*I
+      dE <- force_func(time)*I*S/(S+E+I+R) - epsilon*E - mu*E
+      dI <- epsilon*E - alpha*I - gamma*I - mu*I
       dR <- gamma*I - omega*R - mu*R
       return(list(c(dS, dE, dI, dR)))
     })
@@ -65,7 +66,7 @@ example_params <- c(
   b = 1/(60*365),
   mu = 1/(76*365),
   beta1 = 0.2, beta2 = 0.1, beta3 = 0.3,
-  sigma = 0.13,
+  epsilon = 0.13,
   alpha = 0.01,
   gamma = 0.08,
   omega = 0.003
@@ -83,7 +84,7 @@ higher_foi_params <- c(
 b = 1/(60*365),
 mu = 1/(76*365),
 beta1 = 0.3, beta2 = 0.1, beta3 = 0.5,
-sigma = 0.13,
+epsilon = 0.13,
 alpha = 0.01,
 gamma = 0.08,
 omega = 0.003
@@ -92,30 +93,30 @@ higher_foi_solution <- ode_results(higher_foi_params)
 plot(solution, higher_foi_solution)
 
 # Increase the rate of becoming infectious (sigma), run the model, and plot the new solution on top of the previous one
-higher_sigma_params <- c(
+higher_epsilon_params <- c(
 b = 1/(60*365),
 mu = 1/(76*365),
 beta1 = 0.3, beta2 = 0.1, beta3 = 0.5,
-sigma = 0.21,
+epsilon = 0.21,
 alpha = 0.01,
 gamma = 0.08,
 omega = 0.003
 )
-higher_sigma_solution <- ode_results(higher_sigma_params)
-plot(higher_foi_solution,higher_sigma_solution)
+higher_epsilon_solution <- ode_results(higher_epsilon_params)
+plot(higher_foi_solution,higher_epsilon_solution)
 
 # Decrease the recovery rate (gamma), run the model, and plot the new solution on top of the previous one
 smaller_recovery_params <- c(
 b = 1/(60*365),
 mu = 1/(76*365),
 beta1 = 0.3, beta2 = 0.1, beta3 = 0.5,
-sigma = 0.21,
+epsilon = 0.21,
 alpha = 0.01,
 gamma = 0.05,
 omega = 0.003
 )
 smaller_recovery_solution <- ode_results(smaller_recovery_params)
-plot(higher_sigma_solution, smaller_recovery_solution)
+plot(higher_epsilon_solution, smaller_recovery_solution)
 
 ### End of the solution ###
 
@@ -132,7 +133,7 @@ ranges = list(
   beta1 = c(0.2, 0.3), # infection rate from time t=0
   beta2 = c(0.1, 0.2), # infection rate from time t=100
   beta3 = c(0.3, 0.5), # infection rate from time t=270
-  sigma = c(0.07, 0.21), # rate of becoming infectious after infection
+  epsilon = c(0.07, 0.21), # rate of becoming infectious after infection
   alpha = c(0.01, 0.025), # rate of death from the disease
   gamma = c(0.05, 0.08), # recovery rate
   omega = c(0.002, 0.004) # rate at which immunity is lost following recovery
@@ -157,11 +158,13 @@ targets <- list(
 # The parameter set below was used to determine the targets. The model was run on it and the outputs taken to 
 # be the mean value of the targets. The standard deviations were defined as 5% of the corresponding mean value.
 chosen_params <- list(b = 1/(76*365), mu = 1/(76*365), beta1 = 0.214, 
-                      beta2 = 0.107, beta3 = 0.428, sigma = 1/7, alpha = 1/50, gamma = 1/14, omega = 1/365)
+                      beta2 = 0.107, beta3 = 0.428, epsilon = 1/7, alpha = 1/50, gamma = 1/14, omega = 1/365)
 
-# Define a Latin hypercube design through the function `randomLHS`. This function assumes that each parameter 
+# Define two Latin hypercube designs through the function `maximinLHS`. This function assumes that each parameter 
 # is distributed on [0,1]
-initial_LHS <- lhs::randomLHS(180, 9)
+initial_LHS_training <- maximinLHS(90, 9)
+initial_LHS_validation <- maximinLHS(90, 9)
+initial_LHS <- rbind(initial_LHS_training, initial_LHS_validation)
 
 # Rescale the parameter ranges from [0,1] to the correct ranges, and add columns names to identify the parameters
 initial_points <- setNames(data.frame(t(apply(initial_LHS, 1, 
@@ -182,10 +185,8 @@ wave0 <- cbind(initial_points, initial_results)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 # Split the dataframe `wave0` into a training and a validation set
-t_sample <- sample(1:nrow(wave0), 90)
-training <- wave0[t_sample,]
-validation <- wave0[-t_sample,]
-
+training <- wave0[1:90,]
+validation <- wave0[91:180,]
 
 # # # # # # # # # # # # # # # # # # # #  4.2 TRAINING EMULATORS  # # # # # # # # # # # # # # # # # # # # # # #
 
@@ -316,8 +317,9 @@ plot_wrap(new_points, ranges)
 ### End of the solution ###
 
 
-# Pass the list of wave 1 emulators to `space_removed` to quantify how much of the input space has been cut out
-space_removed(ems_wave1, targets, ppd=3) + geom_vline(xintercept = 3, lty = 2) + 
+# Pass the list of wave 1 emulators to `space_removed` to quantify how much of the input space has been cut out.
+# Here we set ppd to 2, to speed the process up. 
+space_removed(ems_wave1, targets, ppd=2) + geom_vline(xintercept = 3, lty = 2) + 
   geom_text(aes(x=3, label="x = 3",y=0.33), colour="black", 
   angle=90, vjust = 1.2, text=element_text(size=11))
 
@@ -334,7 +336,7 @@ space_removed(ems_wave1, targets, ppd=3) + geom_vline(xintercept = 3, lty = 2) +
 vd <- validation_diagnostics(ems_wave1, validation = validation, targets = targets, plt=TRUE)
 
 # Define a vector indicating the factor by which each sigma should be multiplied
-inflations <- c(1.5,1.5,2,1.5,2,1.5,2,1.5,1,1.3,2,2)
+inflations <- c(1.5,1.5,1,1,1,1,1.5,1.5,2,2,1.5,2)
 
 # Loop through the vector `inflations` and modify the sigma values of emulators
 for (i in 1:length(ems_wave1)) {
@@ -356,20 +358,6 @@ plot_wrap(new_points, ranges)
 ###############################################  9. SECOND WAVE  ##############################################
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-# Define new ranges for the parameters, by finding the smallest hyper-rectangle containing the non-implausible 
-# region found at the end of wave 1.  
-min_val <- list()
-max_val <- list()
-new_ranges <- list()
-for (i in 1:length(ranges)) {
-    par <- names(ranges)[[i]]
-    min_val[[par]] <- max(min(new_points[,par])-0.05*diff(range(new_points[,par])), 
-                      ranges[[par]][1])
-    max_val[[par]] <- min(max(new_points[,par])+0.05*diff(range(new_points[,par])),
-                      ranges[[par]][2])
-    new_ranges[[par]] <- c(min_val[[par]], max_val[[par]])
-}
-
 
 ###  Solution to the task on training and customising new emulators ###
 
@@ -386,12 +374,12 @@ new_training <- wave1[new_t_sample,]
 new_validation <- wave1[-new_t_sample,]
 
 # Train wave 2 emulators using `emulator_from_data`, passing the new ranges to it
-ems_wave2 <- emulator_from_data(new_training, names(targets), new_ranges, c_lengths= rep(0.55,length(targets)))
+ems_wave2 <- emulator_from_data(new_training, names(targets), ranges, check.ranges = TRUE, c_lengths= rep(0.55,length(targets)))
 # Produce diagnostics for all wave 2 emulators
 
 vd <- validation_diagnostics(ems_wave2, validation = new_validation, targets = targets, plt=TRUE)
 # Define a vector indicating the factor by which each sigma should be multiplied
-inflations <- c(2,1,2,2,2,2,2,2,2,1,2,2)
+inflations <- c(2,4,2,2,2,1,3,2,2,2,2,2)
 for (i in 1:length(ems_wave2)) {
 ems_wave2[[i]] <- ems_wave2[[i]]$mult_sigma(inflations[[i]])
 }
@@ -454,7 +442,7 @@ emulator_plot(ems_wave1_linear$I200, plot_type = 'imp', targets = targets,
 
 # Show the distribution of the non-implausible space before the wave 1, at the end of wave 1 and at the end of
 # wave 2 using the function `wave_points`
-wave_points(list(initial_points, new_points, new_new_points), input_names = names(ranges))
+wave_points(list(initial_points, new_points, new_new_points), input_names = names(ranges), p_size = 1)
 
 # Create a dataframe `wave2` binding the parameters sets generated at the end of wave 2 with the corresponding 
 # model outputs
@@ -480,4 +468,4 @@ simulator_plot(all_points, targets, logscale = TRUE)
 ### End of the solution ###
 
 # For each combination of two outputs, show the output values for non-implausible parameter sets at each wave.
-wave_values(all_points, targets)
+wave_values(all_points, targets, p_size = 1)

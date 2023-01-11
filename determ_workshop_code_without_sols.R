@@ -11,6 +11,7 @@ library(ggplot2)
 library(reshape2)
 library(purrr)
 library(tidyverse)
+library(lhs)
 set.seed(123)
 
 
@@ -24,8 +25,8 @@ ode_results <- function(parms, end_time = 365*2) {
   des = function(time, state, parms) {
     with(as.list(c(state, parms)), {
       dS <- b*(S+E+I+R)-force_func(time)*I*S/(S+E+I+R) + omega*R - mu*S
-      dE <- force_func(time)*I*S/(S+E+I+R) - sigma*E - mu*E
-      dI <- sigma*E - alpha*I - gamma*I - mu*I
+      dE <- force_func(time)*I*S/(S+E+I+R) - epsilon*E - mu*E
+      dI <- epsilon*E - alpha*I - gamma*I - mu*I
       dR <- gamma*I - omega*R - mu*R
       return(list(c(dS, dE, dI, dR)))
     })
@@ -50,10 +51,11 @@ get_results <- function(params, times, outputs) {
 # S, E, I, R for them.
 plot_runs <- function(points){
   sol <- list()
-  for (i in 1:180) sol[[i]]<-ode_results(points[i,])
+  for (i in 1:nrow(points)) sol[[i]]<-ode_results(points[i,])
   par(mar = c(3, 3, 3, 3))
-  plot(sol[[1]],sol[[2]],sol[[3]],sol[[4]],sol[[5]],sol[[6]],sol[[7]],sol[[8]],sol[[9]],sol[[10]],sol[[11]],sol[[12]],sol[[13]],sol[[14]],sol[[15]],sol[[16]],sol[[17]],sol[[18]],sol[[19]],sol[[20]],sol[[21]],sol[[22]],sol[[23]],sol[[24]],sol[[25]],sol[[26]],sol[[27]],sol[[28]],sol[[29]],sol[[30]],sol[[31]],sol[[32]],sol[[33]],sol[[34]],sol[[35]],sol[[36]],sol[[37]],sol[[38]],sol[[39]],sol[[40]],sol[[41]],sol[[42]],sol[[43]],sol[[44]],sol[[45]],sol[[46]],sol[[47]],sol[[48]],sol[[49]],sol[[50]],sol[[51]],sol[[52]],sol[[53]],sol[[54]],sol[[55]],sol[[56]],sol[[57]],sol[[58]],sol[[59]],sol[[60]],sol[[61]],sol[[62]],sol[[63]],sol[[64]],sol[[65]],sol[[66]],sol[[67]],sol[[68]],sol[[69]],sol[[70]],sol[[71]],sol[[72]],sol[[73]],sol[[74]],sol[[75]],sol[[76]],sol[[77]],sol[[78]],sol[[79]],sol[[80]],sol[[81]],sol[[82]],sol[[83]],sol[[84]],sol[[85]],sol[[86]],sol[[87]],sol[[88]],sol[[89]],sol[[90]],sol[[91]],sol[[92]],sol[[93]],sol[[94]],sol[[95]] ,sol[[96]],sol[[97]],sol[[98]],sol[[99]],sol[[100]],sol[[101]],sol[[102]],sol[[103]],sol[[104]],sol[[105]],sol[[106]],sol[[107]],sol[[108]],sol[[109]],sol[[110]],sol[[111]],  sol[[112]],sol[[113]],sol[[114]],sol[[115]] ,sol[[116]],sol[[117]],sol[[118]],sol[[119]],sol[[120]],sol[[121]],sol[[122]],sol[[123]],sol[[124]],sol[[125]],sol[[126]],sol[[127]],sol[[128]],sol[[129]],sol[[130]],sol[[131]],sol[[132]],sol[[133]],sol[[134]],sol[[135]],sol[[136]],sol[[137]],sol[[138]],sol[[139]],sol[[140]],sol[[141]],sol[[142]],sol[[143]],sol[[144]],sol[[145]],sol[[146]],sol[[147]],sol[[148]],sol[[149]],sol[[150]],sol[[151]],sol[[152]],sol[[153]],sol[[154]],sol[[155]],sol[[156]],sol[[157]],sol[[158]],sol[[159]],sol[[160]],sol[[161]],sol[[162]],sol[[163]],sol[[164]],sol[[165]],sol[[166]],sol[[167]],sol[[168]],sol[[169]],sol[[170]],sol[[171]],sol[[172]],sol[[173]],sol[[174]],sol[[175]],sol[[176]],sol[[177]],sol[[178]],sol[[179]],sol[[180]])
+  do.call(plot, sol)
 }
+
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
 ########################################  2. INTRODUCTION TO THE MODEL  #######################################
@@ -64,7 +66,7 @@ example_params <- c(
   b = 1/(60*365),
   mu = 1/(76*365),
   beta1 = 0.2, beta2 = 0.1, beta3 = 0.3,
-  sigma = 0.13,
+  epsilon = 0.13,
   alpha = 0.01,
   gamma = 0.08,
   omega = 0.003
@@ -74,8 +76,7 @@ par(mar = c(2, 2, 2, 2))
 plot(solution)
 
 
-### Put here your solution to the task on familiarising yourself with the model ###
-
+### Write here your solution to the task on familiarising yourself with the model ###
 
 ### End of the solution ###
 
@@ -92,7 +93,7 @@ ranges = list(
   beta1 = c(0.2, 0.3), # infection rate from time t=0
   beta2 = c(0.1, 0.2), # infection rate from time t=100
   beta3 = c(0.3, 0.5), # infection rate from time t=270
-  sigma = c(0.07, 0.21), # rate of becoming infectious after infection
+  epsilon = c(0.07, 0.21), # rate of becoming infectious after infection
   alpha = c(0.01, 0.025), # rate of death from the disease
   gamma = c(0.05, 0.08), # recovery rate
   omega = c(0.002, 0.004) # rate at which immunity is lost following recovery
@@ -117,11 +118,13 @@ targets <- list(
 # The parameter set below was used to determine the targets. The model was run on it and the outputs taken to 
 # be the mean value of the targets. The standard deviations were defined as 5% of the corresponding mean value.
 chosen_params <- list(b = 1/(76*365), mu = 1/(76*365), beta1 = 0.214, 
-                      beta2 = 0.107, beta3 = 0.428, sigma = 1/7, alpha = 1/50, gamma = 1/14, omega = 1/365)
+                      beta2 = 0.107, beta3 = 0.428, epsilon = 1/7, alpha = 1/50, gamma = 1/14, omega = 1/365)
 
-# Define a Latin hypercube design through the function `randomLHS`. This function assumes that each parameter 
+# Define two Latin hypercube designs through the function `maximinLHS`. This function assumes that each parameter 
 # is distributed on [0,1]
-initial_LHS <- lhs::randomLHS(180, 9)
+initial_LHS_training <- maximinLHS(90, 9)
+initial_LHS_validation <- maximinLHS(90, 9)
+initial_LHS <- rbind(initial_LHS_training, initial_LHS_validation)
 
 # Rescale the parameter ranges from [0,1] to the correct ranges, and add columns names to identify the parameters
 initial_points <- setNames(data.frame(t(apply(initial_LHS, 1, 
@@ -142,10 +145,8 @@ wave0 <- cbind(initial_points, initial_results)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 # Split the dataframe `wave0` into a training and a validation set
-t_sample <- sample(1:nrow(wave0), 90)
-training <- wave0[t_sample,]
-validation <- wave0[-t_sample,]
-
+training <- wave0[1:90,]
+validation <- wave0[91:180,]
 
 # # # # # # # # # # # # # # # # # # # #  4.2 TRAINING EMULATORS  # # # # # # # # # # # # # # # # # # # # # # #
 
@@ -159,7 +160,7 @@ ems_wave1$R200
 emulator_plot(ems_wave1$R200, params = c('beta1', 'gamma'))
 
 
-###  Put here your solution to the task on active variables ###
+###  Write here your solution to the task on active variables ###
 
 ### End of the solution ###
 
@@ -188,7 +189,7 @@ emulator_plot(ems_wave1, plot_type = 'imp',
               targets = targets, params = c('beta1', 'gamma'), cb=TRUE)
 
 
-### Put here your solution to the task on the functionalities of `emulator_plot` ###
+### Write here your solution to the task on the functionalities of `emulator_plot` ###
 
 ### End of the solution ###
 
@@ -210,7 +211,7 @@ vd <- validation_diagnostics(sigmadoubled_emulator,
                              validation = validation, targets = targets, plt=TRUE)
 
 
-### Put here your solution to the task on varying the value of sigma  ###
+### Write here your solution to the task on varying the value of sigma  ###
 
 ### End of the solution ###
 
@@ -227,13 +228,14 @@ new_points_restricted <- generate_new_runs(restricted_ems, 180, targets, verbose
 plot_wrap(new_points_restricted, ranges)
 
 
-### Put here your solution to the task on generating new points using all emulators ###
+### Write here your solution to the task on generating new points using all emulators ###
 
 ### End of the solution ###
 
 
-# Pass the list of wave 1 emulators to `space_removed` to quantify how much of the input space has been cut out
-space_removed(ems_wave1, targets, ppd=3) + geom_vline(xintercept = 3, lty = 2) + 
+# Pass the list of wave 1 emulators to `space_removed` to quantify how much of the input space has been cut out.
+# Here we set ppd to 2, to speed the process up. 
+space_removed(ems_wave1, targets, ppd=2) + geom_vline(xintercept = 3, lty = 2) + 
   geom_text(aes(x=3, label="x = 3",y=0.33), colour="black", 
             angle=90, vjust = 1.2, text=element_text(size=11))
 
@@ -244,7 +246,7 @@ space_removed(ems_wave1, targets, ppd=3) + geom_vline(xintercept = 3, lty = 2) +
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
-### Put here your solution to the task on customising the first wave ###
+### Write here your solution to the task on customising the first wave ###
 
 ### End of the solution ###
 
@@ -254,22 +256,8 @@ space_removed(ems_wave1, targets, ppd=3) + geom_vline(xintercept = 3, lty = 2) +
 ###############################################  9. SECOND WAVE  ##############################################
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-# Define new ranges for the parameters, by finding the smallest hyper-rectangle containing the non-implausible 
-# region found at the end of wave 1.  
-min_val <- list()
-max_val <- list()
-new_ranges <- list()
-for (i in 1:length(ranges)) {
-  par <- names(ranges)[[i]]
-  min_val[[par]] <- max(min(new_points[,par])-0.05*diff(range(new_points[,par])), 
-                        ranges[[par]][1])
-  max_val[[par]] <- min(max(new_points[,par])+0.05*diff(range(new_points[,par])),
-                        ranges[[par]][2])
-  new_ranges[[par]] <- c(min_val[[par]], max_val[[par]])
-}
 
-
-###  Put here your solution to the task on training and customising new emulators ###
+###  Write here your solution to the task on training and customising new emulators ###
 
 ### End of the solution ###
 
@@ -322,7 +310,7 @@ emulator_plot(ems_wave1_linear$I200, plot_type = 'imp', targets = targets,
 
 # Show the distribution of the non-implausible space before the wave 1, at the end of wave 1 and at the end of
 # wave 2 using the function `wave_points`
-wave_points(list(initial_points, new_points, new_new_points), input_names = names(ranges))
+wave_points(list(initial_points, new_points, new_new_points), input_names = names(ranges), p_size = 1)
 
 # Create a dataframe `wave2` binding the parameters sets generated at the end of wave 2 with the corresponding 
 # model outputs
@@ -337,9 +325,9 @@ all_points <- list(wave0, wave1, wave2)
 simulator_plot(all_points, targets)
 
 
-### Put here your solution to the task on `simulator_plot` function ###
+### Write here your solution to the task on `simulator_plot` function ###
 
 ### End of the solution ###
 
 # For each combination of two outputs, show the output values for non-implausible parameter sets at each wave.
-wave_values(all_points, targets)
+wave_values(all_points, targets, p_size = 1)
