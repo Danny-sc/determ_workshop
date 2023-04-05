@@ -8,5 +8,5 @@ In this workshop, you will be invited to carry out a series of tasks (see “Tas
 Thanks to these activities, you will learn to calibrate deterministic models using history matching and model emulation, and to use your judgement to 
 customise the process. This workshop should be considered as a natural continuation of [Tutorial 1](https://danny-sc.github.io/Tutorial_1/), which introduces the history matching with emulation 
 framework with a one-dimensional example, and of [Tutorial 2](https://danny-sc.github.io/Tutorial_2/), which gives a general overview of the history matching with emulation process for 
-deterministic models, and shows how to perform it using hmer. Following Workshop 1, you may also want to read [Workshop 2](https://danny-sc.github.io/stoch_workshop/), where we demonstrate how 
+deterministic models, and shows how to perform it using hmer. Following the Deterministic Workshop, you may also want to read the [Stochastic Workshop](https://danny-sc.github.io/stoch_workshop/), where we demonstrate how 
 to calibrate stochastic models.
