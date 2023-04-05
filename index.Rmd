@@ -810,6 +810,41 @@ The above exploration highlights the importance of finding a value of $\sigma$ t
 
 ```
 
+It is possible to automate the validation process. If we have a list of trained emulators `ems`, we can start with an iterative process to ensure that emulators do not produce misclassifications:
+
+1. check if there are misclassifications for each emulator (middle column diagnostic in plot above) with the function `classification_diag`;
+
+2. in case of misclassifications, increase the `sigma` (say by 10%) and go to step 1.
+
+The code below implements this approach:
+
+```{r, eval = F}
+for (j in 1:length(ems)) {
+      misclass <- nrow(classification_diag(ems[[j]], targets, validation, plt = FALSE))
+      while(misclass > 0) {
+        ems[[j]] <- ems[[j]]$mult_sigma(1.1)
+        misclass <- nrow(classification_diag(ems[[j]], targets, validation, plt = FALSE))
+      }
+}
+```
+
+The step above helps us ensure that our emulators are not overconfident and do not rule out parameter sets that give a match  with the empirical data.
+
+Once misclassifications have been eliminated, the second step is to ensure that the emulators’ predictions agree, within tolerance given by their uncertainty, with the simulator output. We can check how many validation points fail the first of the diagnostics (left column in plot above) with the function `comparison_diag`, and discard an emulator if it produces too many failures. The code below implements this, removing emulators for which more than 10% of validation points do not pass the first diagnostic:
+
+```{r, eval=F}
+bad.ems <- c()
+for (j in 1:length(ems)) {
+          bad.model <- nrow(comparison_diag(ems[[j]], targets, validation, plt = FALSE))
+          if (bad.model > floor(nrow(validation)/10)) {
+            bad.ems <- c(bad.ems, j)
+   }
+}
+ems <- ems[!seq_along(ems) %in% bad.ems]
+```
+
+Note that the code provided above gives just an example of how one can automate the validation process and can be adjusted to produce a more or less conservative approach. Furthermore, it does not check for more subtle aspects, e.g. whether an emulator systematically underestimates/overestimates the corresponding model output. For this reason, even though automation can be a useful tool (e.g. if we are running several calibration processes and/or have a long list of targets), we should not think of it as a full replacement for a careful, in-depth inspection from an expert.
+
 # Proposing new points
 
 A video presentation of this section can be found [here](https://youtu.be/BrVXGRQJ-MA).
