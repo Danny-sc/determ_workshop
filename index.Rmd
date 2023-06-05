@@ -71,6 +71,8 @@ In this workshop, you will be invited to carry out a series of tasks (see "Task"
 
 For further discussion and justification of the various stages of the history matching with emulation process, please see @bower2010galaxy and @vernon2018bayesian.
 
+Note that when running the workshop code on your device, you should not expect the hmer visualisation tools to produce the same exact output as the one you can find in the following sections. This is mainly because the maximinLHS function, that you will use to define the initial parameter sets on which emulators are trained, does return different Latin Hypercube designs at each call. 
+
 Before starting the tutorial, you will need to run the code contained in the box below: it will load all relevant dependencies and a few helper functions which will be introduced and used later.   
 
 ```{info, title="Code to load relevant libraries and helper functions"}
@@ -503,7 +505,7 @@ Choosing values for $\sigma$ and $\theta$ corresponds to making a judgment about
 
 ## Training emulators
 
-We are now ready to train the emulators using the `emulator_from_data` function, which needs at least the following data: the training set, the names of the targets we want to emulate and the ranges of the parameters. By default, `emulator_from_data` assumes a square-exponential correlation function and finds suitable values for the variance $\sigma$ and the correlation length $\theta$ of the process $u(x)$. In this workshop, in order to shorten the time needed to train emulators, we pass one more argument to `emulator_from_data`, setting the correlation lengths to be $0.55$ for all emulators. Normally, the argument `c_lengths` will not be needed, since the correlation lengths are determined by the `emulator_from_data` function itself.
+We are now ready to train the emulators using the `emulator_from_data` function, which needs at least the following data: the training set, the names of the targets we want to emulate and the ranges of the parameters. By default, `emulator_from_data` assumes a square-exponential correlation function and finds suitable values for the variance $\sigma$ and the correlation length $\theta$ of the process $u(x)$. In this workshop, in order to shorten the time needed to train emulators, we pass one more argument to `emulator_from_data`, setting the correlation lengths to be $0.55$ for all emulators. Normally, the argument `specified_priors` will not be needed, since the correlation lengths are determined by the `emulator_from_data` function itself.
 
 ```{info, title="How was the value 0.55 chosen?"}
 The value $0.55$ was chosen using the Durham heuristics, which states that the correlation length should lie in the interval $[1/(n+1), 2/(n+1)]$ where $n$ is the degree of the fitted surface. In our case $n$ is 2 and therefore the correlation length should be in $[1/3,2/3]$. We chose $0.55$, a value little above the midpoint of this interval, to represent our belief that the model is smooth (and therefore correlations between neighboring points should be appreciable).
@@ -512,7 +514,7 @@ The value $0.55$ was chosen using the Durham heuristics, which states that the c
 
 ```{r}
 ems_wave1 <- emulator_from_data(training, names(targets), ranges, 
-                                c_lengths= rep(0.55,length(targets)))
+                                specified_priors = list(hyper_p = rep(0.55, length(targets))))
 ```
 
 In `ems_wave1` we have information about all emulators. Let us take a look at the emulator of the number of recovered individuals at time $t=200$:
@@ -852,7 +854,7 @@ A video presentation of this section can be found [here](https://youtu.be/BrVXGR
 In this section we generate the set of points that will be used to train the second wave of emulators. Through visualisations offered by hmer, we then explore these points and assess how much of the initial input space has been removed by the first wave of emulators.  
 
 
-The function `generate_new_runs` is designed to generate new sets of parameters; its default behaviour is as follows.
+The function `generate_new_design` is designed to generate new sets of parameters; its default behaviour is as follows.
 
 STEP 1. If  prior parameter sets are provided, step 1 is skipped, otherwise a set is generated using a [Latin Hypercube Design](https://en.wikipedia.org/wiki/Latin_hypercube_sampling), rejecting implausible parameter sets. Figure \@ref(fig:lhsamp) shows an example of LH sampling (not for our model), with implausible parameter sets in red and non-implausible ones in blue:
 
@@ -882,10 +884,10 @@ Let us generate $180$ new sets of parameters, using the emulators for the time u
 
 ```{r fig.width = 9, fig.height = 9}
 restricted_ems <- ems_wave1[c(1,2,3,4,7,8,9,10)]
-new_points_restricted <- generate_new_runs(restricted_ems, 180, targets, verbose=TRUE)
+new_points_restricted <- generate_new_design(restricted_ems, 180, targets, verbose=TRUE)
 ```
 
-Note that, depending on the complexity of the calibration task, Latin Hypercube may not be able to find any parameter sets with implausibility below three. If that happens, `generate_new_runs` will perform step 1 (Latin Hypercube sampling) at a higher implausbility threshold, to find a space-filling design. Using this as a starting point, step 2 (line sampling) and step 3 (importance sampling) are then performed. From this proposal, a subset of lower-implausibility parameter sets are selected and steps 2 and 3 are repeated.  This process iterates until either the desired implausibility has been reached or the process has reached a barrier to further reductions in implausibility. 
+Note that, depending on the complexity of the calibration task, Latin Hypercube may not be able to find any parameter sets with implausibility below three. If that happens, `generate_new_design` will perform step 1 (Latin Hypercube sampling) at a higher implausbility threshold, to find a space-filling design. Using this as a starting point, step 2 (line sampling) and step 3 (importance sampling) are then performed. From this proposal, a subset of lower-implausibility parameter sets are selected and steps 2 and 3 are repeated.  This process iterates until either the desired implausibility has been reached or the process has reached a barrier to further reductions in implausibility. 
 
 We now plot `new_points_restricted` through `plot_wrap`. Note that we pass `ranges` too to `plot_wrap` to ensure that 
 the plot shows the entire range for each parameter: this allows us to see how the new set of parameters compares with respect to the original input space.
@@ -918,7 +920,7 @@ What do you think would happen if we tried generating new parameter sets using a
 We expect that using all emulators (instead of just a subset of them) will make the non-implausible space smaller than before, since more conditions will have to be met.  Let us check if our intuition corresponds to what the plots show:
   
 ``{r, fignewpts, fig.width = 9, fig.height = 9}
-new_points <- generate_new_runs(ems_wave1, 180, targets, verbose = TRUE)
+new_points <- generate_new_design(ems_wave1, 180, targets, verbose = TRUE)
 plot_wrap(new_points, ranges)
 ``
 The answer is yes: points now look slightly less spread than before, i.e. a higher part of the input space has been cut-out.   
@@ -967,7 +969,7 @@ vd <- validation_diagnostics(ems_wave1, validation = validation, targets = targe
 The diagnostics look good now. Note that a high increase in sigma, which is sometimes needed to pass diagnostics, may end up producing an emulator that cuts (almost) no space out. This can be checked by looking at the middle diagnostic: if (almost) no validation point has implausiblity above three, then it is advisable not to include the emulator when generating new points. This will avoid adding unnecessary calculations and will not affect the amount of space cut out at that wave. In our specific case, all emulators are contributing to shrinking the space down, so we will include all of them when generating new points:
 
 ``{r fig.height = 10, fig.width = 10}
-new_points <- generate_new_runs(ems_wave1, 180, targets, verbose = TRUE)
+new_points <- generate_new_design(ems_wave1, 180, targets, verbose = TRUE)
 plot_wrap(new_points, ranges)
 ``
 
@@ -1046,7 +1048,7 @@ and train wave two emulators on the space defined by `new_ranges`:
 ``{r}
 ems_wave2 <- emulator_from_data(new_training, names(targets), ranges, 
                                 check.ranges=TRUE,
-                                c_lengths= rep(0.55,length(targets)))
+                                specified_priors = list(hyper_p = rep(0.55, length(targets))))
 ``  
 Let us check their diagnostics:
   
@@ -1068,7 +1070,7 @@ vd <- validation_diagnostics(ems_wave2, validation =  new_validation, targets = 
 The diagnostics look ok now. Let us try to generate new parameter sets using all emulators build so far:
   
 ``{r fig.width = 9, fig.height = 9}
-new_new_points <- generate_new_runs(c(ems_wave2, ems_wave1), 180, targets, verbose=TRUE)
+new_new_points <- generate_new_design(c(ems_wave2, ems_wave1), 180, targets, verbose=TRUE)
 plot_wrap(new_new_points, ranges)
 ``
 
@@ -1092,11 +1094,10 @@ All $R^2$ values are very high, meaning that the regression term is contributing
 In practice, if you do not pass a value for it, $\theta$ is chosen very carefully by the hmer package, and most users calibrating deterministic models will not have to vary the value of $\theta$ for most of their emulators. If, however, you find that the non-implausible space is shrinking very slowly, particularly in later waves (see section \@ref(visual) for details of how to check this), then the value of $\theta$ may be too conservative. If this occurs, then you can increase the $\theta$ of the emulators to increase the rate at which space is reduced. You should only do this if you are confident that your outputs are smooth enough to justify the choice of $\theta$ however, or you risk the emulators incorrectly excluding space when model fits could be found. We discuss the choice of $\theta$ further in our workshop on calibrating stochastic models.
 
 To see all this in practice, we train new wave one emulators, assuming a linear regression term by setting `quadratic=FALSE`: 
-
 ```{r}
  ems_wave1_linear <- emulator_from_data(training, names(targets), 
-                                        ranges, quadratic=FALSE, 
-                                        c_lengths= rep(0.55,length(targets)))
+                                        ranges, quadratic=FALSE,
+                                        specified_priors = list(hyper_p = rep(0.55, length(targets))))
  R_squared_linear <- list()
  for (i in 1:length(ems_wave1_linear)) {
    R_squared_linear[[i]] <- summary(ems_wave1_linear[[i]]$model)$adj.r.squared

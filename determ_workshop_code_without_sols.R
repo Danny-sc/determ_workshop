@@ -221,8 +221,9 @@ vd <- validation_diagnostics(sigmadoubled_emulator,
 ############################################  7. PROPOSING NEW POINTS  ########################################
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-# Generate 180 new parameter sets using `generate_new_runs`
-new_points_restricted <- generate_new_runs(restricted_ems, 180, targets, verbose=TRUE)
+# Generate 180 new parameter sets using `generate_new_design`
+restricted_ems <- ems_wave1[c(1,2,3,4,7,8,9,10)]
+new_points_restricted <- generate_new_design(restricted_ems, 180, targets, verbose=TRUE)
 
 # Plot the new parameter sets using `plot_wrap`
 plot_wrap(new_points_restricted, ranges)
@@ -309,7 +310,24 @@ emulator_plot(ems_wave1_linear$I200, plot_type = 'imp', targets = targets,
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 # Show the distribution of the non-implausible space before the wave 1, at the end of wave 1 and at the end of
-# wave 2 using the function `wave_points`
+# wave 2 using the function `wave_points` (first we train wave 2 emulators, validate them and generate new 
+# points again)
+new_points <- generate_new_design(ems_wave1, 180, targets, verbose = TRUE)
+new_initial_results <- setNames(data.frame(t(apply(new_points, 1, get_results,
+                                                   c(25, 40, 100, 200, 300, 350), c('I', 'R')))), names(targets))
+wave1 <- cbind(new_points, new_initial_results)
+new_t_sample <- sample(1:nrow(wave1), 90)
+new_training <- wave1[new_t_sample,]
+new_validation <- wave1[-new_t_sample,]
+ems_wave2 <- emulator_from_data(new_training, names(targets), ranges, 
+                                check.ranges = TRUE, c_lengths= rep(0.55,length(targets)))
+vd <- validation_diagnostics(ems_wave2, validation = new_validation, targets = targets, plt=TRUE)
+inflations <- c(2,4,2,2,2,1,3,2,2,2,2,2)
+for (i in 1:length(ems_wave2)) {
+  ems_wave2[[i]] <- ems_wave2[[i]]$mult_sigma(inflations[[i]])
+}
+vd <- validation_diagnostics(ems_wave2, validation =  new_validation, targets = targets, plt=TRUE)
+new_new_points <- generate_new_design(c(ems_wave2, ems_wave1), 180, targets, verbose=TRUE)
 wave_points(list(initial_points, new_points, new_new_points), input_names = names(ranges), p_size = 1)
 
 # Create a dataframe `wave2` binding the parameters sets generated at the end of wave 2 with the corresponding 
@@ -330,4 +348,4 @@ simulator_plot(all_points, targets)
 ### End of the solution ###
 
 # For each combination of two outputs, show the output values for non-implausible parameter sets at each wave.
-wave_values(all_points, targets, p_size = 1)
+wave_values(all_points, targets, l_wid = 1, p_size = 1)

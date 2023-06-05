@@ -301,8 +301,8 @@ vd <- validation_diagnostics(hugesigma_emulator, validation = validation, target
 ############################################  7. PROPOSING NEW POINTS  ########################################
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-# Generate 180 new parameter sets using `generate_new_runs`
-new_points_restricted <- generate_new_runs(restricted_ems, 180, targets, verbose=TRUE)
+# Generate 180 new parameter sets using `generate_new_design`
+new_points_restricted <- generate_new_design(restricted_ems, 180, targets, verbose=TRUE)
 
 # Plot the new parameter sets using `plot_wrap`
 plot_wrap(new_points_restricted, ranges)
@@ -310,8 +310,8 @@ plot_wrap(new_points_restricted, ranges)
 
 ### Solution to the task on generating new points using all emulators ###
 
-# Pass the list of wave 1 emulators to `generate_new_runs` and plot them using `plot_wrap`
-new_points <- generate_new_runs(ems_wave1, 180, targets, verbose = TRUE)
+# Pass the list of wave 1 emulators to `generate_new_design` and plot them using `plot_wrap`
+new_points <- generate_new_design(ems_wave1, 180, targets, verbose = TRUE)
 plot_wrap(new_points, ranges)
 
 ### End of the solution ###
@@ -347,7 +347,7 @@ ems_wave1[[i]] <- ems_wave1[[i]]$mult_sigma(inflations[[i]])
 vd <- validation_diagnostics(ems_wave1, validation = validation, targets = targets, plt=TRUE)
 
 # Generate 180 new parameter sets using the modified emulators and plot them
-new_points <- generate_new_runs(ems_wave1, 180, targets, verbose = TRUE)
+new_points <- generate_new_design(ems_wave1, 180, targets, verbose = TRUE)
 plot_wrap(new_points, ranges)
 
 ### End of the solution ###
@@ -388,7 +388,7 @@ ems_wave2[[i]] <- ems_wave2[[i]]$mult_sigma(inflations[[i]])
 vd <- validation_diagnostics(ems_wave2, validation =  new_validation, targets = targets, plt=TRUE)
 
 # Generate 180 new parameter sets and plot them
-new_new_points <- generate_new_runs(c(ems_wave2, ems_wave1), 180, targets, verbose=TRUE)
+new_new_points <- generate_new_design(c(ems_wave2, ems_wave1), 180, targets, verbose=TRUE)
 plot_wrap(new_new_points, ranges)
 
 ### End of the solution ###
@@ -468,4 +468,4 @@ simulator_plot(all_points, targets, logscale = TRUE)
 ### End of the solution ###
 
 # For each combination of two outputs, show the output values for non-implausible parameter sets at each wave.
-wave_values(all_points, targets, p_size = 1)
+wave_values(all_points, targets, l_wod = 1, p_size = 1)
