@@ -398,7 +398,7 @@ For this workshop, we generate parameter sets using a [Latin Hypercube](https://
 knitr::include_graphics('LHS.png')
 ```
 
-Through the function `randomLHS` in the package `lhs` we create a hypercube design with 90 (10 times the number of parameters) parameter sets for the training set and one with 90 parameter sets for the validation set. After creating the two hypercube designs, we bind them together to create `initial_LHS`. To access the external function `randomLHS`, we use the syntax `package::function()`:
+Through the function `maximinLHS` in the package `lhs` we create a hypercube design with 90 (10 times the number of parameters) parameter sets for the training set and one with 90 parameter sets for the validation set. After creating the two hypercube designs, we bind them together to create `initial_LHS`:
 
 ```{r}
 initial_LHS_training <- maximinLHS(90, 9)
