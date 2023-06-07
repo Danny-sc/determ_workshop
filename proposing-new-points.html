@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>7 Proposing new points | Workshop 1: calibrating a deterministic model</title>
+  <title>8 Proposing new points | Workshop 1: calibrating a deterministic model</title>
   <meta name="description" content="An interactive introduction to the hmer package" />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="7 Proposing new points | Workshop 1: calibrating a deterministic model" />
+  <meta property="og:title" content="8 Proposing new points | Workshop 1: calibrating a deterministic model" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="7 Proposing new points | Workshop 1: calibrating a deterministic model" />
+  <meta name="twitter:title" content="8 Proposing new points | Workshop 1: calibrating a deterministic model" />
   
   <meta name="twitter:description" content="An interactive introduction to the hmer package" />
   
@@ -195,19 +195,20 @@ div.csl-indent {
 
 <ul class="summary">
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Objectives</a></li>
-<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction to the model</a></li>
-<li class="chapter" data-level="3" data-path="wave0---parameter-ranges-targets-and-design-points.html"><a href="wave0---parameter-ranges-targets-and-design-points.html"><i class="fa fa-check"></i><b>3</b> ‘wave0’ - parameter ranges, targets and design points</a></li>
-<li class="chapter" data-level="4" data-path="constr.html"><a href="constr.html"><i class="fa fa-check"></i><b>4</b> Emulators</a>
+<li class="chapter" data-level="2" data-path="an-overview-of-history-matching-with-emulation-and-hmer.html"><a href="an-overview-of-history-matching-with-emulation-and-hmer.html"><i class="fa fa-check"></i><b>2</b> An overview of history matching with emulation and hmer</a></li>
+<li class="chapter" data-level="3" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>3</b> Introduction to the model</a></li>
+<li class="chapter" data-level="4" data-path="wave0---parameter-ranges-targets-and-design-points.html"><a href="wave0---parameter-ranges-targets-and-design-points.html"><i class="fa fa-check"></i><b>4</b> ‘wave0’ - parameter ranges, targets and design points</a></li>
+<li class="chapter" data-level="5" data-path="constr.html"><a href="constr.html"><i class="fa fa-check"></i><b>5</b> Emulators</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="constr.html"><a href="constr.html#a-brief-recap-on-emulators"><i class="fa fa-check"></i><b>4.1</b> A brief recap on emulators</a></li>
-<li class="chapter" data-level="4.2" data-path="constr.html"><a href="constr.html#training-emulators"><i class="fa fa-check"></i><b>4.2</b> Training emulators</a></li>
+<li class="chapter" data-level="5.1" data-path="constr.html"><a href="constr.html#a-brief-recap-on-emulators"><i class="fa fa-check"></i><b>5.1</b> A brief recap on emulators</a></li>
+<li class="chapter" data-level="5.2" data-path="constr.html"><a href="constr.html#training-emulators"><i class="fa fa-check"></i><b>5.2</b> Training emulators</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="implausibility.html"><a href="implausibility.html"><i class="fa fa-check"></i><b>5</b> Implausibility</a></li>
-<li class="chapter" data-level="6" data-path="emulator-diagnostics.html"><a href="emulator-diagnostics.html"><i class="fa fa-check"></i><b>6</b> Emulator diagnostics</a></li>
-<li class="chapter" data-level="7" data-path="proposing-new-points.html"><a href="proposing-new-points.html"><i class="fa fa-check"></i><b>7</b> Proposing new points</a></li>
-<li class="chapter" data-level="8" data-path="customise-the-first-wave.html"><a href="customise-the-first-wave.html"><i class="fa fa-check"></i><b>8</b> Customise the first wave</a></li>
-<li class="chapter" data-level="9" data-path="second-wave.html"><a href="second-wave.html"><i class="fa fa-check"></i><b>9</b> Second wave</a></li>
-<li class="chapter" data-level="10" data-path="visual.html"><a href="visual.html"><i class="fa fa-check"></i><b>10</b> Visualisations of non-implausible space by wave</a></li>
+<li class="chapter" data-level="6" data-path="implausibility.html"><a href="implausibility.html"><i class="fa fa-check"></i><b>6</b> Implausibility</a></li>
+<li class="chapter" data-level="7" data-path="emulator-diagnostics.html"><a href="emulator-diagnostics.html"><i class="fa fa-check"></i><b>7</b> Emulator diagnostics</a></li>
+<li class="chapter" data-level="8" data-path="proposing-new-points.html"><a href="proposing-new-points.html"><i class="fa fa-check"></i><b>8</b> Proposing new points</a></li>
+<li class="chapter" data-level="9" data-path="customise-the-first-wave.html"><a href="customise-the-first-wave.html"><i class="fa fa-check"></i><b>9</b> Customise the first wave</a></li>
+<li class="chapter" data-level="10" data-path="second-wave.html"><a href="second-wave.html"><i class="fa fa-check"></i><b>10</b> Second wave</a></li>
+<li class="chapter" data-level="11" data-path="visual.html"><a href="visual.html"><i class="fa fa-check"></i><b>11</b> Visualisations of non-implausible space by wave</a></li>
 </ul>
 
       </nav>
@@ -225,59 +226,51 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="proposing-new-points" class="section level1" number="7">
-<h1><span class="header-section-number">7</span> Proposing new points</h1>
+<div id="proposing-new-points" class="section level1" number="8">
+<h1><span class="header-section-number">8</span> Proposing new points</h1>
+<p>A video presentation of this section can be found <a href="https://youtu.be/BrVXGRQJ-MA">here</a>.</p>
 <p>In this section we generate the set of points that will be used to train the second wave of emulators. Through visualisations offered by hmer, we then explore these points and assess how much of the initial input space has been removed by the first wave of emulators.</p>
-<p>The function <code>generate_new_runs</code> is designed to generate new sets of parameters; its default behaviour is as follows.</p>
-<p>STEP 1. If prior parameter sets are provided, step 1 is skipped, otherwise a set is generated using a <a href="https://en.wikipedia.org/wiki/Latin_hypercube_sampling">Latin Hypercube Design</a>, rejecting implausible parameter sets. Figure <a href="proposing-new-points.html#fig:lhsamp">7.1</a> shows an example of LH sampling (not for our model), with implausible parameter sets in red and non-implausible ones in blue:</p>
+<p>The function <code>generate_new_design</code> is designed to generate new sets of parameters; its default behaviour is as follows.</p>
+<p>STEP 1. If prior parameter sets are provided, step 1 is skipped, otherwise a set is generated using a <a href="https://en.wikipedia.org/wiki/Latin_hypercube_sampling">Latin Hypercube Design</a>, rejecting implausible parameter sets. Figure <a href="proposing-new-points.html#fig:lhsamp">8.1</a> shows an example of LH sampling (not for our model), with implausible parameter sets in red and non-implausible ones in blue:</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:lhsamp"></span>
 <img src="LHSamp.png" alt="LH sampling" width="75%" />
 <p class="caption">
-Figure 7.1: LH sampling
+Figure 8.1: LH sampling
 </p>
 </div>
-<p>STEP 2. Pairs of parameter sets are selected at random and more sets are sampled from lines connecting them, with particular importance given to those that are close to the non-implausible boundary. Figure <a href="proposing-new-points.html#fig:linesamp">7.2</a> shows line sampling on top of the previously shown LH sampling: non-implausible parameter sets provided by LH sampling are in grey, parameter sets proposed by line sampling are in red if implausbile and in blue if non-implausible.</p>
+<p>STEP 2. Pairs of parameter sets are selected at random and more sets are sampled from lines connecting them, with particular importance given to those that are close to the non-implausible boundary. Figure <a href="proposing-new-points.html#fig:linesamp">8.2</a> shows line sampling on top of the previously shown LH sampling: non-implausible parameter sets provided by LH sampling are in grey, parameter sets proposed by line sampling are in red if implausbile and in blue if non-implausible.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:linesamp"></span>
 <img src="LineSamp.png" alt="Line sampling" width="75%" />
 <p class="caption">
-Figure 7.2: Line sampling
+Figure 8.2: Line sampling
 </p>
 </div>
-<p>STEP 3. Using these as seeding points, more parameter sets are generated using <a href="https://en.wikipedia.org/wiki/Importance_sampling">importance sampling</a> to attempt to fully cover the non-implausible region. Figure <a href="proposing-new-points.html#fig:impsamp">7.3</a> has non-implausible parameter sets provided by LH and line sampling in grey and non-implausibile parameter sets found by importance sampling in blue.</p>
+<p>STEP 3. Using these as seeding points, more parameter sets are generated using <a href="https://en.wikipedia.org/wiki/Importance_sampling">importance sampling</a> to attempt to fully cover the non-implausible region. Figure <a href="proposing-new-points.html#fig:impsamp">8.3</a> has non-implausible parameter sets provided by LH and line sampling in grey and non-implausibile parameter sets found by importance sampling in blue.</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:impsamp"></span>
 <img src="ImpSamp.png" alt="Importance sampling" width="75%" />
 <p class="caption">
-Figure 7.3: Importance sampling
+Figure 8.3: Importance sampling
 </p>
 </div>
 <p>The combination of the three steps above brings to the following final design of non-implausible parameter sets:</p>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-36"></span>
-<img src="FinalSamp.png" alt="Overall design of new non-implausible parameter sets"  />
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-41"></span>
+<img src="FinalSamp.png" alt="Overall design of new non-implausible parameter sets" width="75%" />
 <p class="caption">
-Figure 7.4: Overall design of new non-implausible parameter sets
+Figure 8.4: Overall design of new non-implausible parameter sets
 </p>
 </div>
 <p>Let us generate <span class="math inline">\(180\)</span> new sets of parameters, using the emulators for the time up to <span class="math inline">\(t=200\)</span>. Focusing on early time outputs can be useful when performing the first waves of history matching, since the behaviour of the epidemic at later times for later times will depend on the behaviour at earlier times. Note that the generation of new points might require a few minutes.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="proposing-new-points.html#cb39-1" aria-hidden="true" tabindex="-1"></a>restricted_ems <span class="ot">&lt;-</span> ems_wave1[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">10</span>)]</span>
-<span id="cb39-2"><a href="proposing-new-points.html#cb39-2" aria-hidden="true" tabindex="-1"></a>new_points_restricted <span class="ot">&lt;-</span> <span class="fu">generate_new_runs</span>(restricted_ems, <span class="dv">180</span>, targets, <span class="at">verbose=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="proposing-new-points.html#cb42-1" aria-hidden="true" tabindex="-1"></a>restricted_ems <span class="ot">&lt;-</span> ems_wave1[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">10</span>)]</span>
+<span id="cb42-2"><a href="proposing-new-points.html#cb42-2" aria-hidden="true" tabindex="-1"></a>new_points_restricted <span class="ot">&lt;-</span> <span class="fu">generate_new_design</span>(restricted_ems, <span class="dv">180</span>, targets, <span class="at">verbose=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## Proposing from LHS...
-## 73 initial valid points generated for I=3
-## Performing line sampling...
-## Line sampling generated 40 more points.
-## Performing importance sampling...
-## Importance sampling generated 96 more points.
-## Resample 1 
-## Performing line sampling...
-## Line sampling generated 40 more points.
-## Performing importance sampling...
-## Importance sampling generated 72 more points.
+## LHS has high yield; no other methods required.
 ## Selecting final points using maximin criterion...</code></pre>
-<p>Note that, depending on the complexity of the calibration task, Latin Hypercube may not be able to find any parameter sets with implausibility below three. If that happens, <code>generate_new_runs</code> will perform step 1 (Latin Hypercube sampling) at a higher implausbility threshold, to find a space-filling design. Using this as a starting point, step 2 (line sampling) and step 3 (importance sampling) are then performed. From this proposal, a subset of lower-implausibility parameter sets are selected and steps 2 and 3 are repeated. This process iterates until either the desired implausibility has been reached or the process has reached a barrier to further reductions in implausibility.</p>
+<p>Note that, depending on the complexity of the calibration task, Latin Hypercube may not be able to find any parameter sets with implausibility below three. If that happens, <code>generate_new_design</code> will perform step 1 (Latin Hypercube sampling) at a higher implausbility threshold, to find a space-filling design. Using this as a starting point, step 2 (line sampling) and step 3 (importance sampling) are then performed. From this proposal, a subset of lower-implausibility parameter sets are selected and steps 2 and 3 are repeated. This process iterates until either the desired implausibility has been reached or the process has reached a barrier to further reductions in implausibility.</p>
 <p>We now plot <code>new_points_restricted</code> through <code>plot_wrap</code>. Note that we pass <code>ranges</code> too to <code>plot_wrap</code> to ensure that
 the plot shows the entire range for each parameter: this allows us to see how the new set of parameters compares with respect to the original input space.</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="proposing-new-points.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_wrap</span>(new_points_restricted, ranges)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-38-1.png" style="display: block; margin: auto;" /></p>
-<p>By looking at the plot we can learn a lot about the non-implausible space. For example, it seems clear that low values of <span class="math inline">\(\gamma\)</span> cannot produce a match (cf. penultimate column). We can also deduce relationships between parameters: <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\lambda\)</span> are an example of negatively-correlated parameters. If <span class="math inline">\(\beta_1\)</span> is large then <span class="math inline">\(\lambda\)</span> needs to be small, and vice versa.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="proposing-new-points.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_wrap</span>(new_points_restricted, ranges)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-43-1.png" style="display: block; margin: auto;" /></p>
+<p>By looking at the plot we can learn a lot about the non-implausible space. For example, it seems clear that low values of <span class="math inline">\(\gamma\)</span> cannot produce a match (cf. penultimate column). We can also deduce relationships between parameters: <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\epsilon\)</span> are an example of negatively-correlated parameters. If <span class="math inline">\(\beta_1\)</span> is large then <span class="math inline">\(\epsilon\)</span> needs to be small, and vice versa.</p>
 <p>Now that we have generated a new set of points, we can compare the model output at points in <code>initial_points</code></p>
 <p><img src="wave0SEIReval.png" width="75%" style="display: block; margin: auto;" /></p>
 <p>with the model output at points in <code>new_points_restricted</code></p>
@@ -291,41 +284,33 @@ Task
 What do you think would happen if we tried generating new parameter sets using all emulators, instead of those relating to times up to <span class="math inline">\(t=200\)</span> only? Try changing the code and seeing what happens.
 </div>
 </div>
-<button id="displayTextunnamed-chunk-42" onclick="javascript:toggle(&#39;unnamed-chunk-42&#39;);">
+<button id="displayTextunnamed-chunk-47" onclick="javascript:toggle(&#39;unnamed-chunk-47&#39;);">
 Show: Solution
 </button>
-<div id="toggleTextunnamed-chunk-42" style="display: none">
+<div id="toggleTextunnamed-chunk-47" style="display: none">
 <div class="panel panel-default">
 <div class="panel-heading panel-heading1">
 Solution
 </div>
 <div class="panel-body">
 <p>We expect that using all emulators (instead of just a subset of them) will make the non-implausible space smaller than before, since more conditions will have to be met. Let us check if our intuition corresponds to what the plots show:</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="proposing-new-points.html#cb42-1" aria-hidden="true" tabindex="-1"></a>new_points <span class="ot">&lt;-</span> <span class="fu">generate_new_runs</span>(ems_wave1, <span class="dv">180</span>, targets, <span class="at">verbose =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="proposing-new-points.html#cb45-1" aria-hidden="true" tabindex="-1"></a>new_points <span class="ot">&lt;-</span> <span class="fu">generate_new_design</span>(ems_wave1, <span class="dv">180</span>, targets, <span class="at">verbose =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## Proposing from LHS...
-## 95 initial valid points generated for I=3
-## Performing line sampling...
-## Line sampling generated 40 more points.
-## Performing importance sampling...
-## Importance sampling generated 56 more points.
-## Resample 1 
-## Performing line sampling...
-## Line sampling generated 40 more points.
-## Performing importance sampling...
-## Importance sampling generated 81 more points.
+## LHS has high yield; no other methods required.
 ## Selecting final points using maximin criterion...</code></pre>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="proposing-new-points.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_wrap</span>(new_points, ranges)</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="proposing-new-points.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_wrap</span>(new_points, ranges)</span></code></pre></div>
 <img src="_main_files/figure-html/fignewpts-1.png" style="display: block; margin: auto;" />
 The answer is yes: points now look slightly less spread than before, i.e. a higher part of the input space has been cut-out.
 </div>
 </div>
 </div>
 <p>In order to quantify how much of the input space is removed by a given set of emulators, we can use the function <code>space_removed</code>, which takes a list of emulators and a list of targets we want to match to. The output is a plot that shows the percentage of space that is removed by the emulators as a function of the implausibility cut-off. Note that here we also set the argument <code>ppd</code>, which determines the number of points per input dimension to sample at. In this workshop we have <span class="math inline">\(9\)</span> parameters, so a <code>ppd</code> of <span class="math inline">\(3\)</span> means that <code>space_removed</code> will test the emulators on <span class="math inline">\(3^9\)</span> sets of parameters.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="proposing-new-points.html#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">space_removed</span>(ems_wave1, targets, <span class="at">ppd=</span><span class="dv">3</span>) <span class="sc">+</span> <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">3</span>, <span class="at">lty =</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
-<span id="cb45-2"><a href="proposing-new-points.html#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="dv">3</span>, <span class="at">label=</span><span class="st">&quot;x = 3&quot;</span>,<span class="at">y=</span><span class="fl">0.33</span>), <span class="at">colour=</span><span class="st">&quot;black&quot;</span>, </span>
-<span id="cb45-3"><a href="proposing-new-points.html#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">angle=</span><span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">1.2</span>, <span class="at">text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">11</span>))</span></code></pre></div>
-<pre><code>## Warning: Ignoring unknown parameters: text</code></pre>
-<p><img src="_main_files/figure-html/unnamed-chunk-43-1.png" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="proposing-new-points.html#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">space_removed</span>(ems_wave1, targets, <span class="at">ppd=</span><span class="dv">3</span>) <span class="sc">+</span> <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">3</span>, <span class="at">lty =</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb48-2"><a href="proposing-new-points.html#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="dv">3</span>, <span class="at">label=</span><span class="st">&quot;x = 3&quot;</span>,<span class="at">y=</span><span class="fl">0.33</span>), <span class="at">colour=</span><span class="st">&quot;black&quot;</span>, </span>
+<span id="cb48-3"><a href="proposing-new-points.html#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">angle=</span><span class="dv">90</span>, <span class="at">vjust =</span> <span class="fl">1.2</span>, <span class="at">text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">11</span>))</span></code></pre></div>
+<pre><code>## Warning in geom_text(aes(x = 3, label = &quot;x = 3&quot;, y = 0.33), colour = &quot;black&quot;, :
+## Ignoring unknown parameters: `text`</code></pre>
+<p><img src="_main_files/figure-html/unnamed-chunk-48-1.png" style="display: block; margin: auto;" /></p>
 <p>By default the plot shows the percentage of space that is deemed implausible both when the observational errors are exactly the ones in <code>targets</code> and when the observational errors are <span class="math inline">\(80\%\)</span> (resp. <span class="math inline">\(90\%\)</span>, <span class="math inline">\(110\%\)</span> and <span class="math inline">\(120\%\)</span>) of the values in <code>targets</code>. Here we see that with an implausibility cut-off of <span class="math inline">\(3\)</span>, the percentage of space removed is around <span class="math inline">\(98\%\)</span>, when the observational errors are <span class="math inline">\(100\%\)</span> of the values in <code>targets</code>. With the same implausibility cut-off of <span class="math inline">\(3\)</span>, the percentage of space removed goes down to <span class="math inline">\(97\%\)</span>, when the observational errors are <span class="math inline">\(120\%\)</span> of the values in <code>targets</code> and it goes up to <span class="math inline">\(99\%\)</span> when the observational errors are <span class="math inline">\(80\%\)</span> of the values in <code>targets</code>. If instead we use an implausibility cut-off of <span class="math inline">\(5\)</span>, we would discard around <span class="math inline">\(88\%\)</span> (resp. <span class="math inline">\(84\%\)</span>) of the space when the observational errors are <span class="math inline">\(100\%\)</span> of the values in <code>targets</code> (resp. when the observational errors are <span class="math inline">\(120\%\)</span> of the values in <code>targets</code>). As expected, larger observational errors and larger implausibility cut-offs correspond to lower percentages of space removed.</p>
 </div>
             </section>

@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>9 Second wave | Workshop 1: calibrating a deterministic model</title>
+  <title>10 Second wave | Workshop 1: calibrating a deterministic model</title>
   <meta name="description" content="An interactive introduction to the hmer package" />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="9 Second wave | Workshop 1: calibrating a deterministic model" />
+  <meta property="og:title" content="10 Second wave | Workshop 1: calibrating a deterministic model" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="9 Second wave | Workshop 1: calibrating a deterministic model" />
+  <meta name="twitter:title" content="10 Second wave | Workshop 1: calibrating a deterministic model" />
   
   <meta name="twitter:description" content="An interactive introduction to the hmer package" />
   
@@ -195,19 +195,20 @@ div.csl-indent {
 
 <ul class="summary">
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Objectives</a></li>
-<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction to the model</a></li>
-<li class="chapter" data-level="3" data-path="wave0---parameter-ranges-targets-and-design-points.html"><a href="wave0---parameter-ranges-targets-and-design-points.html"><i class="fa fa-check"></i><b>3</b> ‘wave0’ - parameter ranges, targets and design points</a></li>
-<li class="chapter" data-level="4" data-path="constr.html"><a href="constr.html"><i class="fa fa-check"></i><b>4</b> Emulators</a>
+<li class="chapter" data-level="2" data-path="an-overview-of-history-matching-with-emulation-and-hmer.html"><a href="an-overview-of-history-matching-with-emulation-and-hmer.html"><i class="fa fa-check"></i><b>2</b> An overview of history matching with emulation and hmer</a></li>
+<li class="chapter" data-level="3" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>3</b> Introduction to the model</a></li>
+<li class="chapter" data-level="4" data-path="wave0---parameter-ranges-targets-and-design-points.html"><a href="wave0---parameter-ranges-targets-and-design-points.html"><i class="fa fa-check"></i><b>4</b> ‘wave0’ - parameter ranges, targets and design points</a></li>
+<li class="chapter" data-level="5" data-path="constr.html"><a href="constr.html"><i class="fa fa-check"></i><b>5</b> Emulators</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="constr.html"><a href="constr.html#a-brief-recap-on-emulators"><i class="fa fa-check"></i><b>4.1</b> A brief recap on emulators</a></li>
-<li class="chapter" data-level="4.2" data-path="constr.html"><a href="constr.html#training-emulators"><i class="fa fa-check"></i><b>4.2</b> Training emulators</a></li>
+<li class="chapter" data-level="5.1" data-path="constr.html"><a href="constr.html#a-brief-recap-on-emulators"><i class="fa fa-check"></i><b>5.1</b> A brief recap on emulators</a></li>
+<li class="chapter" data-level="5.2" data-path="constr.html"><a href="constr.html#training-emulators"><i class="fa fa-check"></i><b>5.2</b> Training emulators</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="implausibility.html"><a href="implausibility.html"><i class="fa fa-check"></i><b>5</b> Implausibility</a></li>
-<li class="chapter" data-level="6" data-path="emulator-diagnostics.html"><a href="emulator-diagnostics.html"><i class="fa fa-check"></i><b>6</b> Emulator diagnostics</a></li>
-<li class="chapter" data-level="7" data-path="proposing-new-points.html"><a href="proposing-new-points.html"><i class="fa fa-check"></i><b>7</b> Proposing new points</a></li>
-<li class="chapter" data-level="8" data-path="customise-the-first-wave.html"><a href="customise-the-first-wave.html"><i class="fa fa-check"></i><b>8</b> Customise the first wave</a></li>
-<li class="chapter" data-level="9" data-path="second-wave.html"><a href="second-wave.html"><i class="fa fa-check"></i><b>9</b> Second wave</a></li>
-<li class="chapter" data-level="10" data-path="visual.html"><a href="visual.html"><i class="fa fa-check"></i><b>10</b> Visualisations of non-implausible space by wave</a></li>
+<li class="chapter" data-level="6" data-path="implausibility.html"><a href="implausibility.html"><i class="fa fa-check"></i><b>6</b> Implausibility</a></li>
+<li class="chapter" data-level="7" data-path="emulator-diagnostics.html"><a href="emulator-diagnostics.html"><i class="fa fa-check"></i><b>7</b> Emulator diagnostics</a></li>
+<li class="chapter" data-level="8" data-path="proposing-new-points.html"><a href="proposing-new-points.html"><i class="fa fa-check"></i><b>8</b> Proposing new points</a></li>
+<li class="chapter" data-level="9" data-path="customise-the-first-wave.html"><a href="customise-the-first-wave.html"><i class="fa fa-check"></i><b>9</b> Customise the first wave</a></li>
+<li class="chapter" data-level="10" data-path="second-wave.html"><a href="second-wave.html"><i class="fa fa-check"></i><b>10</b> Second wave</a></li>
+<li class="chapter" data-level="11" data-path="visual.html"><a href="visual.html"><i class="fa fa-check"></i><b>11</b> Visualisations of non-implausible space by wave</a></li>
 </ul>
 
       </nav>
@@ -225,61 +226,72 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="second-wave" class="section level1" number="9">
-<h1><span class="header-section-number">9</span> Second wave</h1>
+<div id="second-wave" class="section level1" number="10">
+<h1><span class="header-section-number">10</span> Second wave</h1>
+<p>A video presentation of this section can be found <a href="https://youtu.be/wOn0elPyKXg">here</a>.</p>
 <p>In this section we move to the second wave of emulation. We will start by defining all the data necessary to train the second wave of emulators. We will then go through the same steps as in the previous section to train the emulators, test them and generate new points. We conclude the section with a short discussion on when and how to customise the value of the correlation lengths.</p>
 <p>To perform a second wave of history matching and emulation we follow the same procedure as in the previous sections, with two caveats. We start by forming a dataframe <code>wave1</code> using parameters sets in <code>new_points</code>, as we did with <code>wave0</code>, i.e. we evaluate the function <code>get_results</code> on <code>new_points</code> and then bind the obtained outputs to <code>new_points</code>. Half of <code>wave1</code> should be used as the training set for the new emulators, and the other half as the validation set to evaluate the new emulators’ performance. Note that when dealing with computationally expensive models, using the same number of points for the training and validation sets may not feasible. If <span class="math inline">\(p\)</span> is the number of parameters, a good rule of thumb is to build a training set with at least <span class="math inline">\(10p\)</span> points, and a validation set with at least <span class="math inline">\(p\)</span> points.</p>
-<p>Now note that parameter sets in <code>new_points</code> tend to lie in a small region inside the original input space, since <code>new_points</code> contains only non-implausible points, according to the first wave emulators. The first caveat is then that it is preferable to train the new emulators only on the non-implausible region found in wave one. To do this we define new ranges for the parameters:</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="second-wave.html#cb53-1" aria-hidden="true" tabindex="-1"></a>min_val <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb53-2"><a href="second-wave.html#cb53-2" aria-hidden="true" tabindex="-1"></a>max_val <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb53-3"><a href="second-wave.html#cb53-3" aria-hidden="true" tabindex="-1"></a>new_ranges <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb53-4"><a href="second-wave.html#cb53-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(ranges)) {</span>
-<span id="cb53-5"><a href="second-wave.html#cb53-5" aria-hidden="true" tabindex="-1"></a>    par <span class="ot">&lt;-</span> <span class="fu">names</span>(ranges)[[i]]</span>
-<span id="cb53-6"><a href="second-wave.html#cb53-6" aria-hidden="true" tabindex="-1"></a>    min_val[[par]] <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="fu">min</span>(new_points[,par])<span class="sc">-</span><span class="fl">0.05</span><span class="sc">*</span><span class="fu">diff</span>(<span class="fu">range</span>(new_points[,par])), </span>
-<span id="cb53-7"><a href="second-wave.html#cb53-7" aria-hidden="true" tabindex="-1"></a>                      ranges[[par]][<span class="dv">1</span>])</span>
-<span id="cb53-8"><a href="second-wave.html#cb53-8" aria-hidden="true" tabindex="-1"></a>    max_val[[par]] <span class="ot">&lt;-</span> <span class="fu">min</span>(<span class="fu">max</span>(new_points[,par])<span class="sc">+</span><span class="fl">0.05</span><span class="sc">*</span><span class="fu">diff</span>(<span class="fu">range</span>(new_points[,par])),</span>
-<span id="cb53-9"><a href="second-wave.html#cb53-9" aria-hidden="true" tabindex="-1"></a>                      ranges[[par]][<span class="dv">2</span>])</span>
-<span id="cb53-10"><a href="second-wave.html#cb53-10" aria-hidden="true" tabindex="-1"></a>    new_ranges[[par]] <span class="ot">&lt;-</span> <span class="fu">c</span>(min_val[[par]], max_val[[par]])</span>
-<span id="cb53-11"><a href="second-wave.html#cb53-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<p>The list <code>new_ranges</code> contains lower and upper bounds for each parameter. The upper bound for a given parameter is determined in the following way:</p>
-<ul>
-<li><p>Among all points in <code>new_points</code>, the maximum value of the parameter is identified.</p></li>
-<li><p><span class="math inline">\(5\%\)</span> of the original range of the parameter is added to the maximum value found in the previous point. This step enlarges slightly the new range, to make sure that we are including all non-implausible points.</p></li>
-<li><p>The minimum between the value found above and the upper bound in the original <code>ranges</code> list is selected: this ensure that we do not end up with a new upper bound which is larger than the original one.</p></li>
-</ul>
-<p>A similar calculation was adopted to determine the new lower bounds of parameters.</p>
-<p>Since wave two emulators will be trained only on the non-implausible space from wave one, their implausibility cannot be assessed everywhere in the original input space. For this reason, the second caveat is that when generating new parameter sets at the end of wave two, we must consider implausibility across both wave one and wave two emulators, i.e. we need to pass emulators from both waves to the function <code>generate_new_points</code>. To do this we simply make the first argument of <code>generate_new_points</code> equal to the vector <code>c(ems_wave2, ems_wave1)</code>, where <code>ems_wave2</code> are the wave two emulators. Note that <code>generate_new_points</code> picks the ranges of parameters from the first emulator in the list. For this reason, it is important to put the second wave emulators first (in <code>c(ems_wave2, ems_wave1)</code>), which have smaller ranges.</p>
+<p>Now note that parameter sets in <code>new_points</code> tend to lie in a small region inside the original input space, since <code>new_points</code> contains only non-implausible points, according to the first wave emulators. The first caveat is then that it is preferable to train the new emulators only on the non-implausible region found in wave one. This can be done simply setting the argument <code>check.ranges</code> to <code>TRUE</code> in the function <code>emulator_from_data</code>.</p>
+<!-- 
+
+```r
+min_val <- list()
+max_val <- list()
+new_ranges <- list()
+for (i in 1:length(ranges)) {
+    par <- names(ranges)[[i]]
+    min_val[[par]] <- max(min(new_points[,par])-0.05*diff(range(new_points[,par])), 
+                      ranges[[par]][1])
+    max_val[[par]] <- min(max(new_points[,par])+0.05*diff(range(new_points[,par])),
+                      ranges[[par]][2])
+    new_ranges[[par]] <- c(min_val[[par]], max_val[[par]])
+}
+```
+
+The list `new_ranges` contains lower and upper bounds for each parameter. The upper bound for a given parameter is determined in the following way: 
+
+- Among all points in `new_points`, the maximum value of the parameter is identified.
+
+- $5\%$ of the original range of the parameter is added to the maximum value found in the previous point. This step enlarges slightly the new range, to make sure that we are including all non-implausible points.
+
+- The minimum between the value found above and the upper bound in the original `ranges` list is selected: this ensure that we do not end up with a new upper bound which is larger than the original one.
+
+A similar calculation was adopted to determine the new lower bounds of parameters.
+
+Since wave two emulators will be trained only on the non-implausible space from wave one, their implausibility cannot be assessed everywhere in the original input space. For this reason, the second caveat is that when generating new parameter sets at the end of wave two, we must consider implausibility across both wave one and wave two emulators, i.e. we need to pass emulators from both waves to the function `generate_new_points`. To do this we simply make the first argument of `generate_new_points` equal to the vector `c(ems_wave2, ems_wave1)`, where `ems_wave2` are the wave two emulators. Note that `generate_new_points` picks the ranges of parameters from the first emulator in the list. For this reason, it is important to put the second wave emulators first (in `c(ems_wave2, ems_wave1)`), which have smaller ranges. 
+-->
 <p>In the task below, you can have a go at wave 2 of the emulation and history matching process yourself.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 Task
 </div>
 <div class="panel-body">
-Using <code>new_points</code> and <code>new_ranges</code>, train new emulators. Customise them and generate new parameter sets.
+Using <code>new_points</code> and setting <code>check.ranges</code> to <code>TRUE</code>, train new emulators. Customise them and generate new parameter sets.
 </div>
 </div>
-<button id="displayTextunnamed-chunk-48" onclick="javascript:toggle(&#39;unnamed-chunk-48&#39;);">
+<button id="displayTextunnamed-chunk-53" onclick="javascript:toggle(&#39;unnamed-chunk-53&#39;);">
 Show: Solution
 </button>
-<div id="toggleTextunnamed-chunk-48" style="display: none">
+<div id="toggleTextunnamed-chunk-53" style="display: none">
 <div class="panel panel-default">
 <div class="panel-heading panel-heading1">
 Solution
 </div>
 <div class="panel-body">
 <p>We start by evaluating the function <code>get_results</code> on <code>new_points</code>. In other words, we run the model using the parameter sets we generated at the end of wave 1:</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="second-wave.html#cb54-1" aria-hidden="true" tabindex="-1"></a>new_initial_results <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="fu">data.frame</span>(<span class="fu">t</span>(<span class="fu">apply</span>(new_points, <span class="dv">1</span>, get_results, </span>
-<span id="cb54-2"><a href="second-wave.html#cb54-2" aria-hidden="true" tabindex="-1"></a>                                               <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">40</span>, <span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">300</span>, <span class="dv">350</span>), <span class="fu">c</span>(<span class="st">&#39;I&#39;</span>, <span class="st">&#39;R&#39;</span>)))), </span>
-<span id="cb54-3"><a href="second-wave.html#cb54-3" aria-hidden="true" tabindex="-1"></a>                                <span class="fu">names</span>(targets))</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="second-wave.html#cb56-1" aria-hidden="true" tabindex="-1"></a>new_initial_results <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="fu">data.frame</span>(<span class="fu">t</span>(<span class="fu">apply</span>(new_points, <span class="dv">1</span>, get_results, </span>
+<span id="cb56-2"><a href="second-wave.html#cb56-2" aria-hidden="true" tabindex="-1"></a>                                               <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">40</span>, <span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">300</span>, <span class="dv">350</span>), <span class="fu">c</span>(<span class="st">&#39;I&#39;</span>, <span class="st">&#39;R&#39;</span>)))), </span>
+<span id="cb56-3"><a href="second-wave.html#cb56-3" aria-hidden="true" tabindex="-1"></a>                                <span class="fu">names</span>(targets))</span></code></pre></div>
 <p>and then binding <code>new_points</code> to the model runs <code>new_initial_results</code> to create the data.frame <code>wave1</code>, containing the input parameter sets and model outputs:</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="second-wave.html#cb55-1" aria-hidden="true" tabindex="-1"></a>wave1 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(new_points, new_initial_results)</span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="second-wave.html#cb57-1" aria-hidden="true" tabindex="-1"></a>wave1 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(new_points, new_initial_results)</span></code></pre></div>
 <p>We split <code>wave1</code> into training and validation sets</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="second-wave.html#cb56-1" aria-hidden="true" tabindex="-1"></a>new_t_sample <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(wave1), <span class="dv">90</span>)</span>
-<span id="cb56-2"><a href="second-wave.html#cb56-2" aria-hidden="true" tabindex="-1"></a>new_training <span class="ot">&lt;-</span> wave1[new_t_sample,]</span>
-<span id="cb56-3"><a href="second-wave.html#cb56-3" aria-hidden="true" tabindex="-1"></a>new_validation <span class="ot">&lt;-</span> wave1[<span class="sc">-</span>new_t_sample,]</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="second-wave.html#cb58-1" aria-hidden="true" tabindex="-1"></a>new_t_sample <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(wave1), <span class="dv">90</span>)</span>
+<span id="cb58-2"><a href="second-wave.html#cb58-2" aria-hidden="true" tabindex="-1"></a>new_training <span class="ot">&lt;-</span> wave1[new_t_sample,]</span>
+<span id="cb58-3"><a href="second-wave.html#cb58-3" aria-hidden="true" tabindex="-1"></a>new_validation <span class="ot">&lt;-</span> wave1[<span class="sc">-</span>new_t_sample,]</span></code></pre></div>
 <p>and train wave two emulators on the space defined by <code>new_ranges</code>:</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="second-wave.html#cb57-1" aria-hidden="true" tabindex="-1"></a>ems_wave2 <span class="ot">&lt;-</span> <span class="fu">emulator_from_data</span>(new_training, <span class="fu">names</span>(targets), new_ranges, </span>
-<span id="cb57-2"><a href="second-wave.html#cb57-2" aria-hidden="true" tabindex="-1"></a>                                <span class="at">c_lengths=</span> <span class="fu">rep</span>(<span class="fl">0.55</span>,<span class="fu">length</span>(targets)))</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="second-wave.html#cb59-1" aria-hidden="true" tabindex="-1"></a>ems_wave2 <span class="ot">&lt;-</span> <span class="fu">emulator_from_data</span>(new_training, <span class="fu">names</span>(targets), ranges, </span>
+<span id="cb59-2"><a href="second-wave.html#cb59-2" aria-hidden="true" tabindex="-1"></a>                                <span class="at">check.ranges=</span><span class="cn">TRUE</span>,</span>
+<span id="cb59-3"><a href="second-wave.html#cb59-3" aria-hidden="true" tabindex="-1"></a>                                <span class="at">specified_priors =</span> <span class="fu">list</span>(<span class="at">hyper_p =</span> <span class="fu">rep</span>(<span class="fl">0.55</span>, <span class="fu">length</span>(targets))))</span></code></pre></div>
 <pre><code>## I25 
 ## I40 
 ## I100 
@@ -305,53 +317,44 @@ Solution
 ## R300 
 ## R350</code></pre>
 <p>Let us check their diagnostics:</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="second-wave.html#cb59-1" aria-hidden="true" tabindex="-1"></a>vd <span class="ot">&lt;-</span> <span class="fu">validation_diagnostics</span>(ems_wave2, <span class="at">validation =</span> new_validation, <span class="at">targets =</span> targets, </span>
-<span id="cb59-2"><a href="second-wave.html#cb59-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">plt=</span><span class="cn">TRUE</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-89-1.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-89-2.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-89-3.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-89-4.png" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="second-wave.html#cb61-1" aria-hidden="true" tabindex="-1"></a>vd <span class="ot">&lt;-</span> <span class="fu">validation_diagnostics</span>(ems_wave2, <span class="at">validation =</span> new_validation, <span class="at">targets =</span> targets, </span>
+<span id="cb61-2"><a href="second-wave.html#cb61-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">plt=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-95-1.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-95-2.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-95-3.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-95-4.png" style="display: block; margin: auto;" /></p>
 <p>Most emulators fail at least one of the three dagnostics. Let us modify the sigmas in order to build more conservative emulators that pass the three diagnostics. After some trial and error, we chose the following values of sigma for our emulators:</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="second-wave.html#cb60-1" aria-hidden="true" tabindex="-1"></a>inflations <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>)</span>
-<span id="cb60-2"><a href="second-wave.html#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(ems_wave2)) {</span>
-<span id="cb60-3"><a href="second-wave.html#cb60-3" aria-hidden="true" tabindex="-1"></a>ems_wave2[[i]] <span class="ot">&lt;-</span> ems_wave2[[i]]<span class="sc">$</span><span class="fu">mult_sigma</span>(inflations[[i]])</span>
-<span id="cb60-4"><a href="second-wave.html#cb60-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb60-5"><a href="second-wave.html#cb60-5" aria-hidden="true" tabindex="-1"></a>vd <span class="ot">&lt;-</span> <span class="fu">validation_diagnostics</span>(ems_wave2, <span class="at">validation =</span>  new_validation, <span class="at">targets =</span> targets, <span class="at">plt=</span><span class="cn">TRUE</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-90-1.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-90-2.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-90-3.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-90-4.png" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="second-wave.html#cb62-1" aria-hidden="true" tabindex="-1"></a>inflations <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>)</span>
+<span id="cb62-2"><a href="second-wave.html#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(ems_wave2)) {</span>
+<span id="cb62-3"><a href="second-wave.html#cb62-3" aria-hidden="true" tabindex="-1"></a>ems_wave2[[i]] <span class="ot">&lt;-</span> ems_wave2[[i]]<span class="sc">$</span><span class="fu">mult_sigma</span>(inflations[[i]])</span>
+<span id="cb62-4"><a href="second-wave.html#cb62-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb62-5"><a href="second-wave.html#cb62-5" aria-hidden="true" tabindex="-1"></a>vd <span class="ot">&lt;-</span> <span class="fu">validation_diagnostics</span>(ems_wave2, <span class="at">validation =</span>  new_validation, <span class="at">targets =</span> targets, <span class="at">plt=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-96-1.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-96-2.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-96-3.png" style="display: block; margin: auto;" /><img src="_main_files/figure-html/unnamed-chunk-96-4.png" style="display: block; margin: auto;" /></p>
 <p>The diagnostics look ok now. Let us try to generate new parameter sets using all emulators build so far:</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="second-wave.html#cb61-1" aria-hidden="true" tabindex="-1"></a>new_new_points <span class="ot">&lt;-</span> <span class="fu">generate_new_runs</span>(<span class="fu">c</span>(ems_wave2, ems_wave1), <span class="dv">180</span>, targets, <span class="at">verbose=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="second-wave.html#cb63-1" aria-hidden="true" tabindex="-1"></a>new_new_points <span class="ot">&lt;-</span> <span class="fu">generate_new_design</span>(<span class="fu">c</span>(ems_wave2, ems_wave1), <span class="dv">180</span>, targets, <span class="at">verbose=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## Proposing from LHS...
-## 77 initial valid points generated for I=3
-## Performing line sampling...
-## Line sampling generated 38 more points.
-## Performing importance sampling...
-## Importance sampling generated 90 more points.
-## Resample 1 
-## Performing line sampling...
-## Line sampling generated 38 more points.
-## Performing importance sampling...
-## Importance sampling generated 58 more points.
+## LHS has high yield; no other methods required.
 ## Selecting final points using maximin criterion...</code></pre>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="second-wave.html#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_wrap</span>(new_new_points, ranges)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-91-1.png" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="second-wave.html#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_wrap</span>(new_new_points, ranges)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-97-1.png" style="display: block; margin: auto;" /></p>
 <p>This worked well: the new non-implausible region is clearly smaller than the one we had at the end of wave one. In the next section we will show how to make visualisations to direcly compare the non-implausible space at the end of different waves of the process.</p>
 </div>
 </div>
 </div>
 <p>As we did for the wave 1 emulators, let us check the values of the adjusted <span class="math inline">\(R^2\)</span> for the new emulators:</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="second-wave.html#cb64-1" aria-hidden="true" tabindex="-1"></a>R_squared_new <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb64-2"><a href="second-wave.html#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(ems_wave2)) {</span>
-<span id="cb64-3"><a href="second-wave.html#cb64-3" aria-hidden="true" tabindex="-1"></a>  R_squared_new[[i]] <span class="ot">&lt;-</span> <span class="fu">summary</span>(ems_wave2[[i]]<span class="sc">$</span>model)<span class="sc">$</span>adj.r.squared</span>
-<span id="cb64-4"><a href="second-wave.html#cb64-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb64-5"><a href="second-wave.html#cb64-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(R_squared_new) <span class="ot">&lt;-</span> <span class="fu">names</span>(ems_wave2)</span>
-<span id="cb64-6"><a href="second-wave.html#cb64-6" aria-hidden="true" tabindex="-1"></a><span class="fu">unlist</span>(R_squared_new)</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="second-wave.html#cb66-1" aria-hidden="true" tabindex="-1"></a>R_squared_new <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb66-2"><a href="second-wave.html#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(ems_wave2)) {</span>
+<span id="cb66-3"><a href="second-wave.html#cb66-3" aria-hidden="true" tabindex="-1"></a>  R_squared_new[[i]] <span class="ot">&lt;-</span> <span class="fu">summary</span>(ems_wave2[[i]]<span class="sc">$</span>model)<span class="sc">$</span>adj.r.squared</span>
+<span id="cb66-4"><a href="second-wave.html#cb66-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb66-5"><a href="second-wave.html#cb66-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(R_squared_new) <span class="ot">&lt;-</span> <span class="fu">names</span>(ems_wave2)</span>
+<span id="cb66-6"><a href="second-wave.html#cb66-6" aria-hidden="true" tabindex="-1"></a><span class="fu">unlist</span>(R_squared_new)</span></code></pre></div>
 <pre><code>##       I25       I40      I100      I200      I300      I350       R25       R40 
-## 0.9940351 0.9962056 0.9837159 0.9484789 0.9142092 0.7237868 0.9941638 0.9901009 
+## 0.9925082 0.9854843 0.9690459 0.9764708 0.9343537 0.5625678 0.9958424 0.9878936 
 ##      R100      R200      R300      R350 
-## 0.9619117 0.9803374 0.9422278 0.9453050</code></pre>
+## 0.9696371 0.9829038 0.9100319 0.9579496</code></pre>
 <p>All <span class="math inline">\(R^2\)</span> values are very high, meaning that the regression term is contributing far more than the residuals. As all of the emulators we have seen so far have had high <span class="math inline">\(R^2\)</span> values, we have not discussed the customisation of <span class="math inline">\(\theta\)</span>. We now want to briefly comment on what happens when instead the <span class="math inline">\(R^2\)</span> are lower and the residuals play a more substantial role. In such cases, the extent to which residuals at different parameter sets are correlated is a key ingredient in the training of emulators, since it determines how informative the model outputs at training parameter sets are. For example, if residuals are highly correlated even at parameter sets that are far away from each other, then knowing the model output at a given parameter set gives us information about a wide region around it. This results in rather confident emulators, which cut a lot of space out. If instead residuals are correlated only for parameter sets that are close to each other, then knowing the model output at a given parameter set gives us information about a small region around it. This creates more uncertain emulators, which can rule out a lot of input parameter space. It is then clear that when we don’t have very high <span class="math inline">\(R^2\)</span> values, we can use <span class="math inline">\(\theta\)</span> to increase or decrease the amount of space cut out by emulators.</p>
-<p>In practice, if you do not pass a value for it, <span class="math inline">\(\theta\)</span> is chosen very carefully by the hmer package, and most users calibrating deterministic models will not have to vary the value of <span class="math inline">\(\theta\)</span> for most of their emulators. If, however, you find that the non-implausible space is shrinking very slowly, particularly in later waves (see section <a href="visual.html#visual">10</a> for details of how to check this), then the value of <span class="math inline">\(\theta\)</span> may be too conservative. If this occurs, then you can increase the <span class="math inline">\(\theta\)</span> of the emulators to increase the rate at which space is reduced. You should only do this if you are confident that your outputs are smooth enough to justify the choice of <span class="math inline">\(\theta\)</span> however, or you risk the emulators incorrectly excluding space when model fits could be found. We discuss the choice of <span class="math inline">\(\theta\)</span> further in our workshop on calibrating stochastic models.</p>
+<p>In practice, if you do not pass a value for it, <span class="math inline">\(\theta\)</span> is chosen very carefully by the hmer package, and most users calibrating deterministic models will not have to vary the value of <span class="math inline">\(\theta\)</span> for most of their emulators. If, however, you find that the non-implausible space is shrinking very slowly, particularly in later waves (see section <a href="visual.html#visual">11</a> for details of how to check this), then the value of <span class="math inline">\(\theta\)</span> may be too conservative. If this occurs, then you can increase the <span class="math inline">\(\theta\)</span> of the emulators to increase the rate at which space is reduced. You should only do this if you are confident that your outputs are smooth enough to justify the choice of <span class="math inline">\(\theta\)</span> however, or you risk the emulators incorrectly excluding space when model fits could be found. We discuss the choice of <span class="math inline">\(\theta\)</span> further in our workshop on calibrating stochastic models.</p>
 <p>To see all this in practice, we train new wave one emulators, assuming a linear regression term by setting <code>quadratic=FALSE</code>:</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="second-wave.html#cb66-1" aria-hidden="true" tabindex="-1"></a> ems_wave1_linear <span class="ot">&lt;-</span> <span class="fu">emulator_from_data</span>(training, <span class="fu">names</span>(targets), </span>
-<span id="cb66-2"><a href="second-wave.html#cb66-2" aria-hidden="true" tabindex="-1"></a>                                        ranges, <span class="at">quadratic=</span><span class="cn">FALSE</span>, </span>
-<span id="cb66-3"><a href="second-wave.html#cb66-3" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">c_lengths=</span> <span class="fu">rep</span>(<span class="fl">0.55</span>,<span class="fu">length</span>(targets)))</span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="second-wave.html#cb68-1" aria-hidden="true" tabindex="-1"></a> ems_wave1_linear <span class="ot">&lt;-</span> <span class="fu">emulator_from_data</span>(training, <span class="fu">names</span>(targets), </span>
+<span id="cb68-2"><a href="second-wave.html#cb68-2" aria-hidden="true" tabindex="-1"></a>                                        ranges, <span class="at">quadratic=</span><span class="cn">FALSE</span>,</span>
+<span id="cb68-3"><a href="second-wave.html#cb68-3" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">specified_priors =</span> <span class="fu">list</span>(<span class="at">hyper_p =</span> <span class="fu">rep</span>(<span class="fl">0.55</span>, <span class="fu">length</span>(targets))))</span></code></pre></div>
 <pre><code>## I25 
 ## I40 
 ## I100 
@@ -376,31 +379,31 @@ Solution
 ## R200 
 ## R300 
 ## R350</code></pre>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="second-wave.html#cb68-1" aria-hidden="true" tabindex="-1"></a> R_squared_linear <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb68-2"><a href="second-wave.html#cb68-2" aria-hidden="true" tabindex="-1"></a> <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(ems_wave1_linear)) {</span>
-<span id="cb68-3"><a href="second-wave.html#cb68-3" aria-hidden="true" tabindex="-1"></a>   R_squared_linear[[i]] <span class="ot">&lt;-</span> <span class="fu">summary</span>(ems_wave1_linear[[i]]<span class="sc">$</span>model)<span class="sc">$</span>adj.r.squared</span>
-<span id="cb68-4"><a href="second-wave.html#cb68-4" aria-hidden="true" tabindex="-1"></a> }</span>
-<span id="cb68-5"><a href="second-wave.html#cb68-5" aria-hidden="true" tabindex="-1"></a> <span class="fu">names</span>(R_squared_linear) <span class="ot">&lt;-</span> <span class="fu">names</span>(ems_wave1_linear)</span>
-<span id="cb68-6"><a href="second-wave.html#cb68-6" aria-hidden="true" tabindex="-1"></a> <span class="fu">unlist</span>(R_squared_linear)</span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="second-wave.html#cb70-1" aria-hidden="true" tabindex="-1"></a> R_squared_linear <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb70-2"><a href="second-wave.html#cb70-2" aria-hidden="true" tabindex="-1"></a> <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(ems_wave1_linear)) {</span>
+<span id="cb70-3"><a href="second-wave.html#cb70-3" aria-hidden="true" tabindex="-1"></a>   R_squared_linear[[i]] <span class="ot">&lt;-</span> <span class="fu">summary</span>(ems_wave1_linear[[i]]<span class="sc">$</span>model)<span class="sc">$</span>adj.r.squared</span>
+<span id="cb70-4"><a href="second-wave.html#cb70-4" aria-hidden="true" tabindex="-1"></a> }</span>
+<span id="cb70-5"><a href="second-wave.html#cb70-5" aria-hidden="true" tabindex="-1"></a> <span class="fu">names</span>(R_squared_linear) <span class="ot">&lt;-</span> <span class="fu">names</span>(ems_wave1_linear)</span>
+<span id="cb70-6"><a href="second-wave.html#cb70-6" aria-hidden="true" tabindex="-1"></a> <span class="fu">unlist</span>(R_squared_linear)</span></code></pre></div>
 <pre><code>##       I25       I40      I100      I200      I300      I350       R25       R40 
-## 0.9697263 0.9491857 0.9007032 0.7157199 0.8191644 0.1823831 0.9827103 0.9809724 
+## 0.9779276 0.9810581 0.9731814 0.9235387 0.9124719 0.5970299 0.9899174 0.9730427 
 ##      R100      R200      R300      R350 
-## 0.9310675 0.9645519 0.8112647 0.8390023</code></pre>
+## 0.9606870 0.9647481 0.9041472 0.8978308</code></pre>
 <p>By forcing the regression hypersurface to be linear, we obtain emulators where the global term is not always sufficient to explain the model output on its own. As a rough guide, <span class="math inline">\(R^2\)</span> values of below <span class="math inline">\(0.9\)</span> indicate that the residuals are playing an important role. Let us see what happens if we plot the variance and the implausibility for the linear <span class="math inline">\(I200\)</span> emulator before and after increasing its <span class="math inline">\(\theta\)</span> by a factor of <span class="math inline">\(3\)</span>:</p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="second-wave.html#cb70-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">emulator_plot</span>(ems_wave1_linear<span class="sc">$</span>I200, <span class="at">plot_type =</span> <span class="st">&#39;var&#39;</span>, </span>
-<span id="cb70-2"><a href="second-wave.html#cb70-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">params =</span> <span class="fu">c</span>(<span class="st">&#39;beta1&#39;</span>, <span class="st">&#39;gamma&#39;</span>))</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-51-1.png" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="second-wave.html#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">emulator_plot</span>(ems_wave1_linear<span class="sc">$</span>I200, <span class="at">plot_type =</span> <span class="st">&#39;imp&#39;</span>, <span class="at">targets =</span> targets, </span>
-<span id="cb71-2"><a href="second-wave.html#cb71-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">params =</span> <span class="fu">c</span>(<span class="st">&#39;beta1&#39;</span>, <span class="st">&#39;gamma&#39;</span>), <span class="at">cb=</span><span class="cn">TRUE</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-52-1.png" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="second-wave.html#cb72-1" aria-hidden="true" tabindex="-1"></a>ems_wave1_linear<span class="sc">$</span>I200 <span class="ot">&lt;-</span> ems_wave1_linear<span class="sc">$</span>I20<span class="sc">$</span><span class="fu">set_hyperparams</span>(</span>
-<span id="cb72-2"><a href="second-wave.html#cb72-2" aria-hidden="true" tabindex="-1"></a>              <span class="fu">list</span>(<span class="at">theta=</span>ems_wave1_linear<span class="sc">$</span>I200<span class="sc">$</span>corr<span class="sc">$</span>hyper_p<span class="sc">$</span>theta <span class="sc">*</span><span class="dv">3</span>))</span>
-<span id="cb72-3"><a href="second-wave.html#cb72-3" aria-hidden="true" tabindex="-1"></a><span class="fu">emulator_plot</span>(ems_wave1_linear<span class="sc">$</span>I200, <span class="at">plot_type =</span> <span class="st">&#39;var&#39;</span>, </span>
-<span id="cb72-4"><a href="second-wave.html#cb72-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">params =</span> <span class="fu">c</span>(<span class="st">&#39;beta1&#39;</span>, <span class="st">&#39;gamma&#39;</span>))</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-53-1.png" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="second-wave.html#cb72-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">emulator_plot</span>(ems_wave1_linear<span class="sc">$</span>I200, <span class="at">plot_type =</span> <span class="st">&#39;var&#39;</span>, </span>
+<span id="cb72-2"><a href="second-wave.html#cb72-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">params =</span> <span class="fu">c</span>(<span class="st">&#39;beta1&#39;</span>, <span class="st">&#39;gamma&#39;</span>))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-56-1.png" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="second-wave.html#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">emulator_plot</span>(ems_wave1_linear<span class="sc">$</span>I200, <span class="at">plot_type =</span> <span class="st">&#39;imp&#39;</span>, <span class="at">targets =</span> targets, </span>
 <span id="cb73-2"><a href="second-wave.html#cb73-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">params =</span> <span class="fu">c</span>(<span class="st">&#39;beta1&#39;</span>, <span class="st">&#39;gamma&#39;</span>), <span class="at">cb=</span><span class="cn">TRUE</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-54-1.png" style="display: block; margin: auto;" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-57-1.png" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="second-wave.html#cb74-1" aria-hidden="true" tabindex="-1"></a>ems_wave1_linear<span class="sc">$</span>I200 <span class="ot">&lt;-</span> ems_wave1_linear<span class="sc">$</span>I20<span class="sc">$</span><span class="fu">set_hyperparams</span>(</span>
+<span id="cb74-2"><a href="second-wave.html#cb74-2" aria-hidden="true" tabindex="-1"></a>              <span class="fu">list</span>(<span class="at">theta=</span>ems_wave1_linear<span class="sc">$</span>I200<span class="sc">$</span>corr<span class="sc">$</span>hyper_p<span class="sc">$</span>theta <span class="sc">*</span><span class="dv">3</span>))</span>
+<span id="cb74-3"><a href="second-wave.html#cb74-3" aria-hidden="true" tabindex="-1"></a><span class="fu">emulator_plot</span>(ems_wave1_linear<span class="sc">$</span>I200, <span class="at">plot_type =</span> <span class="st">&#39;var&#39;</span>, </span>
+<span id="cb74-4"><a href="second-wave.html#cb74-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">params =</span> <span class="fu">c</span>(<span class="st">&#39;beta1&#39;</span>, <span class="st">&#39;gamma&#39;</span>))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-58-1.png" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="second-wave.html#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">emulator_plot</span>(ems_wave1_linear<span class="sc">$</span>I200, <span class="at">plot_type =</span> <span class="st">&#39;imp&#39;</span>, <span class="at">targets =</span> targets, </span>
+<span id="cb75-2"><a href="second-wave.html#cb75-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">params =</span> <span class="fu">c</span>(<span class="st">&#39;beta1&#39;</span>, <span class="st">&#39;gamma&#39;</span>), <span class="at">cb=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-59-1.png" style="display: block; margin: auto;" /></p>
 <p>First of all, the blue-purple area in the variance plot becomes larger after <span class="math inline">\(\theta\)</span> increased: this shows that a higher <span class="math inline">\(\theta\)</span> results in the model output at training points influencing a wider region around itself. Second, we see that a higher <span class="math inline">\(\theta\)</span>
 causes the implausibility measure to have higher values: as a consequence, more space will be ruled out as implausible.</p>
 </div>

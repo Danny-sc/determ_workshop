@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>6 Emulator diagnostics | Workshop 1: calibrating a deterministic model</title>
+  <title>7 Emulator diagnostics | Workshop 1: calibrating a deterministic model</title>
   <meta name="description" content="An interactive introduction to the hmer package" />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="6 Emulator diagnostics | Workshop 1: calibrating a deterministic model" />
+  <meta property="og:title" content="7 Emulator diagnostics | Workshop 1: calibrating a deterministic model" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="6 Emulator diagnostics | Workshop 1: calibrating a deterministic model" />
+  <meta name="twitter:title" content="7 Emulator diagnostics | Workshop 1: calibrating a deterministic model" />
   
   <meta name="twitter:description" content="An interactive introduction to the hmer package" />
   
@@ -195,19 +195,20 @@ div.csl-indent {
 
 <ul class="summary">
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Objectives</a></li>
-<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction to the model</a></li>
-<li class="chapter" data-level="3" data-path="wave0---parameter-ranges-targets-and-design-points.html"><a href="wave0---parameter-ranges-targets-and-design-points.html"><i class="fa fa-check"></i><b>3</b> ‘wave0’ - parameter ranges, targets and design points</a></li>
-<li class="chapter" data-level="4" data-path="constr.html"><a href="constr.html"><i class="fa fa-check"></i><b>4</b> Emulators</a>
+<li class="chapter" data-level="2" data-path="an-overview-of-history-matching-with-emulation-and-hmer.html"><a href="an-overview-of-history-matching-with-emulation-and-hmer.html"><i class="fa fa-check"></i><b>2</b> An overview of history matching with emulation and hmer</a></li>
+<li class="chapter" data-level="3" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>3</b> Introduction to the model</a></li>
+<li class="chapter" data-level="4" data-path="wave0---parameter-ranges-targets-and-design-points.html"><a href="wave0---parameter-ranges-targets-and-design-points.html"><i class="fa fa-check"></i><b>4</b> ‘wave0’ - parameter ranges, targets and design points</a></li>
+<li class="chapter" data-level="5" data-path="constr.html"><a href="constr.html"><i class="fa fa-check"></i><b>5</b> Emulators</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="constr.html"><a href="constr.html#a-brief-recap-on-emulators"><i class="fa fa-check"></i><b>4.1</b> A brief recap on emulators</a></li>
-<li class="chapter" data-level="4.2" data-path="constr.html"><a href="constr.html#training-emulators"><i class="fa fa-check"></i><b>4.2</b> Training emulators</a></li>
+<li class="chapter" data-level="5.1" data-path="constr.html"><a href="constr.html#a-brief-recap-on-emulators"><i class="fa fa-check"></i><b>5.1</b> A brief recap on emulators</a></li>
+<li class="chapter" data-level="5.2" data-path="constr.html"><a href="constr.html#training-emulators"><i class="fa fa-check"></i><b>5.2</b> Training emulators</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="implausibility.html"><a href="implausibility.html"><i class="fa fa-check"></i><b>5</b> Implausibility</a></li>
-<li class="chapter" data-level="6" data-path="emulator-diagnostics.html"><a href="emulator-diagnostics.html"><i class="fa fa-check"></i><b>6</b> Emulator diagnostics</a></li>
-<li class="chapter" data-level="7" data-path="proposing-new-points.html"><a href="proposing-new-points.html"><i class="fa fa-check"></i><b>7</b> Proposing new points</a></li>
-<li class="chapter" data-level="8" data-path="customise-the-first-wave.html"><a href="customise-the-first-wave.html"><i class="fa fa-check"></i><b>8</b> Customise the first wave</a></li>
-<li class="chapter" data-level="9" data-path="second-wave.html"><a href="second-wave.html"><i class="fa fa-check"></i><b>9</b> Second wave</a></li>
-<li class="chapter" data-level="10" data-path="visual.html"><a href="visual.html"><i class="fa fa-check"></i><b>10</b> Visualisations of non-implausible space by wave</a></li>
+<li class="chapter" data-level="6" data-path="implausibility.html"><a href="implausibility.html"><i class="fa fa-check"></i><b>6</b> Implausibility</a></li>
+<li class="chapter" data-level="7" data-path="emulator-diagnostics.html"><a href="emulator-diagnostics.html"><i class="fa fa-check"></i><b>7</b> Emulator diagnostics</a></li>
+<li class="chapter" data-level="8" data-path="proposing-new-points.html"><a href="proposing-new-points.html"><i class="fa fa-check"></i><b>8</b> Proposing new points</a></li>
+<li class="chapter" data-level="9" data-path="customise-the-first-wave.html"><a href="customise-the-first-wave.html"><i class="fa fa-check"></i><b>9</b> Customise the first wave</a></li>
+<li class="chapter" data-level="10" data-path="second-wave.html"><a href="second-wave.html"><i class="fa fa-check"></i><b>10</b> Second wave</a></li>
+<li class="chapter" data-level="11" data-path="visual.html"><a href="visual.html"><i class="fa fa-check"></i><b>11</b> Visualisations of non-implausible space by wave</a></li>
 </ul>
 
       </nav>
@@ -225,8 +226,9 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="emulator-diagnostics" class="section level1" number="6">
-<h1><span class="header-section-number">6</span> Emulator diagnostics</h1>
+<div id="emulator-diagnostics" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> Emulator diagnostics</h1>
+<p>A video presentation of this section can be found <a href="https://youtu.be/8TNNUM9k4uQ">here</a>.</p>
 <p>In this section we explore various diagnostic tests to evaluate the performance of the emulators and we learn how to address emulators that fail one or more of these diagnostics.</p>
 <p>For a given set of emulators, we want to assess how accurately they reflect the model outputs over the input space. For a given validation set, we can ask the following questions:</p>
 <ul>
@@ -235,30 +237,30 @@ div.csl-indent {
 <li><p>What are the standardised errors of the emulator outputs in light of the model outputs?</p></li>
 </ul>
 <p>The function <code>validation_diagnostics</code> provides us with three diagnostics, addressing the three questions above.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="emulator-diagnostics.html#cb35-1" aria-hidden="true" tabindex="-1"></a>vd <span class="ot">&lt;-</span> <span class="fu">validation_diagnostics</span>(ems_wave1<span class="sc">$</span>R200, <span class="at">validation =</span> validation, <span class="at">targets =</span> targets, <span class="at">plt=</span><span class="cn">TRUE</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-31-1.png" style="display: block; margin: auto;" /></p>
-<p>The first plot shows the emulator outputs plotted against the model outputs. In particular, the emulator expectation is plotted against the model output for each validation point, providing the dots in the graph. The emulator uncertainty at each validation point is shown in the form of a vertical interval that goes from <span class="math inline">\(3\sigma\)</span> below to <span class="math inline">\(3\sigma\)</span> above the emulator expectation, where <span class="math inline">\(\sigma\)</span> is the emulator variance at the considered point. The uncertainty interval can be expressed by the formula: <span class="math inline">\(E[f(x)]\pm 3 \sqrt{Var(f(x)}\)</span>. An ‘ideal’ emulator would exactly reproduce the model results: this behaviour is represented by the green line <span class="math inline">\(f(x)=E[f(x)]\)</span> (this is a diagonal line, visible here only in the bottom left and top right corners). Any parameter set whose emulated prediction lies more than <span class="math inline">\(3\sigma\)</span> away from the model output is highlighted in red. Note that we do not need to have no red points for the test to be passed: since we are plotting <span class="math inline">\(3\sigma\)</span> bounds, statistically speaking it is ok to have up to <span class="math inline">\(5\%\)</span> of validation points in red (see <a href="https://en.wikipedia.org/wiki/68%E2%80%9395%E2%80%9399.7_rule">Pukelsheim’s <span class="math inline">\(3\sigma\)</span> rule</a>). Apart from the number of points failing the diagnostic, it is also worth looking at whether the points that fail the diagnostic do so systematically. For example: are they all overestimates/underestimates of the model output?</p>
-<p>The second column compares the emulator implausibility to the equivalent model implausibility (i.e. the implausibility calculated replacing the emulator output with the model output). There are three cases to consider:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="emulator-diagnostics.html#cb36-1" aria-hidden="true" tabindex="-1"></a>vd <span class="ot">&lt;-</span> <span class="fu">validation_diagnostics</span>(ems_wave1<span class="sc">$</span>R200, <span class="at">validation =</span> validation, <span class="at">targets =</span> targets, <span class="at">plt=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-34-1.png" style="display: block; margin: auto;" /></p>
+<p>The <strong>first column</strong> shows the emulator outputs plotted against the model outputs. In particular, the emulator expectation is plotted against the model output for each validation point, providing the dots in the graph. The emulator uncertainty at each validation point is shown in the form of a vertical interval that goes from <span class="math inline">\(3\sigma\)</span> below to <span class="math inline">\(3\sigma\)</span> above the emulator expectation, where <span class="math inline">\(\sigma\)</span> is the emulator variance at the considered point. The uncertainty interval can be expressed by the formula: <span class="math inline">\(E[f(x)]\pm 3 \sqrt{Var(f(x)}\)</span>. An ‘ideal’ emulator would exactly reproduce the model results: this behaviour is represented by the green line <span class="math inline">\(f(x)=E[f(x)]\)</span> (this is a diagonal line, visible here only in the bottom left and top right corners). Any parameter set whose emulated prediction lies more than <span class="math inline">\(3\sigma\)</span> away from the model output is highlighted in red. Note that we do not need to have no red points for the test to be passed: since we are plotting <span class="math inline">\(3\sigma\)</span> bounds, statistically speaking it is ok to have up to <span class="math inline">\(5\%\)</span> of validation points in red (see <a href="https://en.wikipedia.org/wiki/68%E2%80%9395%E2%80%9399.7_rule">Pukelsheim’s <span class="math inline">\(3\sigma\)</span> rule</a>). Apart from the number of points failing the diagnostic, it is also worth looking at whether the points that fail the diagnostic do so systematically. For example: are they all overestimates/underestimates of the model output?</p>
+<p>The <strong>second column</strong> compares the emulator implausibility to the equivalent model implausibility (i.e. the implausibility calculated replacing the emulator output with the model output). There are three cases to consider:</p>
 <ul>
 <li><p>The emulator and model both classify a set as implausible or non-implausible (bottom-left and top-right quadrants). This is fine. Both are giving the same classification for the parameter set.</p></li>
 <li><p>The emulator classifies a set as non-implausible, while the model rules it out (top-left quadrant): this is also fine. The emulator should not be expected to shrink the parameter space as much as the model does, at least not on a single wave. Parameter sets classified in this way will survive this wave, but may be removed on subsequent waves as the emulators grow more accurate on a reduced parameter space.</p></li>
 <li><p>The emulator rules out a set, but the model does not (bottom-right quadrant): these are the problem sets, suggesting that the emulator is ruling out parts of the parameter space that it should not be ruling out.</p></li>
 </ul>
 <p>As for the first test, we should be alarmed only if we spot a systematic problem, with <span class="math inline">\(5\%\)</span> or more of the points in the bottom-right quadrant. Note, however, that it is always up to the user to decide how serious a misclassification is. For instance, a possible check is to identify points that are incorrectly ruled out by one emulator, and see if they would be considered non-implausible by all other emulators. If they are, then we should think about changing the misclassifying emulator.</p>
-<p>Finally, the third column gives the standardised errors of the emulator outputs in light of the model output: for each validation point, the difference between the emulator output and the model output is calculated, and then divided by the standard deviation <span class="math inline">\(\sigma\)</span> of the emulator at the point. The general rule is that we want our standardised errors to be somewhat normally distributed around <span class="math inline">\(0\)</span>, with <span class="math inline">\(95\%\)</span> of the probability mass between <span class="math inline">\(-2\)</span> and <span class="math inline">\(2\)</span>. When looking at the standard errors plot, we should ask ourselves at least the following questions:</p>
+<p>Finally, <strong>the third column</strong> gives the standardised errors of the emulator outputs in light of the model output: for each validation point, the difference between the emulator output and the model output is calculated, and then divided by the standard deviation <span class="math inline">\(\sigma\)</span> of the emulator at the point. The general rule is that we want our standardised errors to be somewhat normally distributed around <span class="math inline">\(0\)</span>, with <span class="math inline">\(95\%\)</span> of the probability mass between <span class="math inline">\(-3\)</span> and <span class="math inline">\(3\)</span>. The blue bars indicate the distribution of the standardised errors when we restrict our attention only to parameter sets that produce outputs close to the targets. When looking at the standard errors plot, we should ask ourselves at least the following questions:</p>
 <ul>
-<li><p>Is more than <span class="math inline">\(5\%\)</span> of the probability mass outside the interval <span class="math inline">\([-2,2]\)</span>? If the answer is yes, this means that, even factoring in all the uncertainties in the emulator and in the observed data, the emulator output is too often far from the model output.</p></li>
-<li><p>Is <span class="math inline">\(95\%\)</span> of the probability mass concentrated in a considerably smaller interval than <span class="math inline">\([-2,2]\)</span> (say, for example, <span class="math inline">\([-0.5,0.5]\)</span>)? For this to happen, the emulator uncertainty must be quite large. In such case the emulator, being extremely cautious, will cut out a small part of the parameter space and we will end up needing many more waves of history matching than are necessary, or, even worse, we just won’t be able to reduce the non-implausible parameter space.</p></li>
+<li><p>Is more than <span class="math inline">\(5\%\)</span> of the probability mass outside the interval <span class="math inline">\([-3,3]\)</span>? If the answer is yes, this means that, even factoring in all the uncertainties in the emulator and in the observed data, the emulator output is too often far from the model output.</p></li>
+<li><p>Is <span class="math inline">\(95\%\)</span> of the probability mass concentrated in a considerably smaller interval than <span class="math inline">\([-3,3]\)</span> (say, for example, <span class="math inline">\([-0.5,0.5]\)</span>)? For this to happen, the emulator uncertainty must be quite large. In such case the emulator, being extremely cautious, will cut out a small part of the parameter space and we will end up needing many more waves of history matching than are necessary.</p></li>
 <li><p>Is the histogram skewing significantly in one direction or the other? If this is the case, the emulator tends to either overestimate or underestimate the model output.</p></li>
 </ul>
-<p>The first two diagnostics above are clearly passed. In the third diagnostic if we consider all standardised errors below <span class="math inline">\(-2\)</span> and above <span class="math inline">\(2\)</span>, we get slightly more than <span class="math inline">\(5\%\)</span> of all errors: this is not particularly bad, but in order to be safe we will try to modify our emulator to make it more conservative.</p>
+<p>The diagnostics above are not particularly bad, but we will try to modify our emulator to make it more conservative and avoid misclassifications in the bottom right quadrant (second column).</p>
 <p>A way of improving the performance of an emulator is by changing the variance <span class="math inline">\(\sigma^2\)</span> in the Gaussian process <span class="math inline">\(u\)</span>:
 <span class="math display">\[\sigma^2 \left[(1-\delta) c(x,x^{\prime}) + \delta I_{\{x=x^\prime\}}\right].\]</span>
 The lower the value of <span class="math inline">\(\sigma\)</span>, the more ‘certain’ the emulator will be. This means that when an emulator is a little too overconfident (as in our case above), we can try increasing <span class="math inline">\(\sigma\)</span>. Below we train a new emulator setting <span class="math inline">\(\sigma\)</span> to be 2 times as much as its default value, through the method <code>mult_sigma</code>:</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="emulator-diagnostics.html#cb36-1" aria-hidden="true" tabindex="-1"></a>sigmadoubled_emulator <span class="ot">&lt;-</span> ems_wave1<span class="sc">$</span>R200<span class="sc">$</span><span class="fu">mult_sigma</span>(<span class="dv">2</span>)</span>
-<span id="cb36-2"><a href="emulator-diagnostics.html#cb36-2" aria-hidden="true" tabindex="-1"></a>vd <span class="ot">&lt;-</span> <span class="fu">validation_diagnostics</span>(sigmadoubled_emulator, </span>
-<span id="cb36-3"><a href="emulator-diagnostics.html#cb36-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">validation =</span> validation, <span class="at">targets =</span> targets, <span class="at">plt=</span><span class="cn">TRUE</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-33-1.png" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="emulator-diagnostics.html#cb37-1" aria-hidden="true" tabindex="-1"></a>sigmadoubled_emulator <span class="ot">&lt;-</span> ems_wave1<span class="sc">$</span>R200<span class="sc">$</span><span class="fu">mult_sigma</span>(<span class="dv">2</span>)</span>
+<span id="cb37-2"><a href="emulator-diagnostics.html#cb37-2" aria-hidden="true" tabindex="-1"></a>vd <span class="ot">&lt;-</span> <span class="fu">validation_diagnostics</span>(sigmadoubled_emulator, </span>
+<span id="cb37-3"><a href="emulator-diagnostics.html#cb37-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">validation =</span> validation, <span class="at">targets =</span> targets, <span class="at">plt=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-36-1.png" style="display: block; margin: auto;" /></p>
 <p>A higher value of <span class="math inline">\(\sigma\)</span> has therefore allowed us to build a more conservative emulator that performs better than before.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
@@ -266,8 +268,8 @@ Task
 </div>
 <div class="panel-body">
 <p>Explore different values of <span class="math inline">\(\sigma\)</span>. What happens for very small/large values of <span class="math inline">\(\sigma\)</span>?</p>
-<p><infobutton id="displayTextunnamed-chunk-76" onclick="javascript:toggle('unnamed-chunk-76');">Show: R tip</infobutton></p>
-<div id="toggleTextunnamed-chunk-76" style="display: none">
+<p><infobutton id="displayTextunnamed-chunk-82" onclick="javascript:toggle('unnamed-chunk-82');">Show: R tip</infobutton></p>
+<div id="toggleTextunnamed-chunk-82" style="display: none">
 <div class="panel panel-default">
 <div class="panel-body">
 <p>If <code>em</code> is an emulator, you can change its sigma by a factor x through the following line of code: <code>ems$mult_sigma(x)</code>.</p>
@@ -276,31 +278,55 @@ Task
 </div>
 </div>
 </div>
-<button id="displayTextunnamed-chunk-35" onclick="javascript:toggle(&#39;unnamed-chunk-35&#39;);">
+<button id="displayTextunnamed-chunk-38" onclick="javascript:toggle(&#39;unnamed-chunk-38&#39;);">
 Show: Solution
 </button>
-<div id="toggleTextunnamed-chunk-35" style="display: none">
+<div id="toggleTextunnamed-chunk-38" style="display: none">
 <div class="panel panel-default">
 <div class="panel-heading panel-heading1">
 Solution
 </div>
 <div class="panel-body">
 <p>Let us set <span class="math inline">\(\sigma\)</span> to be ten times smaller than its default value:</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="emulator-diagnostics.html#cb37-1" aria-hidden="true" tabindex="-1"></a>tinysigma_emulator <span class="ot">&lt;-</span> ems_wave1<span class="sc">$</span>R200<span class="sc">$</span><span class="fu">mult_sigma</span>(<span class="fl">0.1</span>)</span>
-<span id="cb37-2"><a href="emulator-diagnostics.html#cb37-2" aria-hidden="true" tabindex="-1"></a>vd <span class="ot">&lt;-</span> <span class="fu">validation_diagnostics</span>(tinysigma_emulator, <span class="at">validation =</span> validation, <span class="at">targets =</span> targets, </span>
-<span id="cb37-3"><a href="emulator-diagnostics.html#cb37-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">plt=</span><span class="cn">TRUE</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-78-1.png" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="emulator-diagnostics.html#cb38-1" aria-hidden="true" tabindex="-1"></a>tinysigma_emulator <span class="ot">&lt;-</span> ems_wave1<span class="sc">$</span>R200<span class="sc">$</span><span class="fu">mult_sigma</span>(<span class="fl">0.1</span>)</span>
+<span id="cb38-2"><a href="emulator-diagnostics.html#cb38-2" aria-hidden="true" tabindex="-1"></a>vd <span class="ot">&lt;-</span> <span class="fu">validation_diagnostics</span>(tinysigma_emulator, <span class="at">validation =</span> validation, <span class="at">targets =</span> targets, </span>
+<span id="cb38-3"><a href="emulator-diagnostics.html#cb38-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">plt=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-84-1.png" style="display: block; margin: auto;" /></p>
 <p>In this case we built a very overconfident emulator. This is shown by the very small uncertainty intervals in the first column: as a consequence many points are in red. Similarly, if we look at the third column we notice that the standardised errors are extremely large, well beyond the value of <span class="math inline">\(2\)</span>.</p>
 <p>Let us now set <span class="math inline">\(\sigma\)</span> to be ten times larger than its default value:</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="emulator-diagnostics.html#cb38-1" aria-hidden="true" tabindex="-1"></a>hugesigma_emulator <span class="ot">&lt;-</span> ems_wave1<span class="sc">$</span>R200<span class="sc">$</span><span class="fu">mult_sigma</span>(<span class="dv">10</span>)</span>
-<span id="cb38-2"><a href="emulator-diagnostics.html#cb38-2" aria-hidden="true" tabindex="-1"></a>vd <span class="ot">&lt;-</span> <span class="fu">validation_diagnostics</span>(hugesigma_emulator, <span class="at">validation =</span> validation, <span class="at">targets =</span> targets,</span>
-<span id="cb38-3"><a href="emulator-diagnostics.html#cb38-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">plt=</span><span class="cn">TRUE</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-80-1.png" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="emulator-diagnostics.html#cb39-1" aria-hidden="true" tabindex="-1"></a>hugesigma_emulator <span class="ot">&lt;-</span> ems_wave1<span class="sc">$</span>R200<span class="sc">$</span><span class="fu">mult_sigma</span>(<span class="dv">10</span>)</span>
+<span id="cb39-2"><a href="emulator-diagnostics.html#cb39-2" aria-hidden="true" tabindex="-1"></a>vd <span class="ot">&lt;-</span> <span class="fu">validation_diagnostics</span>(hugesigma_emulator, <span class="at">validation =</span> validation, <span class="at">targets =</span> targets,</span>
+<span id="cb39-3"><a href="emulator-diagnostics.html#cb39-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">plt=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-86-1.png" style="display: block; margin: auto;" /></p>
 <p>With this choice of <span class="math inline">\(\sigma\)</span>, we see that our emulator is extremely cautious. If we look at the plot in the middle, we see that now a lot of points in the validation set have an implausibility less or equal to <span class="math inline">\(3\)</span>. This implies that this emulator will reduce the input space slowly. As explained above, having consistent very small standardised errors is not positive: it implies that, even though we trained a regression hypersurface in order to catch the global behaviour of the output, the sigma is so large that the emulator is being dominated by the correlation structure. This means at best that we will have to do many more waves of history matching than are necessary, and at worst that our emulators won’t be able to reduce the non-implausible parameter space.</p>
 <p>The above exploration highlights the importance of finding a value of <span class="math inline">\(\sigma\)</span> that produces an emulator which on one hand is not overconfident and on the other is able to quickly reduce the input space. Note that there is not a universal rule to navigate this tradeoff: the role of the scientist’s judgment is fundamental.</p>
 </div>
 </div>
 </div>
+<p>It is possible to automate the validation process. If we have a list of trained emulators <code>ems</code>, we can start with an iterative process to ensure that emulators do not produce misclassifications:</p>
+<ol style="list-style-type: decimal">
+<li><p>check if there are misclassifications for each emulator (middle column diagnostic in plot above) with the function <code>classification_diag</code>;</p></li>
+<li><p>in case of misclassifications, increase the <code>sigma</code> (say by 10%) and go to step 1.</p></li>
+</ol>
+<p>The code below implements this approach:</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="emulator-diagnostics.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(ems)) {</span>
+<span id="cb40-2"><a href="emulator-diagnostics.html#cb40-2" aria-hidden="true" tabindex="-1"></a>      misclass <span class="ot">&lt;-</span> <span class="fu">nrow</span>(<span class="fu">classification_diag</span>(ems[[j]], targets, validation, <span class="at">plt =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb40-3"><a href="emulator-diagnostics.html#cb40-3" aria-hidden="true" tabindex="-1"></a>      <span class="cf">while</span>(misclass <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb40-4"><a href="emulator-diagnostics.html#cb40-4" aria-hidden="true" tabindex="-1"></a>        ems[[j]] <span class="ot">&lt;-</span> ems[[j]]<span class="sc">$</span><span class="fu">mult_sigma</span>(<span class="fl">1.1</span>)</span>
+<span id="cb40-5"><a href="emulator-diagnostics.html#cb40-5" aria-hidden="true" tabindex="-1"></a>        misclass <span class="ot">&lt;-</span> <span class="fu">nrow</span>(<span class="fu">classification_diag</span>(ems[[j]], targets, validation, <span class="at">plt =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb40-6"><a href="emulator-diagnostics.html#cb40-6" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb40-7"><a href="emulator-diagnostics.html#cb40-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>The step above helps us ensure that our emulators are not overconfident and do not rule out parameter sets that give a match with the empirical data.</p>
+<p>Once misclassifications have been eliminated, the second step is to ensure that the emulators’ predictions agree, within tolerance given by their uncertainty, with the simulator output. We can check how many validation points fail the first of the diagnostics (left column in plot above) with the function <code>comparison_diag</code>, and discard an emulator if it produces too many failures. The code below implements this, removing emulators for which more than 10% of validation points do not pass the first diagnostic:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="emulator-diagnostics.html#cb41-1" aria-hidden="true" tabindex="-1"></a>bad.ems <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb41-2"><a href="emulator-diagnostics.html#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(ems)) {</span>
+<span id="cb41-3"><a href="emulator-diagnostics.html#cb41-3" aria-hidden="true" tabindex="-1"></a>          bad.model <span class="ot">&lt;-</span> <span class="fu">nrow</span>(<span class="fu">comparison_diag</span>(ems[[j]], targets, validation, <span class="at">plt =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb41-4"><a href="emulator-diagnostics.html#cb41-4" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> (bad.model <span class="sc">&gt;</span> <span class="fu">floor</span>(<span class="fu">nrow</span>(validation)<span class="sc">/</span><span class="dv">10</span>)) {</span>
+<span id="cb41-5"><a href="emulator-diagnostics.html#cb41-5" aria-hidden="true" tabindex="-1"></a>            bad.ems <span class="ot">&lt;-</span> <span class="fu">c</span>(bad.ems, j)</span>
+<span id="cb41-6"><a href="emulator-diagnostics.html#cb41-6" aria-hidden="true" tabindex="-1"></a>   }</span>
+<span id="cb41-7"><a href="emulator-diagnostics.html#cb41-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb41-8"><a href="emulator-diagnostics.html#cb41-8" aria-hidden="true" tabindex="-1"></a>ems <span class="ot">&lt;-</span> ems[<span class="sc">!</span><span class="fu">seq_along</span>(ems) <span class="sc">%in%</span> bad.ems]</span></code></pre></div>
+<p>Note that the code provided above gives just an example of how one can automate the validation process and can be adjusted to produce a more or less conservative approach. Furthermore, it does not check for more subtle aspects, e.g. whether an emulator systematically underestimates/overestimates the corresponding model output. For this reason, even though automation can be a useful tool (e.g. if we are running several calibration processes and/or have a long list of targets), we should not think of it as a full replacement for a careful, in-depth inspection from an expert.</p>
 </div>
             </section>
 

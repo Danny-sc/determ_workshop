@@ -31,7 +31,7 @@
   
   
 
-<link rel="next" href="intro.html"/>
+<link rel="next" href="an-overview-of-history-matching-with-emulation-and-hmer.html"/>
 <script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -195,19 +195,20 @@ div.csl-indent {
 
 <ul class="summary">
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Objectives</a></li>
-<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction to the model</a></li>
-<li class="chapter" data-level="3" data-path="wave0---parameter-ranges-targets-and-design-points.html"><a href="wave0---parameter-ranges-targets-and-design-points.html"><i class="fa fa-check"></i><b>3</b> ‘wave0’ - parameter ranges, targets and design points</a></li>
-<li class="chapter" data-level="4" data-path="constr.html"><a href="constr.html"><i class="fa fa-check"></i><b>4</b> Emulators</a>
+<li class="chapter" data-level="2" data-path="an-overview-of-history-matching-with-emulation-and-hmer.html"><a href="an-overview-of-history-matching-with-emulation-and-hmer.html"><i class="fa fa-check"></i><b>2</b> An overview of history matching with emulation and hmer</a></li>
+<li class="chapter" data-level="3" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>3</b> Introduction to the model</a></li>
+<li class="chapter" data-level="4" data-path="wave0---parameter-ranges-targets-and-design-points.html"><a href="wave0---parameter-ranges-targets-and-design-points.html"><i class="fa fa-check"></i><b>4</b> ‘wave0’ - parameter ranges, targets and design points</a></li>
+<li class="chapter" data-level="5" data-path="constr.html"><a href="constr.html"><i class="fa fa-check"></i><b>5</b> Emulators</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="constr.html"><a href="constr.html#a-brief-recap-on-emulators"><i class="fa fa-check"></i><b>4.1</b> A brief recap on emulators</a></li>
-<li class="chapter" data-level="4.2" data-path="constr.html"><a href="constr.html#training-emulators"><i class="fa fa-check"></i><b>4.2</b> Training emulators</a></li>
+<li class="chapter" data-level="5.1" data-path="constr.html"><a href="constr.html#a-brief-recap-on-emulators"><i class="fa fa-check"></i><b>5.1</b> A brief recap on emulators</a></li>
+<li class="chapter" data-level="5.2" data-path="constr.html"><a href="constr.html#training-emulators"><i class="fa fa-check"></i><b>5.2</b> Training emulators</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="implausibility.html"><a href="implausibility.html"><i class="fa fa-check"></i><b>5</b> Implausibility</a></li>
-<li class="chapter" data-level="6" data-path="emulator-diagnostics.html"><a href="emulator-diagnostics.html"><i class="fa fa-check"></i><b>6</b> Emulator diagnostics</a></li>
-<li class="chapter" data-level="7" data-path="proposing-new-points.html"><a href="proposing-new-points.html"><i class="fa fa-check"></i><b>7</b> Proposing new points</a></li>
-<li class="chapter" data-level="8" data-path="customise-the-first-wave.html"><a href="customise-the-first-wave.html"><i class="fa fa-check"></i><b>8</b> Customise the first wave</a></li>
-<li class="chapter" data-level="9" data-path="second-wave.html"><a href="second-wave.html"><i class="fa fa-check"></i><b>9</b> Second wave</a></li>
-<li class="chapter" data-level="10" data-path="visual.html"><a href="visual.html"><i class="fa fa-check"></i><b>10</b> Visualisations of non-implausible space by wave</a></li>
+<li class="chapter" data-level="6" data-path="implausibility.html"><a href="implausibility.html"><i class="fa fa-check"></i><b>6</b> Implausibility</a></li>
+<li class="chapter" data-level="7" data-path="emulator-diagnostics.html"><a href="emulator-diagnostics.html"><i class="fa fa-check"></i><b>7</b> Emulator diagnostics</a></li>
+<li class="chapter" data-level="8" data-path="proposing-new-points.html"><a href="proposing-new-points.html"><i class="fa fa-check"></i><b>8</b> Proposing new points</a></li>
+<li class="chapter" data-level="9" data-path="customise-the-first-wave.html"><a href="customise-the-first-wave.html"><i class="fa fa-check"></i><b>9</b> Customise the first wave</a></li>
+<li class="chapter" data-level="10" data-path="second-wave.html"><a href="second-wave.html"><i class="fa fa-check"></i><b>10</b> Second wave</a></li>
+<li class="chapter" data-level="11" data-path="visual.html"><a href="visual.html"><i class="fa fa-check"></i><b>11</b> Visualisations of non-implausible space by wave</a></li>
 </ul>
 
       </nav>
@@ -232,9 +233,60 @@ div.csl-indent {
 <div id="objectives" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Objectives</h1>
 <p>This workshop offers an interactive introduction to the main functionality of the
-<a href="https://cran.r-project.org/web/packages/hmer/index.html">hmer</a> package, using a simple example of an epidemiological model. <a href="https://cran.r-project.org/web/packages/hmer/index.html">hmer</a> allows you to efficiently implement the Bayes Linear emulation and history matching process, a calibration method that has been successfully employed in several sciences (epidemiology, cosmology, climate science, systems biology, geology, energy systems etc.).</p>
+<a href="https://cran.r-project.org/web/packages/hmer/index.html">hmer</a> package, using a simple example of an epidemiological model. <a href="https://cran.r-project.org/web/packages/hmer/index.html">hmer</a> allows you to efficiently implement the Bayes Linear emulation and history matching process, a calibration method that has been successfully employed in several sciences (epidemiology, cosmology, climate science, systems biology, geology, energy systems etc.). Note that, even though this workshop focuses on an epidemiological model, <a href="https://cran.r-project.org/web/packages/hmer/index.html">hmer</a> can be used to calibrate complex models arising in any field.</p>
 <p>In this workshop, you will be invited to carry out a series of tasks (see “Task” boxes) which will enhance your understanding of the package and its tools. Thanks to these activities, you will learn to calibrate deterministic models using history matching and model emulation, and to use your judgement to customise the process. This workshop should be considered as a natural continuation of <a href="https://danny-sc.github.io/Tutorial_1/">Tutorial 1</a>, which introduces the history matching with emulation framework with a one-dimensional example, and of <a href="https://danny-sc.github.io/Tutorial_2">Tutorial 2</a>, which gives a general overview of the history matching with emulation process for deterministic models, and shows how to perform it using <a href="https://cran.r-project.org/web/packages/hmer/index.html">hmer</a>. Following Workshop 1, you may also want to read Workshop 2, where we demonstrate how to calibrate stochastic models.</p>
 <p>For further discussion and justification of the various stages of the history matching with emulation process, please see <span class="citation"><a href="#ref-bower2010galaxy" role="doc-biblioref">Bower, Goldstein, and Vernon</a> (<a href="#ref-bower2010galaxy" role="doc-biblioref">2010</a>)</span> and <span class="citation"><a href="#ref-vernon2018bayesian" role="doc-biblioref">Vernon et al.</a> (<a href="#ref-vernon2018bayesian" role="doc-biblioref">2018</a>)</span>.</p>
+<p>Note that when running the workshop code on your device, you should not expect the hmer visualisation tools to produce the same exact output as the one you can find in the following sections. This is mainly because the maximinLHS function, that you will use to define the initial parameter sets on which emulators are trained, does return different Latin Hypercube designs at each call.</p>
+<p>Before starting the tutorial, you will need to run the code contained in the box below: it will load all relevant dependencies and a few helper functions which will be introduced and used later.</p>
+<p><infobutton id="displayTextunnamed-chunk-2" onclick="javascript:toggle('unnamed-chunk-2');">Show: Code to load relevant libraries and helper functions</infobutton></p>
+<div id="toggleTextunnamed-chunk-2" style="display: none">
+<div class="panel panel-default">
+<div class="panel-body">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(hmer)</span>
+<span id="cb1-2"><a href="index.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(deSolve)</span>
+<span id="cb1-3"><a href="index.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-4"><a href="index.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span>
+<span id="cb1-5"><a href="index.html#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="cb1-6"><a href="index.html#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-7"><a href="index.html#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lhs)</span>
+<span id="cb1-8"><a href="index.html#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb1-9"><a href="index.html#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="do">############################# HELPER FUNCTIONS #############################</span></span>
+<span id="cb1-10"><a href="index.html#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># `ode_results` provides us with the solution of the differential equations for a given </span></span>
+<span id="cb1-11"><a href="index.html#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># set of parameters. This function assumes an initial population of </span></span>
+<span id="cb1-12"><a href="index.html#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 900 susceptible individuals, 100 exposed individuals, and no infectious </span></span>
+<span id="cb1-13"><a href="index.html#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># or recovered individuals.</span></span>
+<span id="cb1-14"><a href="index.html#cb1-14" aria-hidden="true" tabindex="-1"></a>ode_results <span class="ot">&lt;-</span> <span class="cf">function</span>(parms, <span class="at">end_time =</span> <span class="dv">365</span><span class="sc">*</span><span class="dv">2</span>) {</span>
+<span id="cb1-15"><a href="index.html#cb1-15" aria-hidden="true" tabindex="-1"></a>  forcer <span class="ot">=</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>, parms[<span class="st">&#39;beta1&#39;</span>], <span class="dv">100</span>, parms[<span class="st">&#39;beta2&#39;</span>], <span class="dv">180</span>, parms[<span class="st">&#39;beta2&#39;</span>], <span class="dv">270</span>, parms[<span class="st">&#39;beta3&#39;</span>]), </span>
+<span id="cb1-16"><a href="index.html#cb1-16" aria-hidden="true" tabindex="-1"></a>                  <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-17"><a href="index.html#cb1-17" aria-hidden="true" tabindex="-1"></a>  force_func <span class="ot">=</span> <span class="fu">approxfun</span>(<span class="at">x =</span> forcer[,<span class="dv">1</span>], <span class="at">y =</span> forcer[,<span class="dv">2</span>], <span class="at">method =</span> <span class="st">&quot;linear&quot;</span>, <span class="at">rule =</span> <span class="dv">2</span>)</span>
+<span id="cb1-18"><a href="index.html#cb1-18" aria-hidden="true" tabindex="-1"></a>  des <span class="ot">=</span> <span class="cf">function</span>(time, state, parms) {</span>
+<span id="cb1-19"><a href="index.html#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">with</span>(<span class="fu">as.list</span>(<span class="fu">c</span>(state, parms)), {</span>
+<span id="cb1-20"><a href="index.html#cb1-20" aria-hidden="true" tabindex="-1"></a>      dS <span class="ot">&lt;-</span> b<span class="sc">*</span>(S<span class="sc">+</span>E<span class="sc">+</span>I<span class="sc">+</span>R)<span class="sc">-</span><span class="fu">force_func</span>(time)<span class="sc">*</span>I<span class="sc">*</span>S<span class="sc">/</span>(S<span class="sc">+</span>E<span class="sc">+</span>I<span class="sc">+</span>R) <span class="sc">+</span> omega<span class="sc">*</span>R <span class="sc">-</span> mu<span class="sc">*</span>S</span>
+<span id="cb1-21"><a href="index.html#cb1-21" aria-hidden="true" tabindex="-1"></a>      dE <span class="ot">&lt;-</span> <span class="fu">force_func</span>(time)<span class="sc">*</span>I<span class="sc">*</span>S<span class="sc">/</span>(S<span class="sc">+</span>E<span class="sc">+</span>I<span class="sc">+</span>R) <span class="sc">-</span> epsilon<span class="sc">*</span>E <span class="sc">-</span> mu<span class="sc">*</span>E</span>
+<span id="cb1-22"><a href="index.html#cb1-22" aria-hidden="true" tabindex="-1"></a>      dI <span class="ot">&lt;-</span> epsilon<span class="sc">*</span>E <span class="sc">-</span> alpha<span class="sc">*</span>I <span class="sc">-</span> gamma<span class="sc">*</span>I <span class="sc">-</span> mu<span class="sc">*</span>I</span>
+<span id="cb1-23"><a href="index.html#cb1-23" aria-hidden="true" tabindex="-1"></a>      dR <span class="ot">&lt;-</span> gamma<span class="sc">*</span>I <span class="sc">-</span> omega<span class="sc">*</span>R <span class="sc">-</span> mu<span class="sc">*</span>R</span>
+<span id="cb1-24"><a href="index.html#cb1-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span>(<span class="fu">list</span>(<span class="fu">c</span>(dS, dE, dI, dR)))</span>
+<span id="cb1-25"><a href="index.html#cb1-25" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb1-26"><a href="index.html#cb1-26" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-27"><a href="index.html#cb1-27" aria-hidden="true" tabindex="-1"></a>  yini <span class="ot">=</span> <span class="fu">c</span>(<span class="at">S =</span> <span class="dv">900</span>, <span class="at">E =</span> <span class="dv">100</span>, <span class="at">I =</span> <span class="dv">0</span>, <span class="at">R =</span> <span class="dv">0</span>)</span>
+<span id="cb1-28"><a href="index.html#cb1-28" aria-hidden="true" tabindex="-1"></a>  times <span class="ot">=</span> <span class="fu">seq</span>(<span class="dv">0</span>, end_time, <span class="at">by =</span> <span class="dv">1</span>)</span>
+<span id="cb1-29"><a href="index.html#cb1-29" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">=</span> deSolve<span class="sc">::</span><span class="fu">ode</span>(yini, times, des, parms)</span>
+<span id="cb1-30"><a href="index.html#cb1-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(out)</span>
+<span id="cb1-31"><a href="index.html#cb1-31" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-32"><a href="index.html#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co"># `get_results` acts as `ode_results`, but has the additional feature </span></span>
+<span id="cb1-33"><a href="index.html#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co"># of allowing us to decide which outputs and times should be returned. </span></span>
+<span id="cb1-34"><a href="index.html#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co"># For example, to obtain the number of infected and susceptible individuals </span></span>
+<span id="cb1-35"><a href="index.html#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co"># at t=25 and t=50, we would set `times=c(25,50)` and `outputs=c(&#39;I&#39;,&#39;S&#39;)`.</span></span>
+<span id="cb1-36"><a href="index.html#cb1-36" aria-hidden="true" tabindex="-1"></a>get_results <span class="ot">&lt;-</span> <span class="cf">function</span>(params, times, outputs) {</span>
+<span id="cb1-37"><a href="index.html#cb1-37" aria-hidden="true" tabindex="-1"></a>  t_max <span class="ot">&lt;-</span> <span class="fu">max</span>(times)</span>
+<span id="cb1-38"><a href="index.html#cb1-38" aria-hidden="true" tabindex="-1"></a>  all_res <span class="ot">&lt;-</span> <span class="fu">ode_results</span>(params, t_max)</span>
+<span id="cb1-39"><a href="index.html#cb1-39" aria-hidden="true" tabindex="-1"></a>  actual_res <span class="ot">&lt;-</span> all_res[all_res[,<span class="st">&#39;time&#39;</span>] <span class="sc">%in%</span> times, <span class="fu">c</span>(<span class="st">&#39;time&#39;</span>, outputs)]</span>
+<span id="cb1-40"><a href="index.html#cb1-40" aria-hidden="true" tabindex="-1"></a>  shaped <span class="ot">&lt;-</span> reshape2<span class="sc">::</span><span class="fu">melt</span>(actual_res[,outputs])</span>
+<span id="cb1-41"><a href="index.html#cb1-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">setNames</span>(shaped<span class="sc">$</span>value, <span class="fu">paste0</span>(shaped<span class="sc">$</span>Var2, actual_res[,<span class="st">&#39;time&#39;</span>], <span class="at">sep =</span> <span class="st">&quot;&quot;</span>)))</span>
+<span id="cb1-42"><a href="index.html#cb1-42" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+</div>
+</div>
 </div>
 <h3>References</h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
@@ -251,7 +303,7 @@ Vernon, Ian, Junli Liu, Michael Goldstein, James Rowe, Jen Topping, and Keith Li
         </div>
       </div>
 
-<a href="intro.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="an-overview-of-history-matching-with-emulation-and-hmer.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
